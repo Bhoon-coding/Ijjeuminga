@@ -7,18 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F0F6FA92C0C06B100E236A5 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0F6FA82C0C06B000E236A5 /* BaseViewModel.swift */; };
+		9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0F6FAA2C0C07C500E236A5 /* BaseViewController.swift */; };
+		9FD4915A2C0C178200445C45 /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD491592C0C178200445C45 /* RxBlocking */; };
+		9FD4915C2C0C178200445C45 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD4915B2C0C178200445C45 /* RxCocoa */; };
+		9FD4915E2C0C178200445C45 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD4915D2C0C178200445C45 /* RxRelay */; };
+		9FD491602C0C178200445C45 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD4915F2C0C178200445C45 /* RxSwift */; };
+		9FD491642C0F04DF00445C45 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */; };
+		9FD491662C0F05F000445C45 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */; };
+		9FD491682C0F097000445C45 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491672C0F097000445C45 /* TestViewController.swift */; };
+		9FD4916D2C0F0C0900445C45 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD4916C2C0F0C0900445C45 /* Extension+UIView.swift */; };
+		9FD491702C0F13A300445C45 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD4916F2C0F13A300445C45 /* TestViewModel.swift */; };
 		E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */; };
 		E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */; };
-		E18B7E5F2C05E6A500C94FFD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5E2C05E6A500C94FFD /* ViewController.swift */; };
 		E18B7E642C05E6A700C94FFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E632C05E6A700C94FFD /* Assets.xcassets */; };
 		E18B7E672C05E6A700C94FFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E652C05E6A700C94FFD /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F0F6FA82C0C06B000E236A5 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseViewModel.swift; path = ../../../../../../Volumes/hynix/Ijjeuminga/Archive/BaseViewModel.swift; sourceTree = "<group>"; };
+		9F0F6FAA2C0C07C500E236A5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		9FD491672C0F097000445C45 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		9FD4916C2C0F0C0900445C45 /* Extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
+		9FD4916F2C0F13A300445C45 /* TestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestViewModel.swift; path = Ijjeuminga/Util/TestViewModel.swift; sourceTree = SOURCE_ROOT; };
 		E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ijjeuminga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E18B7E5E2C05E6A500C94FFD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E18B7E632C05E6A700C94FFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E18B7E662C05E6A700C94FFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E18B7E682C05E6A700C94FFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -29,12 +45,47 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FD4915E2C0C178200445C45 /* RxRelay in Frameworks */,
+				9FD4915C2C0C178200445C45 /* RxCocoa in Frameworks */,
+				9FD491602C0C178200445C45 /* RxSwift in Frameworks */,
+				9FD4915A2C0C178200445C45 /* RxBlocking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9FD491612C0EFAAB00445C45 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */,
+				9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		9FD491622C0EFABA00445C45 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				E18B7E732C05E8D600C94FFD /* ViewController */,
+				E18B7E722C05E8D200C94FFD /* ViewModel */,
+				E18B7E742C05E8DB00C94FFD /* Model */,
+				E18B7E752C05E8DD00C94FFD /* Util */,
+				E18B7E762C05E8E000C94FFD /* Service */,
+				9FD491612C0EFAAB00445C45 /* Cell */,
+				E18B7E712C05E8CE00C94FFD /* Views */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9FD4916E2C0F0D0D00445C45 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				9FD4916C2C0F0C0900445C45 /* Extension+UIView.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		E18B7E4E2C05E6A500C94FFD = {
 			isa = PBXGroup;
 			children = (
@@ -54,15 +105,9 @@
 		E18B7E592C05E6A500C94FFD /* Ijjeuminga */ = {
 			isa = PBXGroup;
 			children = (
-				E18B7E762C05E8E000C94FFD /* Service */,
-				E18B7E752C05E8DD00C94FFD /* Util */,
-				E18B7E742C05E8DB00C94FFD /* Model */,
-				E18B7E732C05E8D600C94FFD /* ViewController */,
-				E18B7E722C05E8D200C94FFD /* ViewModel */,
-				E18B7E712C05E8CE00C94FFD /* Views */,
+				9FD491622C0EFABA00445C45 /* Sources */,
 				E18B7E6F2C05E88600C94FFD /* Application */,
 				E18B7E6E2C05E87B00C94FFD /* Resources */,
-				E18B7E5E2C05E6A500C94FFD /* ViewController.swift */,
 			);
 			path = Ijjeuminga;
 			sourceTree = "<group>";
@@ -90,19 +135,25 @@
 			isa = PBXGroup;
 			children = (
 			);
-			path = Views;
+			name = Views;
+			path = ../Views;
 			sourceTree = "<group>";
 		};
 		E18B7E722C05E8D200C94FFD /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				9F0F6FA82C0C06B000E236A5 /* BaseViewModel.swift */,
+				9FD4916F2C0F13A300445C45 /* TestViewModel.swift */,
 			);
-			path = ViewModel;
+			name = ViewModel;
+			path = ../ViewModel;
 			sourceTree = "<group>";
 		};
 		E18B7E732C05E8D600C94FFD /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				9F0F6FAA2C0C07C500E236A5 /* BaseViewController.swift */,
+				9FD491672C0F097000445C45 /* TestViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -111,21 +162,25 @@
 			isa = PBXGroup;
 			children = (
 			);
-			path = Model;
+			name = Model;
+			path = ../Model;
 			sourceTree = "<group>";
 		};
 		E18B7E752C05E8DD00C94FFD /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				9FD4916E2C0F0D0D00445C45 /* Extension */,
 			);
-			path = Util;
+			name = Util;
+			path = ../Util;
 			sourceTree = "<group>";
 		};
 		E18B7E762C05E8E000C94FFD /* Service */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Service;
+			name = Service;
+			path = ../Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +199,12 @@
 			dependencies = (
 			);
 			name = Ijjeuminga;
+			packageProductDependencies = (
+				9FD491592C0C178200445C45 /* RxBlocking */,
+				9FD4915B2C0C178200445C45 /* RxCocoa */,
+				9FD4915D2C0C178200445C45 /* RxRelay */,
+				9FD4915F2C0C178200445C45 /* RxSwift */,
+			);
 			productName = Ijjeuminga;
 			productReference = E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */;
 			productType = "com.apple.product-type.application";
@@ -172,6 +233,9 @@
 				Base,
 			);
 			mainGroup = E18B7E4E2C05E6A500C94FFD;
+			packageReferences = (
+				9FD491582C0C178200445C45 /* XCRemoteSwiftPackageReference "RxSwift" */,
+			);
 			productRefGroup = E18B7E582C05E6A500C94FFD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -198,9 +262,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E18B7E5F2C05E6A500C94FFD /* ViewController.swift in Sources */,
+				9FD491682C0F097000445C45 /* TestViewController.swift in Sources */,
+				9F0F6FA92C0C06B100E236A5 /* BaseViewModel.swift in Sources */,
+				9FD4916D2C0F0C0900445C45 /* Extension+UIView.swift in Sources */,
+				9FD491702C0F13A300445C45 /* TestViewModel.swift in Sources */,
+				9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */,
 				E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */,
+				9FD491642C0F04DF00445C45 /* BaseTableViewCell.swift in Sources */,
 				E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */,
+				9FD491662C0F05F000445C45 /* BaseCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +483,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9FD491582C0C178200445C45 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = exactVersion;
+				version = 6.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9FD491592C0C178200445C45 /* RxBlocking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FD491582C0C178200445C45 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxBlocking;
+		};
+		9FD4915B2C0C178200445C45 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FD491582C0C178200445C45 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		9FD4915D2C0C178200445C45 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FD491582C0C178200445C45 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		9FD4915F2C0C178200445C45 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FD491582C0C178200445C45 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E18B7E4F2C05E6A500C94FFD /* Project object */;
 }
