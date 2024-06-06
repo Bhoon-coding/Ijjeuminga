@@ -14,6 +14,7 @@ final class TestViewController: BaseViewController {
     private weak var backgroundView: UIView!
     private weak var titleLabel: UILabel!
     private weak var subtitleLabel: UILabel!
+    private weak var moveButton: UIButton!
     
     override func initView() {
         super.initView()
@@ -43,6 +44,14 @@ final class TestViewController: BaseViewController {
         subtitleLabel.text = "2024.06.04"
         view.addSubview(subtitleLabel)
         self.subtitleLabel = subtitleLabel
+        
+        let moveButton = UIButton()
+        moveButton.translatesAutoresizingMaskIntoConstraints = false
+        moveButton.setTitle("move!", for: .normal)
+        moveButton.setTitleColor(.black, for: .normal)
+        moveButton.isEnabled = true
+        view.addSubview(moveButton)
+        self.moveButton = moveButton
     }
     
     override func initConstraint() {
@@ -55,7 +64,25 @@ final class TestViewController: BaseViewController {
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            subtitleLabel.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor)
+            subtitleLabel.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
+            
+            moveButton.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 8),
+            moveButton.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
+            moveButton.heightAnchor.constraint(equalToConstant: 40),
+            moveButton.widthAnchor.constraint(equalToConstant: 100)
         ])
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        moveButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.backgroundView.backgroundColor = .green
+                let controller = TestViewController()
+                controller.view.backgroundColor = .black
+                self?.navigationController?.pushViewController(controller, animated: true)
+            })
+            .disposed(by: viewDisposeBag)
     }
 }
