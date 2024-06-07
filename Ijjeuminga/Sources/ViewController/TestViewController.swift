@@ -14,8 +14,9 @@ final class TestViewController: BaseViewController {
     private weak var backgroundView: UIView!
     private weak var titleLabel: UILabel!
     private weak var subtitleLabel: UILabel!
-    private weak var moveButton: UIButton!
-    
+    private weak var destinationButton: UIButton!
+    private weak var destinationVC: DestinationViewController!
+        
     override func initView() {
         super.initView()
         
@@ -45,13 +46,13 @@ final class TestViewController: BaseViewController {
         view.addSubview(subtitleLabel)
         self.subtitleLabel = subtitleLabel
         
-        let moveButton = UIButton()
-        moveButton.translatesAutoresizingMaskIntoConstraints = false
-        moveButton.setTitle("move!", for: .normal)
-        moveButton.setTitleColor(.black, for: .normal)
-        moveButton.isEnabled = true
-        view.addSubview(moveButton)
-        self.moveButton = moveButton
+        let destinationButton = UIButton()
+        destinationButton.translatesAutoresizingMaskIntoConstraints = false
+        destinationButton.setTitle("destination", for: .normal)
+        destinationButton.setTitleColor(.black, for: .normal)
+        destinationButton.isEnabled = true
+        view.addSubview(destinationButton)
+        self.destinationButton = destinationButton
     }
     
     override func initConstraint() {
@@ -65,24 +66,29 @@ final class TestViewController: BaseViewController {
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             subtitleLabel.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
-            
-            moveButton.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 8),
-            moveButton.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
-            moveButton.heightAnchor.constraint(equalToConstant: 40),
-            moveButton.widthAnchor.constraint(equalToConstant: 100)
+        
+            destinationButton.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 8),
+            destinationButton.centerXAnchor.constraint(equalTo: subtitleLabel.centerXAnchor),
+            destinationButton.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
+            destinationButton.trailingAnchor.constraint(equalTo: subtitleLabel.trailingAnchor)
         ])
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        bind()
+    }
+    
+    private func bind() {
         
-        moveButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.backgroundView.backgroundColor = .green
-                let controller = TestViewController()
-                controller.view.backgroundColor = .black
-                self?.navigationController?.pushViewController(controller, animated: true)
-            })
-            .disposed(by: viewDisposeBag)
+        destinationButton.rx.tap
+            .subscribe { [weak self] event in
+                let navBackButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+                navBackButtonItem.tintColor = .black
+                self?.navigationItem.backBarButtonItem = navBackButtonItem
+                let destinationVC = DestinationViewController()
+                self?.navigationController?.pushViewController(destinationVC, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 }
