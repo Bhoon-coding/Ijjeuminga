@@ -18,6 +18,8 @@
 		9FD4916D2C0F0C0900445C45 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD4916C2C0F0C0900445C45 /* Extension+UIView.swift */; };
 		9FD491772C114AD800445C45 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491762C114AD800445C45 /* BaseViewModel.swift */; };
 		E11861C22C135F1700C423D3 /* DestinationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */; };
+		E11861C42C141E5600C423D3 /* Extension + UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C32C141E5600C423D3 /* Extension + UITextField.swift */; };
+		E11861C62C142DB600C423D3 /* Extension + Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C52C142DB600C423D3 /* Extension + Color.swift */; };
 		E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */; };
 		E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */; };
 		E18B7E642C05E6A700C94FFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E632C05E6A700C94FFD /* Assets.xcassets */; };
@@ -33,6 +35,8 @@
 		9FD4916C2C0F0C0900445C45 /* Extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
 		9FD491762C114AD800445C45 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTableViewCell.swift; sourceTree = "<group>"; };
+		E11861C32C141E5600C423D3 /* Extension + UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITextField.swift"; sourceTree = "<group>"; };
+		E11861C52C142DB600C423D3 /* Extension + Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Color.swift"; sourceTree = "<group>"; };
 		E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ijjeuminga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				9FD4916C2C0F0C0900445C45 /* Extension+UIView.swift */,
+				E11861C32C141E5600C423D3 /* Extension + UITextField.swift */,
+				E11861C52C142DB600C423D3 /* Extension + Color.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -238,7 +244,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FD491682C0F097000445C45 /* TestViewController.swift in Sources */,
+				E11861C62C142DB600C423D3 /* Extension + Color.swift in Sources */,
 				9FD4916D2C0F0C0900445C45 /* Extension+UIView.swift in Sources */,
+				E11861C42C141E5600C423D3 /* Extension + UITextField.swift in Sources */,
 				9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */,
 				E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */,
 				9FD491642C0F04DF00445C45 /* BaseTableViewCell.swift in Sources */,
