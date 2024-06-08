@@ -8,18 +8,45 @@
 import UIKit
 
 final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
+    
+    private weak var busStopLabel: UILabel!
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override func initView() {
+        super.initView()
+        
+        let busStopLabel = UILabel()
+        busStopLabel.translatesAutoresizingMaskIntoConstraints = false
+        busStopLabel.text = "강남역"
+        busStopLabel.textColor = .black
+        contentView.addSubview(busStopLabel)
+        self.busStopLabel = busStopLabel
+        
         
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func initConstraint() {
+        super.initConstraint()
+        
+        NSLayoutConstraint.activate([
+            busStopLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            busStopLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 86),
+            busStopLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            
+        ])
+        
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
     
     }
+    
+    internal func setupCell() {
+        
+        
+    }
+}
+
+#Preview {
+    DestinationTableViewCell()
 }

@@ -36,15 +36,14 @@ class DestinationViewController: BaseViewController {
         let busStopTextField = UITextField()
         busStopTextField.translatesAutoresizingMaskIntoConstraints = false
         busStopTextField.placeholder = "정류장 검색"
-        busStopTextField.backgroundColor = .lightText
-        busStopTextField.layer.cornerRadius = 8
+        busStopTextField.setBaseTextField()
         view.addSubview(busStopTextField)
         self.busStopTextField = busStopTextField
         
         let currentBusStopButton = UIButton()
         currentBusStopButton.translatesAutoresizingMaskIntoConstraints = false
         currentBusStopButton.setTitle("현재 정류장", for: .normal)
-        currentBusStopButton.setTitleColor(.lightGray, for: .normal)
+        currentBusStopButton.setTitleColor(.darkGray, for: .normal)
         view.addSubview(currentBusStopButton)
         self.currentBusStopButton = currentBusStopButton
         
@@ -72,17 +71,30 @@ class DestinationViewController: BaseViewController {
             busStopTextField.heightAnchor.constraint(equalToConstant: 40),
             
             currentBusStopButton.topAnchor.constraint(equalTo: busStopTextField.bottomAnchor, constant: 16),
-            currentBusStopButton.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor)
+            currentBusStopButton.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
+            currentBusStopButton.heightAnchor.constraint(equalToConstant: 24),
+            
+            busStopTableView.topAnchor.constraint(equalTo: currentBusStopButton.bottomAnchor, constant: 24),
+            busStopTableView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
+            busStopTableView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
+            busStopTableView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor)
         ])
     }
 }
 
 extension DestinationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = busStopTableView.dequeueReusableCell(withIdentifier: "DestinationTableViewCell", for: indexPath) as! DestinationTableViewCell
+        
+        return cell
     }
+}
+
+
+#Preview {
+    DestinationViewController()
 }
