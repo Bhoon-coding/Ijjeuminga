@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0F6FAA2C0C07C500E236A5 /* BaseViewController.swift */; };
+		9F26991E2C1543A500996F5F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 9F26991D2C1543A500996F5F /* .swiftlint.yml */; };
 		9FD4915A2C0C178200445C45 /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD491592C0C178200445C45 /* RxBlocking */; };
 		9FD4915C2C0C178200445C45 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD4915B2C0C178200445C45 /* RxCocoa */; };
 		9FD4915E2C0C178200445C45 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD4915D2C0C178200445C45 /* RxRelay */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		9F0F6FAA2C0C07C500E236A5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		9F26991D2C1543A500996F5F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		9FD491672C0F097000445C45 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 		E18B7E4E2C05E6A500C94FFD = {
 			isa = PBXGroup;
 			children = (
+				9F26991D2C1543A500996F5F /* .swiftlint.yml */,
 				E18B7E592C05E6A500C94FFD /* Ijjeuminga */,
 				E18B7E582C05E6A500C94FFD /* Products */,
 			);
@@ -162,6 +165,7 @@
 				E18B7E532C05E6A500C94FFD /* Sources */,
 				E18B7E542C05E6A500C94FFD /* Frameworks */,
 				E18B7E552C05E6A500C94FFD /* Resources */,
+				9F10EAD12C15300A006EE938 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -219,12 +223,35 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F26991E2C1543A500996F5F /* .swiftlint.yml in Resources */,
 				E18B7E672C05E6A700C94FFD /* LaunchScreen.storyboard in Resources */,
 				E18B7E642C05E6A700C94FFD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9F10EAD12C15300A006EE938 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nif type \"/opt/homebrew/bin/swiftlint\" &> /dev/null; then\n    /opt/homebrew/bin/swiftlint\nelif type \"/usr/local/bin/swiftlint\" &> /dev/null; then\n    /usr/local/bin/swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E18B7E532C05E6A500C94FFD /* Sources */ = {
@@ -383,6 +410,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R4G74AF442;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ijjeuminga/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -410,6 +438,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R4G74AF442;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ijjeuminga/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

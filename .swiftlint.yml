@@ -1,0 +1,45 @@
+disabled_rules:
+- colon
+- comma
+- control_statement
+- trailing_whitespace
+- comment_spacing
+
+excluded:
+- Ijjeuminga/Application
+- Ijjeuminga/Resources
+
+### ok
+
+force_cast: warning
+force_try: warning
+
+line_length: 140
+
+type_body_length:
+ warning: 300
+ error: 400
+ 
+file_length:
+ warning: 500
+ error: 1200
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+  
+type_name:
+ min_length: 3
+ max_length:
+  warning: 50
+  error: 60
+ excluded: iPhone
+ allowed_symbols: ["_"]
+
+identifier_name:
+ min_length:
+  error: 2
+ excluded:
+  - id
+  - URL
+
+reporter: "xcode"
