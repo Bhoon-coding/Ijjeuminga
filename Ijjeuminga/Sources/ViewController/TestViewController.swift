@@ -40,7 +40,7 @@ final class TestViewController: BaseViewController {
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.textAlignment = .center
         subtitleLabel.font = .systemFont(ofSize: 15, weight: .medium)
-        subtitleLabel.textColor = .red
+        subtitleLabel.textColor = UIColor(resource: .greenBus)
         subtitleLabel.text = "2024.06.04"
         view.addSubview(subtitleLabel)
         self.subtitleLabel = subtitleLabel
