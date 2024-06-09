@@ -17,7 +17,7 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
         let busStopLabel = UILabel()
         busStopLabel.translatesAutoresizingMaskIntoConstraints = false
         busStopLabel.text = "강남역"
-        busStopLabel.textColor = .black
+        busStopLabel.textColor = UIColor(resource: .busStopText)
         contentView.addSubview(busStopLabel)
         self.busStopLabel = busStopLabel
         

@@ -43,7 +43,7 @@ class DestinationViewController: BaseViewController {
         let currentBusStopButton = UIButton()
         currentBusStopButton.translatesAutoresizingMaskIntoConstraints = false
         currentBusStopButton.setTitle("현재 정류장", for: .normal)
-        currentBusStopButton.setTitleColor(.darkGray, for: .normal)
+        currentBusStopButton.setTitleColor(UIColor(resource: .busStopText), for: .normal)
         view.addSubview(currentBusStopButton)
         self.currentBusStopButton = currentBusStopButton
         
