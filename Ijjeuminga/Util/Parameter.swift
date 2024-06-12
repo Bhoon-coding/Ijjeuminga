@@ -18,13 +18,13 @@ enum CodeKey: String {
     case token
     
     // MARK: - Header
-    case Authorization
+    case authorization
     
-    case ContentType
+    case contentType
     
     var mappedKey: String {
         switch self {
-        case .ContentType:
+        case .contentType:
             return "Content-Type"
         default:
             return rawValue
@@ -33,9 +33,9 @@ enum CodeKey: String {
     
     var mappedValue: String {
         switch self {
-        case .Authorization:
+        case .authorization:
             return "Bearer "
-        case .ContentType:
+        case .contentType:
             return "application/json"
         default:
             return rawValue
