@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0F6FAA2C0C07C500E236A5 /* BaseViewController.swift */; };
+		9F24B5892C18704600CF4D89 /* BusStopStatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B5882C18704600CF4D89 /* BusStopStatusTableViewCell.swift */; };
+		9F24B58C2C18709B00CF4D89 /* BusStopStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B58B2C18709B00CF4D89 /* BusStopStatusType.swift */; };
+		9F24B58F2C18753700CF4D89 /* CircleStatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B58E2C18753700CF4D89 /* CircleStatusBarView.swift */; };
+		9F24B5912C18759500CF4D89 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B5902C18759500CF4D89 /* BaseView.swift */; };
+		9F24B5932C18779F00CF4D89 /* Extension+NSLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B5922C18779F00CF4D89 /* Extension+NSLayoutConstraint.swift */; };
+		9F24B5952C1E7F3500CF4D89 /* RealTimeBusLocationDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B5942C1E7F3400CF4D89 /* RealTimeBusLocationDataSource.swift */; };
+		9F24B5972C1E81A100CF4D89 /* BaseTableDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B5962C1E81A100CF4D89 /* BaseTableDiffableDataSource.swift */; };
+		9F24B5992C1E891700CF4D89 /* RealTimeBusLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B5982C1E891700CF4D89 /* RealTimeBusLocationViewModel.swift */; };
+		9F24B59B2C1E8B9C00CF4D89 /* RealTimeBusLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B59A2C1E8B9C00CF4D89 /* RealTimeBusLocationViewController.swift */; };
 		9F26991E2C1543A500996F5F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 9F26991D2C1543A500996F5F /* .swiftlint.yml */; };
 		9FD4915A2C0C178200445C45 /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD491592C0C178200445C45 /* RxBlocking */; };
 		9FD4915C2C0C178200445C45 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD4915B2C0C178200445C45 /* RxCocoa */; };
@@ -26,6 +35,15 @@
 
 /* Begin PBXFileReference section */
 		9F0F6FAA2C0C07C500E236A5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		9F24B5882C18704600CF4D89 /* BusStopStatusTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStopStatusTableViewCell.swift; sourceTree = "<group>"; };
+		9F24B58B2C18709B00CF4D89 /* BusStopStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStopStatusType.swift; sourceTree = "<group>"; };
+		9F24B58E2C18753700CF4D89 /* CircleStatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleStatusBarView.swift; sourceTree = "<group>"; };
+		9F24B5902C18759500CF4D89 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		9F24B5922C18779F00CF4D89 /* Extension+NSLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+NSLayoutConstraint.swift"; sourceTree = "<group>"; };
+		9F24B5942C1E7F3400CF4D89 /* RealTimeBusLocationDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimeBusLocationDataSource.swift; sourceTree = "<group>"; };
+		9F24B5962C1E81A100CF4D89 /* BaseTableDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableDiffableDataSource.swift; sourceTree = "<group>"; };
+		9F24B5982C1E891700CF4D89 /* RealTimeBusLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimeBusLocationViewModel.swift; sourceTree = "<group>"; };
+		9F24B59A2C1E8B9C00CF4D89 /* RealTimeBusLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimeBusLocationViewController.swift; sourceTree = "<group>"; };
 		9F26991D2C1543A500996F5F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -55,11 +73,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F24B58A2C18708200CF4D89 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				9F24B58B2C18709B00CF4D89 /* BusStopStatusType.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		9F24B58D2C18752100CF4D89 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9F24B58E2C18753700CF4D89 /* CircleStatusBarView.swift */,
+				9F24B5902C18759500CF4D89 /* BaseView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		9FD491612C0EFAAB00445C45 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
 				9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */,
 				9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */,
+				9F24B5882C18704600CF4D89 /* BusStopStatusTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -67,6 +103,7 @@
 		9FD491622C0EFABA00445C45 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				9F24B58D2C18752100CF4D89 /* View */,
 				9FD491752C114ACC00445C45 /* ViewModel */,
 				E18B7E732C05E8D600C94FFD /* ViewController */,
 				E18B7E752C05E8DD00C94FFD /* Util */,
@@ -79,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				9FD4916C2C0F0C0900445C45 /* Extension+UIView.swift */,
+				9F24B5922C18779F00CF4D89 /* Extension+NSLayoutConstraint.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -87,6 +125,9 @@
 			isa = PBXGroup;
 			children = (
 				9FD491762C114AD800445C45 /* BaseViewModel.swift */,
+				9F24B5942C1E7F3400CF4D89 /* RealTimeBusLocationDataSource.swift */,
+				9F24B5962C1E81A100CF4D89 /* BaseTableDiffableDataSource.swift */,
+				9F24B5982C1E891700CF4D89 /* RealTimeBusLocationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -142,6 +183,7 @@
 			children = (
 				9F0F6FAA2C0C07C500E236A5 /* BaseViewController.swift */,
 				9FD491672C0F097000445C45 /* TestViewController.swift */,
+				9F24B59A2C1E8B9C00CF4D89 /* RealTimeBusLocationViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -149,6 +191,7 @@
 		E18B7E752C05E8DD00C94FFD /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				9F24B58A2C18708200CF4D89 /* Enum */,
 				9FD4916E2C0F0D0D00445C45 /* Extension */,
 			);
 			name = Util;
@@ -258,10 +301,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F24B5932C18779F00CF4D89 /* Extension+NSLayoutConstraint.swift in Sources */,
+				9F24B58C2C18709B00CF4D89 /* BusStopStatusType.swift in Sources */,
+				9F24B59B2C1E8B9C00CF4D89 /* RealTimeBusLocationViewController.swift in Sources */,
+				9F24B5892C18704600CF4D89 /* BusStopStatusTableViewCell.swift in Sources */,
 				9FD491682C0F097000445C45 /* TestViewController.swift in Sources */,
+				9F24B5912C18759500CF4D89 /* BaseView.swift in Sources */,
+				9F24B5952C1E7F3500CF4D89 /* RealTimeBusLocationDataSource.swift in Sources */,
 				9FD4916D2C0F0C0900445C45 /* Extension+UIView.swift in Sources */,
 				9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */,
 				E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */,
+				9F24B58F2C18753700CF4D89 /* CircleStatusBarView.swift in Sources */,
+				9F24B5972C1E81A100CF4D89 /* BaseTableDiffableDataSource.swift in Sources */,
+				9F24B5992C1E891700CF4D89 /* RealTimeBusLocationViewModel.swift in Sources */,
 				9FD491642C0F04DF00445C45 /* BaseTableViewCell.swift in Sources */,
 				9FD491772C114AD800445C45 /* BaseViewModel.swift in Sources */,
 				E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */,
