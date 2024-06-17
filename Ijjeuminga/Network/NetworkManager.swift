@@ -13,7 +13,6 @@ import RxSwift
 class NetworkManager {
     static let instance: NetworkManager = .init()
 
-    // TODO: private
     let session: Session
 
     private init() {
@@ -52,7 +51,7 @@ class NetworkManager {
     }
 
     static func request<R: Codable>(host: String = APICommon.host,
-                                    parameters: Parameter? = nil,
+                                    parameters: Parameters? = nil,
                                     path: String,
                                     method: HTTPMethod = .get,
                                     header: HTTPHeaders? = nil,

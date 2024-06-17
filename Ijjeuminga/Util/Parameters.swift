@@ -17,6 +17,14 @@ struct Code {
 enum CodeKey: String {
     case token
     
+    case busRouteId
+    
+    case startOrd
+    
+    case endOrd
+    
+    case serviceKey
+    
     // MARK: - Header
     case authorization
     
@@ -24,6 +32,8 @@ enum CodeKey: String {
     
     var mappedKey: String {
         switch self {
+        case .authorization:
+            return "Authorization"
         case .contentType:
             return "Content-Type"
         default:
@@ -44,7 +54,7 @@ enum CodeKey: String {
     
 }
 
-public class Parameter {
+public class Parameters {
     private var params: [String: Codable?] = [:]
 
     func append(_ code: Code) {
