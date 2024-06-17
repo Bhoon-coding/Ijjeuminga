@@ -66,7 +66,7 @@ class ViewModelInjectionBaseViewController<T, T2: BaseViewModelOutput>: BaseView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let viewModel = viewModel as? BaseViewModel {
+        if let viewModel = viewModel as? BaseViewModel<T2> {
             viewModel.attachView()
         }
         self.bind()
@@ -75,7 +75,7 @@ class ViewModelInjectionBaseViewController<T, T2: BaseViewModelOutput>: BaseView
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if let viewModel = viewModel as? BaseViewModel {
+        if let viewModel = viewModel as? BaseViewModel<T2> {
             viewModel.detachView()
         }
     }
