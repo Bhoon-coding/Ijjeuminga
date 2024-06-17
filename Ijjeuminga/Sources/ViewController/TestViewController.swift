@@ -90,5 +90,37 @@ final class TestViewController: BaseViewController {
                 self?.navigationController?.pushViewController(destinationVC, animated: true)
             }
             .disposed(by: disposeBag)
+        moveButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.backgroundView.backgroundColor = .green
+                let controller = TestViewController()
+                controller.view.backgroundColor = .black
+                self?.navigationController?.pushViewController(controller, animated: true)
+            })
+            .disposed(by: viewDisposeBag)
+        
+        BusPositionAPIService()
+            .getBusPosition(with: "100100124") // BusRouteId
+            .subscribe { [weak self] response in
+                print("================ LOG ================")
+                print("||")
+                print("||", self!)
+                print("||", #function)
+                print("||", "message: \(response)")
+                print("||")
+                print("=====================================")
+
+            } onFailure: { error in
+                print("================ LOG ================")
+                print("||")
+                print("||", self)
+                print("||", #function)
+                print("||", "error message: \(error)")
+                print("||")
+                print("=====================================")
+
+            }
+            .disposed(by: disposeBag)
+
     }
 }
