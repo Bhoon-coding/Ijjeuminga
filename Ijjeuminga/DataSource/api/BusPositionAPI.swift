@@ -11,37 +11,7 @@ import Alamofire
 import RxSwift
 import RxCocoa
 
-protocol BusPositionAPIServiceable {
-    func getBusPosition(
-        with busRouteId: String
-    ) -> Single<Rest.Buspos.BusPosition.BusPositionResponse>
-}
-
-struct BusPositionAPIService: BusPositionAPIServiceable {
-    func getBusPosition(
-        with busRouteId: String
-    ) -> Single<Rest.Buspos.BusPosition.BusPositionResponse> {
-        Rest.Buspos.BusPosition(parameters: Rest.Buspos.BusPosition.BusPositionParameters(
-            busRouteId: busRouteId
-        ))
-        .rx
-        .request()
-    }
-}
-            
-extension Reactive where Base == Rest.Buspos.BusPosition {
-    func request() -> Single<Rest.Buspos.BusPosition.BusPositionResponse> {
-        NetworkManager.request(
-            parameters: base.parameters,
-            path: base.path,
-            method: base.method,
-            header: base.headers,
-            encoding: URLEncoding.queryString
-        )
-    }
-}
-
-extension Rest.Buspos {
+extension Rest.BusPos {
     struct BusPosition: APIDefinition {
         
         var path: String = "/api/rest/buspos/getBusPosByRouteSt"
@@ -78,9 +48,9 @@ extension Rest.Buspos {
             let params = Parameters()
             
             params.append(.init(key: .busRouteId, value: parameters.busRouteId))
-//            params.append(.init(key: .startOrd, value: parameters.startOrd))
-//            params.append(.init(key: .endOrd, value: parameters.endOrd))
-//            params.append(.init(key: .serviceKey, value: parameters.serviceKey))
+            params.append(.init(key: .startOrd, value: parameters.startOrd))
+            params.append(.init(key: .endOrd, value: parameters.endOrd))
+            params.append(.init(key: .serviceKey, value: parameters.serviceKey))
             
             self.parameters = params
         }
@@ -88,4 +58,32 @@ extension Rest.Buspos {
     }
 }
 
+protocol BusPositionAPIServiceable {
+    func getBusPosition(
+        with busRouteId: String
+    ) -> Single<Rest.BusPos.BusPosition.BusPositionResponse>
+}
 
+struct BusPositionAPIService: BusPositionAPIServiceable {
+    func getBusPosition(
+        with busRouteId: String
+    ) -> Single<Rest.BusPos.BusPosition.BusPositionResponse> {
+        Rest.BusPos.BusPosition(parameters: Rest.BusPos.BusPosition.BusPositionParameters(
+            busRouteId: busRouteId
+        ))
+        .rx
+        .request()
+    }
+}
+            
+extension Reactive where Base == Rest.BusPos.BusPosition {
+    func request() -> Single<Rest.BusPos.BusPosition.BusPositionResponse> {
+        NetworkManager.request(
+            parameters: base.parameters,
+            path: base.path,
+            method: base.method,
+            header: base.headers,
+            encoding: URLEncoding.queryString
+        )
+    }
+}

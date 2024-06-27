@@ -17,6 +17,7 @@
 		E11861C22C135F1700C423D3 /* DestinationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */; };
 		E11861C42C141E5600C423D3 /* Extension + UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C32C141E5600C423D3 /* Extension + UITextField.swift */; };
 		E11861C62C142DB600C423D3 /* Extension + Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C52C142DB600C423D3 /* Extension + Color.swift */; };
+		E11861C82C16663900C423D3 /* DestinationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C72C16663900C423D3 /* DestinationViewModel.swift */; };
 		E11861CB2C17BA4F00C423D3 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861CA2C17BA4F00C423D3 /* NetworkManager.swift */; };
 		E11861CF2C17BB4A00C423D3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E11861CE2C17BB4A00C423D3 /* Alamofire */; };
 		E11861D12C17BB4A00C423D3 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = E11861D02C17BB4A00C423D3 /* AlamofireDynamic */; };
@@ -31,13 +32,14 @@
 		E118620C2C190D3F00C423D3 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118620B2C190D3F00C423D3 /* Parameters.swift */; };
 		E118620E2C190EE900C423D3 /* Extension + Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118620D2C190EE900C423D3 /* Extension + Encodable.swift */; };
 		E11862122C1BAC3000C423D3 /* BusPositionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11862112C1BAC3000C423D3 /* BusPositionAPI.swift */; };
-		E11861C82C16663900C423D3 /* DestinationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C72C16663900C423D3 /* DestinationViewModel.swift */; };
+		E1201AF12C2D2B79005DDE24 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1201AF02C2D2B79005DDE24 /* Constant.swift */; };
+		E1201AFA2C2D4A1C005DDE24 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = E1201AF92C2D4A1C005DDE24 /* SwiftyJSON */; };
+		E13EBB512C27C03D0062277A /* BustRouteInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */; };
 		E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */; };
 		E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */; };
 		E18B7E642C05E6A700C94FFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E632C05E6A700C94FFD /* Assets.xcassets */; };
 		E18B7E672C05E6A700C94FFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E652C05E6A700C94FFD /* LaunchScreen.storyboard */; };
 		E1EEB6A72C115262009F7273 /* DestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EEB6A62C115262009F7273 /* DestinationViewController.swift */; };
-		E1FDB9A42C1E8B8A0062E9D7 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FDB9A32C1E8B8A0062E9D7 /* Constant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,7 @@
 		E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTableViewCell.swift; sourceTree = "<group>"; };
 		E11861C32C141E5600C423D3 /* Extension + UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITextField.swift"; sourceTree = "<group>"; };
 		E11861C52C142DB600C423D3 /* Extension + Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Color.swift"; sourceTree = "<group>"; };
+		E11861C72C16663900C423D3 /* DestinationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewModel.swift; sourceTree = "<group>"; };
 		E11861CA2C17BA4F00C423D3 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E11861D22C17BB7A00C423D3 /* ErrorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCode.swift; sourceTree = "<group>"; };
 		E11861D62C17BC1300C423D3 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -58,7 +61,8 @@
 		E118620B2C190D3F00C423D3 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		E118620D2C190EE900C423D3 /* Extension + Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Encodable.swift"; sourceTree = "<group>"; };
 		E11862112C1BAC3000C423D3 /* BusPositionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusPositionAPI.swift; sourceTree = "<group>"; };
-		E11861C72C16663900C423D3 /* DestinationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewModel.swift; sourceTree = "<group>"; };
+		E1201AF02C2D2B79005DDE24 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = Ijjeuminga/Util/Constants/Constant.swift; sourceTree = SOURCE_ROOT; };
+		E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BustRouteInfoAPI.swift; sourceTree = "<group>"; };
 		E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ijjeuminga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,7 +70,6 @@
 		E18B7E662C05E6A700C94FFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E18B7E682C05E6A700C94FFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1EEB6A62C115262009F7273 /* DestinationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewController.swift; sourceTree = "<group>"; };
-		E1FDB9A32C1E8B8A0062E9D7 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +79,7 @@
 			files = (
 				E11861CF2C17BB4A00C423D3 /* Alamofire in Frameworks */,
 				E11862002C19060E00C423D3 /* RxBlocking in Frameworks */,
+				E1201AFA2C2D4A1C005DDE24 /* SwiftyJSON in Frameworks */,
 				E11862082C19060E00C423D3 /* RxRelay in Frameworks */,
 				E11862042C19060E00C423D3 /* RxCocoa in Frameworks */,
 				E11861D12C17BB4A00C423D3 /* AlamofireDynamic in Frameworks */,
@@ -158,8 +162,17 @@
 			isa = PBXGroup;
 			children = (
 				E11862112C1BAC3000C423D3 /* BusPositionAPI.swift */,
+				E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */,
 			);
 			path = api;
+			sourceTree = "<group>";
+		};
+		E1201AF22C2D2B7D005DDE24 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				E1201AF02C2D2B79005DDE24 /* Constant.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		E18B7E4E2C05E6A500C94FFD = {
@@ -223,21 +236,13 @@
 		E18B7E752C05E8DD00C94FFD /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				E1FDB9A22C1E8B7A0062E9D7 /* Constants */,
+				E1201AF22C2D2B7D005DDE24 /* Constants */,
 				E11862092C19083900C423D3 /* Log.swift */,
 				9FD4916E2C0F0D0D00445C45 /* Extension */,
 				E118620B2C190D3F00C423D3 /* Parameters.swift */,
 			);
 			name = Util;
 			path = ../Util;
-			sourceTree = "<group>";
-		};
-		E1FDB9A22C1E8B7A0062E9D7 /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				E1FDB9A32C1E8B8A0062E9D7 /* Constant.swift */,
-			);
-			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +270,7 @@
 				E11862032C19060E00C423D3 /* RxCocoa */,
 				E11862052C19060E00C423D3 /* RxCocoa-Dynamic */,
 				E11862072C19060E00C423D3 /* RxRelay */,
+				E1201AF92C2D4A1C005DDE24 /* SwiftyJSON */,
 			);
 			productName = Ijjeuminga;
 			productReference = E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */;
@@ -297,6 +303,7 @@
 			packageReferences = (
 				E11861CD2C17BAC700C423D3 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				E11861FE2C19060E00C423D3 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				E1201AF82C2D4A1C005DDE24 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = E18B7E582C05E6A500C94FFD /* Products */;
 			projectDirPath = "";
@@ -348,15 +355,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				E11861D72C17BC1300C423D3 /* API.swift in Sources */,
+				E13EBB512C27C03D0062277A /* BustRouteInfoAPI.swift in Sources */,
 				E11861CB2C17BA4F00C423D3 /* NetworkManager.swift in Sources */,
 				E118620A2C19083900C423D3 /* Log.swift in Sources */,
-				E1FDB9A42C1E8B8A0062E9D7 /* Constant.swift in Sources */,
 				E11861C82C16663900C423D3 /* DestinationViewModel.swift in Sources */,
 				9FD491682C0F097000445C45 /* TestViewController.swift in Sources */,
 				E11861C62C142DB600C423D3 /* Extension + Color.swift in Sources */,
 				9FD4916D2C0F0C0900445C45 /* Extension+UIView.swift in Sources */,
 				E11861C42C141E5600C423D3 /* Extension + UITextField.swift in Sources */,
 				E11862122C1BAC3000C423D3 /* BusPositionAPI.swift in Sources */,
+				E1201AF12C2D2B79005DDE24 /* Constant.swift in Sources */,
 				9FD4916D2C0F0C0900445C45 /* Extension+UIView.swift in Sources */,
 				E118620E2C190EE900C423D3 /* Extension + Encodable.swift in Sources */,
 				9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */,
@@ -520,7 +528,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -550,7 +558,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -605,6 +613,14 @@
 				minimumVersion = 6.7.1;
 			};
 		};
+		E1201AF82C2D4A1C005DDE24 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -642,6 +658,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E11861FE2C19060E00C423D3 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxRelay;
+		};
+		E1201AF92C2D4A1C005DDE24 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1201AF82C2D4A1C005DDE24 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

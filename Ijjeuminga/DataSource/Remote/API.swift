@@ -15,9 +15,8 @@ struct APICommon {
 }
 
 struct Rest {
-    struct Buspos {
-        
-    }
+    struct BusPos {}
+    
 }
 
 public protocol APIDefinition {
