@@ -9,6 +9,8 @@ import UIKit
 
 final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
     
+    static let identifier: String = "DestinationTableViewCell"
+    
     private weak var busStopLabel: UILabel!
 
     override func initView() {
@@ -20,8 +22,6 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
         busStopLabel.textColor = UIColor(resource: .busStopText)
         contentView.addSubview(busStopLabel)
         self.busStopLabel = busStopLabel
-        
-        
     }
     
     override func initConstraint() {

@@ -17,6 +17,8 @@ struct Code {
 enum CodeKey: String {
     case token
     
+    case resultType
+    
     case busRouteId
     
     case startOrd
@@ -47,6 +49,8 @@ enum CodeKey: String {
             return "Bearer "
         case .contentType:
             return "application/json"
+        case .resultType:
+            return "json"
         default:
             return rawValue
         }
@@ -64,7 +68,6 @@ public class Parameters {
     func toDictionary() -> Alamofire.Parameters {
         var parameters = Alamofire.Parameters()
         params.forEach { key, value in
-
             if let dictionaryValue = try? value?.encodeDict() {
                 parameters[key] = dictionaryValue
             } else {
@@ -84,7 +87,7 @@ public class Parameters {
 
         return jsonString
     }
-    // TODO: [] 네트워크 레이어 마저 하기
+    
     func get<T>(_: T.Type, _ code: CodeKey) -> T? {
         let value = params[code.rawValue] as? T
         return value
