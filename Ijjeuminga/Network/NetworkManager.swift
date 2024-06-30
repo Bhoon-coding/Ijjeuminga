@@ -39,8 +39,7 @@ class NetworkManager {
                 || nsError.code == CFNetworkErrors.cfurlErrorCannotFindHost.rawValue
                 || nsError.code == CFNetworkErrors.cfurlErrorCannotConnectToHost.rawValue
                 || nsError.code == CFNetworkErrors.cfurlErrorNetworkConnectionLost.rawValue
-                || nsError.code == CFNetworkErrors.cfurlErrorDNSLookupFailed.rawValue
-            {
+                || nsError.code == CFNetworkErrors.cfurlErrorDNSLookupFailed.rawValue {
                 return CustomError.NetworkError.networkUnavailable
             }
 
@@ -50,14 +49,16 @@ class NetworkManager {
         return nil
     }
 
+    // swiftlint:disable:next function_body_length
     static func request<R: Codable>(host: String = APICommon.host,
                                     parameters: Parameters? = nil,
                                     path: String,
                                     method: HTTPMethod = .get,
                                     header: HTTPHeaders? = nil,
-                                    encoding: ParameterEncoding = URLEncoding(destination: .methodDependent, arrayEncoding: .brackets, boolEncoding: .literal))
-        -> Single<R>
-    {
+                                    encoding: ParameterEncoding = URLEncoding(destination: .methodDependent, 
+                                                                              arrayEncoding: .brackets,
+                                                                              boolEncoding: .literal))
+        -> Single<R> {
         Single<R>.create { observer in
 
             guard let url = URL(string: host + path) else {
@@ -74,10 +75,10 @@ class NetworkManager {
                 .responseDecodable(of: R.self) { res in
 
                     var responseBodyString = ""
-
+                    
                     if let responseBody = res.data,
-                       let stringData = String(data: responseBody, encoding: .utf8)
-                    {
+                       // swiftlint:disable:next non_optional_string_data_conversion
+                       let stringData = String(data: responseBody, encoding: .utf8) {
                         responseBodyString = stringData
                     }
 
@@ -98,11 +99,12 @@ class NetworkManager {
                         
                         // 기 정의된 에러 코드 체크
                         if let response = res.response {
-                            observer(.failure(CustomError.NetworkError.apiError(definition: CommonAPIError(httpStatusCode: response.statusCode, errorMsg: afError.failureReason))))
+                            let definition = CommonAPIError(httpStatusCode: response.statusCode, errorMsg: afError.failureReason)
+                            let error = CustomError.NetworkError.apiError(definition: definition)
+                            observer(.failure(error))
                             return
                         }
                 
-
                         // 네트워크 연결 유실 체크
                         guard let httpResponse = res.response,
                               let httpError = NetworkManager.createHttpError(httpResponse, error: afError)
@@ -124,7 +126,7 @@ class NetworkManager {
                         } catch {
                             Log.network(afError)
                             observer(.failure(CustomError.NetworkError.parsingFail))
-                            Log.error("Catch \(#function): \(CustomError.NetworkError.parsingFail) -> \(res.data)")
+                            Log.error("Catch \(#function): \(CustomError.NetworkError.parsingFail) -> \(res.data ?? Data())")
                             return
                         }
 
@@ -156,11 +158,17 @@ private final class NetworkIntercepter: RequestInterceptor {
 
     /// 로그 등록
     func adapt(_ urlRequest: URLRequest, for _: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+        var urlRequest = urlRequest
         var jsonHttpBodyString = ""
+        
         if let httpBodyData = urlRequest.httpBody,
-           let stringData = String(data: httpBodyData, encoding: .utf8)
-        {
+           // swiftlint:disable:next non_optional_string_data_conversion
+           let stringData = String(data: httpBodyData, encoding: .utf8) {
             jsonHttpBodyString = stringData
+        }
+        if let urlString = urlRequest.url?.absoluteString {
+            let encodedString = urlString.replacingOccurrences(of: "%25", with: "%")
+            urlRequest.url = URL(string: encodedString)
         }
         Log.network("========= Request 🚀 =========")
         Log.network("||")
@@ -187,13 +195,12 @@ private final class NetworkIntercepter: RequestInterceptor {
         }
         // Device Network 연결 유실, timeout 발생 시 1.5초 간격 retry 시도
         if let nsError = ((error.asAFError)?.underlyingError as? NSError),
-           nsError.code == CFNetworkErrors.cfurlErrorTimedOut.rawValue
-        {
+           nsError.code == CFNetworkErrors.cfurlErrorTimedOut.rawValue {
             var requestBodyString = ""
-
+            
             if let requestBody = request.request?.httpBody,
-               let stringData = String(data: requestBody, encoding: .utf8)
-            {
+               // swiftlint:disable:next non_optional_string_data_conversion
+               let stringData = String(data: requestBody, encoding: .utf8) {
                 requestBodyString = stringData
             }
 
@@ -202,7 +209,7 @@ private final class NetworkIntercepter: RequestInterceptor {
             Log.network("|| host : \(request.request?.url?.host ?? "")")
             Log.network("|| path : \(request.request?.url?.path ?? "")")
             Log.network("|| method : \(request.request?.httpMethod ?? "")")
-            Log.network("|| header : \(request.request?.headers)")
+            Log.network("|| header : \(request.request?.headers ?? .default)")
             if !requestBodyString.isEmpty {
                 Log.network("|| body : \(requestBodyString)")
             }
@@ -216,4 +223,3 @@ private final class NetworkIntercepter: RequestInterceptor {
         }
     }
 }
-
