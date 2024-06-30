@@ -18,7 +18,7 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
         
         let busStopLabel = UILabel()
         busStopLabel.translatesAutoresizingMaskIntoConstraints = false
-        busStopLabel.text = "강남역"
+        busStopLabel.text = "알 수 없음"
         busStopLabel.textColor = UIColor(resource: .busStopText)
         contentView.addSubview(busStopLabel)
         self.busStopLabel = busStopLabel
@@ -41,8 +41,9 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
     
     }
     
-    internal func setupCell() {
-        
+    internal func setupCell(item: Rest.BusRouteInfo.ItemList) {
+        guard let stationName = item.stationNm else { return }
+        busStopLabel.text = stationName
         
     }
 }

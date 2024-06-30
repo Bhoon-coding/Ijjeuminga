@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import RxSwift
+
 import RxCocoa
+import RxSwift
 
 final class TestViewController: BaseViewController {
     
@@ -19,7 +20,7 @@ final class TestViewController: BaseViewController {
         
     override func initView() {
         super.initView()
-        
+
         let backgroundView = UIView()
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.backgroundColor = .yellow
@@ -32,7 +33,7 @@ final class TestViewController: BaseViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .center
         titleLabel.font = .systemFont(ofSize: 20, weight: .heavy)
-        titleLabel.textColor = .blue
+        titleLabel.textColor = UIColor.blueBus
         titleLabel.text = "이쯤인가"
         view.addSubview(titleLabel)
         self.titleLabel = titleLabel
@@ -53,6 +54,8 @@ final class TestViewController: BaseViewController {
         destinationButton.isEnabled = true
         view.addSubview(destinationButton)
         self.destinationButton = destinationButton
+        
+        bind()
     }
     
     override func initConstraint() {
@@ -76,49 +79,18 @@ final class TestViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        bind()
+
     }
     
     private func bind() {
-        
         destinationButton.rx.tap
-            .subscribe { [weak self] event in
+            .asDriver{ _ in .never() }
+            .drive { [weak self] event in
                 let navBackButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
                 navBackButtonItem.tintColor = .black
                 self?.navigationItem.backBarButtonItem = navBackButtonItem
                 let destinationVC = DestinationViewController()
                 self?.navigationController?.pushViewController(destinationVC, animated: true)
-            }
-            .disposed(by: disposeBag)
-        moveButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.backgroundView.backgroundColor = .green
-                let controller = TestViewController()
-                controller.view.backgroundColor = .black
-                self?.navigationController?.pushViewController(controller, animated: true)
-            })
-            .disposed(by: viewDisposeBag)
-        
-        BusPositionAPIService()
-            .getBusPosition(with: "100100124") // BusRouteId
-            .subscribe { [weak self] response in
-                print("================ LOG ================")
-                print("||")
-                print("||", self!)
-                print("||", #function)
-                print("||", "message: \(response)")
-                print("||")
-                print("=====================================")
-
-            } onFailure: { error in
-                print("================ LOG ================")
-                print("||")
-                print("||", self)
-                print("||", #function)
-                print("||", "error message: \(error)")
-                print("||")
-                print("=====================================")
-
             }
             .disposed(by: disposeBag)
 
