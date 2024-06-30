@@ -83,6 +83,7 @@ struct Log {
     }
     
     static private func log(_ message: Any, _ arguments: [Any], level: Level) {
+        #if DebugDev
         if #available(iOS 14.0, *) {
             let extraMessage: String = arguments.map({ String(describing: $0) }).joined(separator: " ")
             let logger = Logger(subsystem: OSLog.subsystem, category: level.category)
@@ -102,6 +103,7 @@ struct Log {
             let extraMessage: String = arguments.map({ String(describing: $0) }).joined(separator: " ")
             os_log("%{public}@", log: level.osLog, type: level.osLogType, "\(message) \(extraMessage)")
         }
+        #endif
     }
 }
 
@@ -147,3 +149,4 @@ extension Log {
         log(message, arguments, level: .custom(category: category))
     }
 }
+

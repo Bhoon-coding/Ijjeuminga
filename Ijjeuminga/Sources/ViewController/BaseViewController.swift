@@ -82,11 +82,11 @@ class ViewModelInjectionBaseViewController<T, T2: BaseViewModelOutput>: BaseView
     
     private func bindViewModelOutput() {
         if let viewModel = self.viewModel as? BaseViewModel {
-//            viewModel.output.error
-//                .subscribe(onNext: { [weak self] (error, callback) in
-//                    // TODO: error type enum 작성
-//                })
-//                .disposed(by: disposeBag)
+            viewModel.output.error
+                .subscribe(onNext: { [weak self] (error, callback) in
+                    // TODO: error type enum 작성
+                })
+                .disposed(by: disposeBag)
             viewModel.output.presentVC
                 .subscribe(onNext: { [weak self] (controller, animated) in
                     self?.present(controller, animated: animated)
@@ -97,11 +97,11 @@ class ViewModelInjectionBaseViewController<T, T2: BaseViewModelOutput>: BaseView
                     self?.navigationController?.pushViewController(controller, animated: animated)
                 })
                 .disposed(by: disposeBag)
-//            viewModel.output.showSpinner
-//                .subscribe(onNext: { [weak self] _ in
-//                    // TODO: spinner 표시 메서드 추가
-//                })
-//                .disposed(by: disposeBag)
+            viewModel.output.showSpinner
+                .subscribe(onNext: { [weak self] _ in
+                    // TODO: spinner 표시 메서드 추가
+                })
+                .disposed(by: disposeBag)
         }
     }
     

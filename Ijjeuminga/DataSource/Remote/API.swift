@@ -11,7 +11,6 @@ import Alamofire
 import RxSwift
 
 struct APICommon {
-    // swiftlint:disable:next force_cast
     static let host: String = Bundle.main.object(forInfoDictionaryKey: "SERVER_HOST") as! String
 }
 
@@ -29,13 +28,14 @@ public protocol APIDefinition {
 }
 
 public extension APIDefinition {
-    // swiftlint:disable:next identifier_name
     static var rx: Reactive<Self>.Type {
-        return Reactive<Self>.self
+        get { Reactive<Self>.self }
+        set {}
     }
-    // swiftlint:disable:next identifier_name
+    
     var rx: Reactive<Self> {
-        return Reactive(self)
+        get { Reactive(self) }
+        set {}
     }
 }
 

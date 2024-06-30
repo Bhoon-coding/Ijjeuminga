@@ -77,8 +77,8 @@ public class Parameters {
 
     func toString() -> String? {
         guard let jsonData = try? JSONSerialization.data(withJSONObject: params, options: []),
-              // swiftlint:disable:next non_optional_string_data_conversion
-              let jsonString = String(data: jsonData, encoding: .utf8) else {
+              let jsonString = String(data: jsonData, encoding: .utf8)
+        else {
             return nil
         }
 
