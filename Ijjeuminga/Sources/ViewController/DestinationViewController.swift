@@ -22,19 +22,8 @@ class DestinationViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        bind()
         fetchStaionByRoute()
-    }
-    
-    private func bind() {
-        stationRouteSubject.bind(onNext: { [weak self] itemList in
-            guard let self = self else { return }
-            self.stationRouteItemList = itemList
-            DispatchQueue.main.async {
-                self.busStopTableView.reloadData()
-            }
-        })
-        .disposed(by: disposeBag)
+        bind()
     }
     
     private func fetchStaionByRoute() {
@@ -50,6 +39,17 @@ class DestinationViewController: BaseViewController {
 
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func bind() {
+        stationRouteSubject.bind(onNext: { [weak self] itemList in
+            guard let self = self else { return }
+            self.stationRouteItemList = itemList
+            DispatchQueue.main.async {
+                self.busStopTableView.reloadData()
+            }
+        })
+        .disposed(by: disposeBag)
     }
     
     override func initView() {
@@ -80,10 +80,13 @@ class DestinationViewController: BaseViewController {
         
         let currentBusStopButton = UIButton()
         currentBusStopButton.translatesAutoresizingMaskIntoConstraints = false
-        currentBusStopButton.setTitle("현재 정류장", for: .normal)
-        // TODO: [] image, contents padding 주기
-        currentBusStopButton.setTitleColor(UIColor(resource: .busStopText), for: .normal)
-        currentBusStopButton.setImage(.add, for: .normal)
+        var config = UIButton.Configuration.plain()
+        config.title = "현재 정류장"
+        config.baseForegroundColor = UIColor(resource: .busStopText)
+        config.image = UIImage.currentTarget
+        config.imagePadding = 4
+        config.imagePlacement = .leading
+        currentBusStopButton.configuration = config
         view.addSubview(currentBusStopButton)
         self.currentBusStopButton = currentBusStopButton
         
@@ -91,7 +94,11 @@ class DestinationViewController: BaseViewController {
         busStopTableView.translatesAutoresizingMaskIntoConstraints = false
         busStopTableView.delegate = self
         busStopTableView.dataSource = self
-        busStopTableView.register(DestinationTableViewCell.self, forCellReuseIdentifier: DestinationTableViewCell.identifier)
+        busStopTableView.register(
+            DestinationTableViewCell.self,
+            forCellReuseIdentifier: DestinationTableViewCell.identifier
+        )
+        busStopTableView.rowHeight = 54
         view.addSubview(busStopTableView)
         self.busStopTableView = busStopTableView
     }
@@ -112,7 +119,7 @@ class DestinationViewController: BaseViewController {
             
             currentBusStopButton.topAnchor.constraint(equalTo: busStopTextField.bottomAnchor, constant: 16),
             currentBusStopButton.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
-            currentBusStopButton.heightAnchor.constraint(equalToConstant: 24),
+            currentBusStopButton.heightAnchor.constraint(equalToConstant: 16),
             
             busStopTableView.topAnchor.constraint(equalTo: currentBusStopButton.bottomAnchor, constant: 24),
             busStopTableView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
@@ -136,8 +143,9 @@ extension DestinationViewController: UITableViewDelegate, UITableViewDataSource 
         }
         
         let stationRoute = stationRouteItemList[indexPath.row]
-        
-        cell.setupCell(item: stationRoute)
+        let isFirst = indexPath.row == 0
+        let isLast = stationRouteItemList.endIndex - 1 == indexPath.row
+        cell.setupCell(item: stationRoute, isFirst: isFirst, isLast: isLast)
         return cell
     }
 }
@@ -156,4 +164,8 @@ extension DestinationViewController: UITextFieldDelegate {
         busStopTextField.resignFirstResponder()
         return true
     }
+}
+
+#Preview {
+    DestinationViewController()
 }

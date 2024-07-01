@@ -12,7 +12,7 @@
 		9FD491642C0F04DF00445C45 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */; };
 		9FD491662C0F05F000445C45 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */; };
 		9FD491682C0F097000445C45 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491672C0F097000445C45 /* TestViewController.swift */; };
-		9FD4916D2C0F0C0900445C45 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD4916C2C0F0C0900445C45 /* Extension+UIView.swift */; };
+		9FD4916D2C0F0C0900445C45 /* Extension + UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD4916C2C0F0C0900445C45 /* Extension + UIView.swift */; };
 		9FD491772C114AD800445C45 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491762C114AD800445C45 /* BaseViewModel.swift */; };
 		E11861C22C135F1700C423D3 /* DestinationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */; };
 		E11861C42C141E5600C423D3 /* Extension + UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C32C141E5600C423D3 /* Extension + UITextField.swift */; };
@@ -34,6 +34,7 @@
 		E11862122C1BAC3000C423D3 /* BusPositionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11862112C1BAC3000C423D3 /* BusPositionAPI.swift */; };
 		E1201AF12C2D2B79005DDE24 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1201AF02C2D2B79005DDE24 /* Constant.swift */; };
 		E1201AFA2C2D4A1C005DDE24 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = E1201AF92C2D4A1C005DDE24 /* SwiftyJSON */; };
+		E1201B002C30FAED005DDE24 /* Extension + UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1201AFF2C30FAED005DDE24 /* Extension + UIImage.swift */; };
 		E13EBB512C27C03D0062277A /* BustRouteInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */; };
 		E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */; };
 		E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */; };
@@ -48,7 +49,7 @@
 		9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		9FD491672C0F097000445C45 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		9FD4916C2C0F0C0900445C45 /* Extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
+		9FD4916C2C0F0C0900445C45 /* Extension + UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIView.swift"; sourceTree = "<group>"; };
 		9FD491762C114AD800445C45 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTableViewCell.swift; sourceTree = "<group>"; };
 		E11861C32C141E5600C423D3 /* Extension + UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITextField.swift"; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 		E118620D2C190EE900C423D3 /* Extension + Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Encodable.swift"; sourceTree = "<group>"; };
 		E11862112C1BAC3000C423D3 /* BusPositionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusPositionAPI.swift; sourceTree = "<group>"; };
 		E1201AF02C2D2B79005DDE24 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = Ijjeuminga/Util/Constants/Constant.swift; sourceTree = SOURCE_ROOT; };
+		E1201AFF2C30FAED005DDE24 /* Extension + UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIImage.swift"; sourceTree = "<group>"; };
 		E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BustRouteInfoAPI.swift; sourceTree = "<group>"; };
 		E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ijjeuminga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -115,10 +117,11 @@
 		9FD4916E2C0F0D0D00445C45 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				9FD4916C2C0F0C0900445C45 /* Extension+UIView.swift */,
+				9FD4916C2C0F0C0900445C45 /* Extension + UIView.swift */,
 				E11861C32C141E5600C423D3 /* Extension + UITextField.swift */,
 				E11861C52C142DB600C423D3 /* Extension + Color.swift */,
 				E118620D2C190EE900C423D3 /* Extension + Encodable.swift */,
+				E1201AFF2C30FAED005DDE24 /* Extension + UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -361,11 +364,11 @@
 				E11861C82C16663900C423D3 /* DestinationViewModel.swift in Sources */,
 				9FD491682C0F097000445C45 /* TestViewController.swift in Sources */,
 				E11861C62C142DB600C423D3 /* Extension + Color.swift in Sources */,
-				9FD4916D2C0F0C0900445C45 /* Extension+UIView.swift in Sources */,
+				9FD4916D2C0F0C0900445C45 /* Extension + UIView.swift in Sources */,
 				E11861C42C141E5600C423D3 /* Extension + UITextField.swift in Sources */,
 				E11862122C1BAC3000C423D3 /* BusPositionAPI.swift in Sources */,
 				E1201AF12C2D2B79005DDE24 /* Constant.swift in Sources */,
-				9FD4916D2C0F0C0900445C45 /* Extension+UIView.swift in Sources */,
+				9FD4916D2C0F0C0900445C45 /* Extension + UIView.swift in Sources */,
 				E118620E2C190EE900C423D3 /* Extension + Encodable.swift in Sources */,
 				9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */,
 				E118620C2C190D3F00C423D3 /* Parameters.swift in Sources */,
@@ -375,6 +378,7 @@
 				9FD491772C114AD800445C45 /* BaseViewModel.swift in Sources */,
 				E11861C22C135F1700C423D3 /* DestinationTableViewCell.swift in Sources */,
 				E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */,
+				E1201B002C30FAED005DDE24 /* Extension + UIImage.swift in Sources */,
 				E1EEB6A72C115262009F7273 /* DestinationViewController.swift in Sources */,
 				9FD491662C0F05F000445C45 /* BaseCollectionViewCell.swift in Sources */,
 			);
