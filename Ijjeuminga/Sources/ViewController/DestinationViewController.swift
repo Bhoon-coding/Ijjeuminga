@@ -14,7 +14,9 @@ class DestinationViewController: BaseViewController {
     private weak var backgroundView: UIView!
     private weak var destinationTitle: UILabel!
     private weak var busStopTextField: UITextField!
-    private weak var currentBusStopButton: UIButton!
+    private weak var currentStationStackView: UIStackView!
+    private weak var currentStationImageView: UIImageView!
+    private weak var currentStationLabel: UILabel!
     private weak var busStopTableView: UITableView!
     
     private var stationRouteSubject = PublishSubject<[Rest.BusRouteInfo.ItemList]>()
@@ -59,6 +61,17 @@ class DestinationViewController: BaseViewController {
         .disposed(by: disposeBag)
     }
     
+    @objc 
+    private func tapCurrentStation() {
+        let nearestStationIndex: Int = locationDataManager.nearestStationIndex
+        
+        busStopTableView.scrollToRow(
+            at: IndexPath(row: nearestStationIndex, section: 0),
+            at: .middle,
+            animated: true
+        )
+    }
+    
     override func initView() {
         super.initView()
 
@@ -85,19 +98,28 @@ class DestinationViewController: BaseViewController {
         view.addSubview(busStopTextField)
         self.busStopTextField = busStopTextField
         
-        let currentBusStopButton = UIButton()
-        currentBusStopButton.translatesAutoresizingMaskIntoConstraints = false
-        var config = UIButton.Configuration.plain()
-        config.title = "현재 정류장"
-        config.baseForegroundColor = UIColor(resource: .busStopText)
-        config.image = UIImage.currentTarget
-        config.imagePadding = 4
-        config.imagePlacement = .leading
-        currentBusStopButton.configuration = config
-        view.addSubview(currentBusStopButton)
-        self.currentBusStopButton = currentBusStopButton
+        let currentStationTapGesture = UITapGestureRecognizer(target: self, action: #selector(tapCurrentStation))
         
-        // TODO: [] stackview로 만들것 '현재정류장'
+        let currentStationStackView = UIStackView()
+        currentStationStackView.translatesAutoresizingMaskIntoConstraints = false
+        currentStationStackView.spacing = 4
+        currentStationStackView.addGestureRecognizer(currentStationTapGesture)
+        view.addSubview(currentStationStackView)
+        self.currentStationStackView = currentStationStackView
+        
+        let currentStationImageView = UIImageView()
+        currentStationImageView.translatesAutoresizingMaskIntoConstraints = false
+        currentStationImageView.image = .targetIcon
+        currentStationStackView.addArrangedSubview(currentStationImageView)
+        self.currentStationImageView = currentStationImageView
+        
+        let currentStationLabel = UILabel()
+        currentStationLabel.translatesAutoresizingMaskIntoConstraints = false
+        currentStationLabel.text = "현재 정류장"
+        currentStationLabel.font = .boldSystemFont(ofSize: 16)
+        currentStationLabel.textColor = .busStopText
+        currentStationStackView.addArrangedSubview(currentStationLabel)
+        self.currentStationLabel = currentStationLabel
         
         let busStopTableView = UITableView()
         busStopTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -126,11 +148,14 @@ class DestinationViewController: BaseViewController {
             busStopTextField.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
             busStopTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            currentBusStopButton.topAnchor.constraint(equalTo: busStopTextField.bottomAnchor, constant: 16),
-            currentBusStopButton.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
-            currentBusStopButton.heightAnchor.constraint(equalToConstant: 16),
+            currentStationStackView.topAnchor.constraint(equalTo: busStopTextField.bottomAnchor, constant: 16),
+            currentStationStackView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
+            currentStationStackView.heightAnchor.constraint(equalToConstant: 16),
             
-            busStopTableView.topAnchor.constraint(equalTo: currentBusStopButton.bottomAnchor, constant: 24),
+            currentStationImageView.widthAnchor.constraint(equalToConstant: 16),
+            currentStationImageView.heightAnchor.constraint(equalToConstant: 16),
+            
+            busStopTableView.topAnchor.constraint(equalTo: currentStationStackView.bottomAnchor, constant: 24),
             busStopTableView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
             busStopTableView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
             busStopTableView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor)

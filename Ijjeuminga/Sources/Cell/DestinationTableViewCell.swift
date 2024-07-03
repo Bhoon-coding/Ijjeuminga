@@ -49,6 +49,7 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
         busStopLabel.translatesAutoresizingMaskIntoConstraints = false
         busStopLabel.text = "강남역"
         busStopLabel.textColor = UIColor(resource: .busStopText)
+        busStopLabel.font = .boldSystemFont(ofSize: 16)
         contentView.addSubview(busStopLabel)
         self.busStopLabel = busStopLabel
     }
@@ -80,7 +81,7 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
             directionBottomLine.widthAnchor.constraint(equalToConstant: 1),
             
             busStopLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            busStopLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 80),
+            busStopLabel.leadingAnchor.constraint(equalTo: directionIcon.trailingAnchor, constant: 32),
             busStopLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
             
         ])
