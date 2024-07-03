@@ -19,14 +19,20 @@ class DestinationViewController: BaseViewController {
     
     private var stationRouteSubject = PublishSubject<[Rest.BusRouteInfo.ItemList]>()
     private var stationRouteItemList: [Rest.BusRouteInfo.ItemList] = []
+    private let locationDataManager = LocationDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchStaionByRoute()
+        fetchStationByRoute()
         bind()
     }
     
-    private func fetchStaionByRoute() {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        locationDataManager.requestLocationAuth()
+    }
+    
+    private func fetchStationByRoute() {
         BusRouteInfoAPIService()
             .getStaionByRoute(with: "100100124")
             .subscribe { [weak self] res in
@@ -45,6 +51,7 @@ class DestinationViewController: BaseViewController {
         stationRouteSubject.bind(onNext: { [weak self] itemList in
             guard let self = self else { return }
             self.stationRouteItemList = itemList
+            locationDataManager.stations = self.stationRouteItemList
             DispatchQueue.main.async {
                 self.busStopTableView.reloadData()
             }
@@ -89,6 +96,8 @@ class DestinationViewController: BaseViewController {
         currentBusStopButton.configuration = config
         view.addSubview(currentBusStopButton)
         self.currentBusStopButton = currentBusStopButton
+        
+        // TODO: [] stackview로 만들것 '현재정류장'
         
         let busStopTableView = UITableView()
         busStopTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -143,9 +152,13 @@ extension DestinationViewController: UITableViewDelegate, UITableViewDataSource 
         }
         
         let stationRoute = stationRouteItemList[indexPath.row]
-        let isFirst = indexPath.row == 0
         let isLast = stationRouteItemList.endIndex - 1 == indexPath.row
-        cell.setupCell(item: stationRoute, isFirst: isFirst, isLast: isLast)
+        cell.setupCell(
+            item: stationRoute,
+            isLast: isLast,
+            indexPath: indexPath,
+            nearestStationIndex: locationDataManager.nearestStationIndex
+        )
         return cell
     }
 }

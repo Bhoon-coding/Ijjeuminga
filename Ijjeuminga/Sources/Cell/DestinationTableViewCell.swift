@@ -15,6 +15,7 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
     private weak var directionIcon: UIImageView!
     private weak var directionTopLine: UIView!
     private weak var directionBottomLine: UIView!
+    private weak var currentPositionIcon: UIImageView!
 
     override func initView() {
         super.initView()
@@ -24,6 +25,13 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
         directionIcon.image = .directionIcon
         contentView.addSubview(directionIcon)
         self.directionIcon = directionIcon
+        
+        let currentPositionIcon = UIImageView()
+        currentPositionIcon.translatesAutoresizingMaskIntoConstraints = false
+        currentPositionIcon.image = .currentPositionIcon
+        currentPositionIcon.layer.zPosition = 1
+        contentView.addSubview(currentPositionIcon)
+        self.currentPositionIcon = currentPositionIcon
         
         let directionTopLine = UIView()
         directionTopLine.translatesAutoresizingMaskIntoConstraints = false
@@ -54,6 +62,13 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
             directionIcon.widthAnchor.constraint(equalToConstant: 16),
             directionIcon.heightAnchor.constraint(equalToConstant: 16),
             
+            currentPositionIcon.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor
+            ),
+            currentPositionIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            currentPositionIcon.widthAnchor.constraint(equalToConstant: 32),
+            currentPositionIcon.heightAnchor.constraint(equalToConstant: 32),
+            
             directionTopLine.topAnchor.constraint(equalTo: contentView.topAnchor),
             directionTopLine.bottomAnchor.constraint(equalTo: directionIcon.topAnchor),
             directionTopLine.leadingAnchor.constraint(equalTo: directionIcon.centerXAnchor),
@@ -77,12 +92,18 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
     
     }
     
-    internal func setupCell(item: Rest.BusRouteInfo.ItemList, isFirst: Bool, isLast: Bool) {
+    internal func setupCell(
+        item: Rest.BusRouteInfo.ItemList,
+        isLast: Bool,
+        indexPath: IndexPath,
+        nearestStationIndex: Int
+    ) {
         guard let stationName = item.stationNm else { return }
-        directionTopLine.isHidden = isFirst
+        directionTopLine.isHidden = indexPath.row == 0
         directionBottomLine.isHidden = isLast
         busStopLabel.text = stationName
-        
+        currentPositionIcon.isHidden = nearestStationIndex != indexPath.row
+        directionIcon.isHidden = nearestStationIndex == indexPath.row
     }
 }
 

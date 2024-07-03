@@ -10,4 +10,5 @@ import UIKit.UIImage
 extension UIImage {
     static let currentTarget = UIImage(named: "target")!
     static let directionIcon = UIImage(named: "direction")!
+    static let currentPositionIcon = UIImage(named: "currentPosition")!
 }

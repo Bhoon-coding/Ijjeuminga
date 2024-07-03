@@ -14,7 +14,7 @@ extension UITextField {
         self.leftView = UIView(frame: padding)
         self.leftViewMode = .always
         self.layer.cornerRadius = 16
-        self.backgroundColor = .searchText
+        self.backgroundColor = .containerBackground
     }
 }
 

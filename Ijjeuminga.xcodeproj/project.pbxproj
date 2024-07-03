@@ -19,15 +19,8 @@
 		E11861C62C142DB600C423D3 /* Extension + Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C52C142DB600C423D3 /* Extension + Color.swift */; };
 		E11861C82C16663900C423D3 /* DestinationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C72C16663900C423D3 /* DestinationViewModel.swift */; };
 		E11861CB2C17BA4F00C423D3 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861CA2C17BA4F00C423D3 /* NetworkManager.swift */; };
-		E11861CF2C17BB4A00C423D3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E11861CE2C17BB4A00C423D3 /* Alamofire */; };
-		E11861D12C17BB4A00C423D3 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = E11861D02C17BB4A00C423D3 /* AlamofireDynamic */; };
 		E11861D32C17BB7A00C423D3 /* ErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861D22C17BB7A00C423D3 /* ErrorCode.swift */; };
 		E11861D72C17BC1300C423D3 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861D62C17BC1300C423D3 /* API.swift */; };
-		E11862002C19060E00C423D3 /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = E11861FF2C19060E00C423D3 /* RxBlocking */; };
-		E11862022C19060E00C423D3 /* RxBlocking-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = E11862012C19060E00C423D3 /* RxBlocking-Dynamic */; };
-		E11862042C19060E00C423D3 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E11862032C19060E00C423D3 /* RxCocoa */; };
-		E11862062C19060E00C423D3 /* RxCocoa-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = E11862052C19060E00C423D3 /* RxCocoa-Dynamic */; };
-		E11862082C19060E00C423D3 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = E11862072C19060E00C423D3 /* RxRelay */; };
 		E118620A2C19083900C423D3 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11862092C19083900C423D3 /* Log.swift */; };
 		E118620C2C190D3F00C423D3 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118620B2C190D3F00C423D3 /* Parameters.swift */; };
 		E118620E2C190EE900C423D3 /* Extension + Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118620D2C190EE900C423D3 /* Extension + Encodable.swift */; };
@@ -35,6 +28,11 @@
 		E1201AF12C2D2B79005DDE24 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1201AF02C2D2B79005DDE24 /* Constant.swift */; };
 		E1201AFA2C2D4A1C005DDE24 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = E1201AF92C2D4A1C005DDE24 /* SwiftyJSON */; };
 		E1201B002C30FAED005DDE24 /* Extension + UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1201AFF2C30FAED005DDE24 /* Extension + UIImage.swift */; };
+		E1201B032C326AFF005DDE24 /* LocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1201B022C326AFF005DDE24 /* LocationDataManager.swift */; };
+		E1201B062C327611005DDE24 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E1201B052C327611005DDE24 /* Alamofire */; };
+		E1201B1F2C3276B5005DDE24 /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = E1201B1E2C3276B5005DDE24 /* RxBlocking */; };
+		E1201B212C3276B5005DDE24 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E1201B202C3276B5005DDE24 /* RxCocoa */; };
+		E1201B232C3276B5005DDE24 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = E1201B222C3276B5005DDE24 /* RxRelay */; };
 		E13EBB512C27C03D0062277A /* BustRouteInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */; };
 		E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */; };
 		E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */; };
@@ -64,6 +62,7 @@
 		E11862112C1BAC3000C423D3 /* BusPositionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusPositionAPI.swift; sourceTree = "<group>"; };
 		E1201AF02C2D2B79005DDE24 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = Ijjeuminga/Util/Constants/Constant.swift; sourceTree = SOURCE_ROOT; };
 		E1201AFF2C30FAED005DDE24 /* Extension + UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIImage.swift"; sourceTree = "<group>"; };
+		E1201B022C326AFF005DDE24 /* LocationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataManager.swift; sourceTree = "<group>"; };
 		E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BustRouteInfoAPI.swift; sourceTree = "<group>"; };
 		E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ijjeuminga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,14 +78,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E11861CF2C17BB4A00C423D3 /* Alamofire in Frameworks */,
-				E11862002C19060E00C423D3 /* RxBlocking in Frameworks */,
+				E1201B232C3276B5005DDE24 /* RxRelay in Frameworks */,
+				E1201B062C327611005DDE24 /* Alamofire in Frameworks */,
+				E1201B1F2C3276B5005DDE24 /* RxBlocking in Frameworks */,
+				E1201B212C3276B5005DDE24 /* RxCocoa in Frameworks */,
 				E1201AFA2C2D4A1C005DDE24 /* SwiftyJSON in Frameworks */,
-				E11862082C19060E00C423D3 /* RxRelay in Frameworks */,
-				E11862042C19060E00C423D3 /* RxCocoa in Frameworks */,
-				E11861D12C17BB4A00C423D3 /* AlamofireDynamic in Frameworks */,
-				E11862062C19060E00C423D3 /* RxCocoa-Dynamic in Frameworks */,
-				E11862022C19060E00C423D3 /* RxBlocking-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +174,14 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		E1201B012C326AEA005DDE24 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				E1201B022C326AFF005DDE24 /* LocationDataManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		E18B7E4E2C05E6A500C94FFD = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +243,7 @@
 		E18B7E752C05E8DD00C94FFD /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				E1201B012C326AEA005DDE24 /* Managers */,
 				E1201AF22C2D2B7D005DDE24 /* Constants */,
 				E11862092C19083900C423D3 /* Log.swift */,
 				9FD4916E2C0F0D0D00445C45 /* Extension */,
@@ -266,14 +271,11 @@
 			);
 			name = Ijjeuminga;
 			packageProductDependencies = (
-				E11861CE2C17BB4A00C423D3 /* Alamofire */,
-				E11861D02C17BB4A00C423D3 /* AlamofireDynamic */,
-				E11861FF2C19060E00C423D3 /* RxBlocking */,
-				E11862012C19060E00C423D3 /* RxBlocking-Dynamic */,
-				E11862032C19060E00C423D3 /* RxCocoa */,
-				E11862052C19060E00C423D3 /* RxCocoa-Dynamic */,
-				E11862072C19060E00C423D3 /* RxRelay */,
 				E1201AF92C2D4A1C005DDE24 /* SwiftyJSON */,
+				E1201B052C327611005DDE24 /* Alamofire */,
+				E1201B1E2C3276B5005DDE24 /* RxBlocking */,
+				E1201B202C3276B5005DDE24 /* RxCocoa */,
+				E1201B222C3276B5005DDE24 /* RxRelay */,
 			);
 			productName = Ijjeuminga;
 			productReference = E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */;
@@ -304,9 +306,9 @@
 			);
 			mainGroup = E18B7E4E2C05E6A500C94FFD;
 			packageReferences = (
-				E11861CD2C17BAC700C423D3 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				E11861FE2C19060E00C423D3 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				E1201AF82C2D4A1C005DDE24 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				E1201B042C327611005DDE24 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				E1201B1D2C3276B5005DDE24 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = E18B7E582C05E6A500C94FFD /* Products */;
 			projectDirPath = "";
@@ -381,6 +383,7 @@
 				E1201B002C30FAED005DDE24 /* Extension + UIImage.swift in Sources */,
 				E1EEB6A72C115262009F7273 /* DestinationViewController.swift in Sources */,
 				9FD491662C0F05F000445C45 /* BaseCollectionViewCell.swift in Sources */,
+				E1201B032C326AFF005DDE24 /* LocationDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,7 +535,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -562,12 +565,13 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ijjeuminga.Ijjeuminga;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SERVER_HOST = "http://ws.bus.go.kr";
@@ -601,22 +605,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E11861CD2C17BAC700C423D3 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.9.1;
-			};
-		};
-		E11861FE2C19060E00C423D3 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.7.1;
-			};
-		};
 		E1201AF82C2D4A1C005DDE24 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
@@ -625,48 +613,49 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		E1201B042C327611005DDE24 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = exactVersion;
+				version = 5.8.1;
+			};
+		};
+		E1201B1D2C3276B5005DDE24 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = exactVersion;
+				version = 6.7.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E11861CE2C17BB4A00C423D3 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E11861CD2C17BAC700C423D3 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-		E11861D02C17BB4A00C423D3 /* AlamofireDynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E11861CD2C17BAC700C423D3 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = AlamofireDynamic;
-		};
-		E11861FF2C19060E00C423D3 /* RxBlocking */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E11861FE2C19060E00C423D3 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxBlocking;
-		};
-		E11862012C19060E00C423D3 /* RxBlocking-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E11861FE2C19060E00C423D3 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = "RxBlocking-Dynamic";
-		};
-		E11862032C19060E00C423D3 /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E11861FE2C19060E00C423D3 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		E11862052C19060E00C423D3 /* RxCocoa-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E11861FE2C19060E00C423D3 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = "RxCocoa-Dynamic";
-		};
-		E11862072C19060E00C423D3 /* RxRelay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E11861FE2C19060E00C423D3 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxRelay;
-		};
 		E1201AF92C2D4A1C005DDE24 /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E1201AF82C2D4A1C005DDE24 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		E1201B052C327611005DDE24 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1201B042C327611005DDE24 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		E1201B1E2C3276B5005DDE24 /* RxBlocking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1201B1D2C3276B5005DDE24 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxBlocking;
+		};
+		E1201B202C3276B5005DDE24 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1201B1D2C3276B5005DDE24 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		E1201B222C3276B5005DDE24 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1201B1D2C3276B5005DDE24 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
