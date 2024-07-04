@@ -11,7 +11,7 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
     
     static let identifier: String = "DestinationTableViewCell"
     
-    private weak var busStopLabel: UILabel!
+    private weak var busStationLabel: UILabel!
     private weak var directionIcon: UIImageView!
     private weak var directionTopLine: UIView!
     private weak var directionBottomLine: UIView!
@@ -45,13 +45,13 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
         contentView.addSubview(directionBottomLine)
         self.directionBottomLine = directionBottomLine
         
-        let busStopLabel = UILabel()
-        busStopLabel.translatesAutoresizingMaskIntoConstraints = false
-        busStopLabel.text = "강남역"
-        busStopLabel.textColor = UIColor(resource: .busStopText)
-        busStopLabel.font = .boldSystemFont(ofSize: 16)
-        contentView.addSubview(busStopLabel)
-        self.busStopLabel = busStopLabel
+        let busStationLabel = UILabel()
+        busStationLabel.translatesAutoresizingMaskIntoConstraints = false
+        busStationLabel.text = "강남역"
+        busStationLabel.textColor = .busStopText
+        busStationLabel.font = .boldSystemFont(ofSize: 16)
+        contentView.addSubview(busStationLabel)
+        self.busStationLabel = busStationLabel
     }
     
     override func initConstraint() {
@@ -63,9 +63,7 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
             directionIcon.widthAnchor.constraint(equalToConstant: 16),
             directionIcon.heightAnchor.constraint(equalToConstant: 16),
             
-            currentPositionIcon.leadingAnchor.constraint(
-                equalTo: contentView.leadingAnchor
-            ),
+            currentPositionIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             currentPositionIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             currentPositionIcon.widthAnchor.constraint(equalToConstant: 32),
             currentPositionIcon.heightAnchor.constraint(equalToConstant: 32),
@@ -80,9 +78,9 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
             directionBottomLine.leadingAnchor.constraint(equalTo: directionIcon.centerXAnchor),
             directionBottomLine.widthAnchor.constraint(equalToConstant: 1),
             
-            busStopLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            busStopLabel.leadingAnchor.constraint(equalTo: directionIcon.trailingAnchor, constant: 32),
-            busStopLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            busStationLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            busStationLabel.leadingAnchor.constraint(equalTo: directionIcon.trailingAnchor, constant: 32),
+            busStationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
             
         ])
         
@@ -102,7 +100,7 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
         guard let stationName = item.stationNm else { return }
         directionTopLine.isHidden = indexPath.row == 0
         directionBottomLine.isHidden = isLast
-        busStopLabel.text = stationName
+        busStationLabel.text = stationName
         currentPositionIcon.isHidden = nearestStationIndex != indexPath.row
         directionIcon.isHidden = nearestStationIndex == indexPath.row
     }

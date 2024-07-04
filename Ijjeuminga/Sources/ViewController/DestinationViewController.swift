@@ -163,6 +163,8 @@ class DestinationViewController: BaseViewController {
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
+
 extension DestinationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.stationRouteItemList.count
@@ -187,6 +189,8 @@ extension DestinationViewController: UITableViewDelegate, UITableViewDataSource 
         return cell
     }
 }
+
+// MARK: - UITextFieldDelegate
 
 extension DestinationViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {

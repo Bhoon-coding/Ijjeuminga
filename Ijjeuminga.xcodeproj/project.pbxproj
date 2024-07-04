@@ -34,6 +34,7 @@
 		E1201B232C3276B5005DDE24 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = E1201B222C3276B5005DDE24 /* RxRelay */; };
 		E13EBB512C27C03D0062277A /* BustRouteInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */; };
 		E144D3802C3528B500483B9A /* Extension + UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E144D37F2C3528B500483B9A /* Extension + UIImage.swift */; };
+		E144D3822C369B2200483B9A /* DestinationSearchedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E144D3812C369B2200483B9A /* DestinationSearchedTableViewCell.swift */; };
 		E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */; };
 		E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */; };
 		E18B7E642C05E6A700C94FFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E632C05E6A700C94FFD /* Assets.xcassets */; };
@@ -64,6 +65,7 @@
 		E1201B022C326AFF005DDE24 /* LocationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataManager.swift; sourceTree = "<group>"; };
 		E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BustRouteInfoAPI.swift; sourceTree = "<group>"; };
 		E144D37F2C3528B500483B9A /* Extension + UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIImage.swift"; sourceTree = "<group>"; };
+		E144D3812C369B2200483B9A /* DestinationSearchedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSearchedTableViewCell.swift; sourceTree = "<group>"; };
 		E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ijjeuminga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */,
 				9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */,
 				E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */,
+				E144D3812C369B2200483B9A /* DestinationSearchedTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E11861D72C17BC1300C423D3 /* API.swift in Sources */,
+				E144D3822C369B2200483B9A /* DestinationSearchedTableViewCell.swift in Sources */,
 				E13EBB512C27C03D0062277A /* BustRouteInfoAPI.swift in Sources */,
 				E11861CB2C17BA4F00C423D3 /* NetworkManager.swift in Sources */,
 				E118620A2C19083900C423D3 /* Log.swift in Sources */,
