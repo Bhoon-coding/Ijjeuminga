@@ -13,14 +13,21 @@ class DestinationViewController: BaseViewController {
     
     private weak var backgroundView: UIView!
     private weak var destinationTitle: UILabel!
-    private weak var busStopTextField: UITextField!
+    private weak var busStationSearchBar: UISearchBar!
     private weak var currentStationStackView: UIStackView!
     private weak var currentStationImageView: UIImageView!
     private weak var currentStationLabel: UILabel!
-    private weak var busStopTableView: UITableView!
+    private weak var busStationTableView: UITableView!
     
     private var stationRouteSubject = PublishSubject<[Rest.BusRouteInfo.ItemList]>()
     private var stationRouteItemList: [Rest.BusRouteInfo.ItemList] = []
+    private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
+    private var isSearched: Bool = false {
+        didSet {
+            configureTableView()
+            currentStationStackView.isHidden = isSearched
+        }
+    }
     private let locationDataManager = LocationDataManager()
     
     override func viewDidLoad() {
@@ -32,6 +39,22 @@ class DestinationViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         locationDataManager.requestLocationAuth()
+    }
+    
+    private func configureTableView() {
+        isSearched
+        ? self.busStationTableView.register(
+            DestinationSearchedTableViewCell.self,
+            forCellReuseIdentifier: DestinationSearchedTableViewCell.identifier
+        )
+        : self.busStationTableView.register(
+            DestinationTableViewCell.self,
+            forCellReuseIdentifier: DestinationTableViewCell.identifier
+        )
+        
+        DispatchQueue.main.async {
+            self.busStationTableView.reloadData()
+        }
     }
     
     private func fetchStationByRoute() {
@@ -54,9 +77,7 @@ class DestinationViewController: BaseViewController {
             guard let self = self else { return }
             self.stationRouteItemList = itemList
             locationDataManager.stations = self.stationRouteItemList
-            DispatchQueue.main.async {
-                self.busStopTableView.reloadData()
-            }
+            configureTableView()
         })
         .disposed(by: disposeBag)
     }
@@ -65,11 +86,15 @@ class DestinationViewController: BaseViewController {
     private func tapCurrentStation() {
         let nearestStationIndex: Int = locationDataManager.nearestStationIndex
         
-        busStopTableView.scrollToRow(
+        busStationTableView.scrollToRow(
             at: IndexPath(row: nearestStationIndex, section: 0),
             at: .middle,
             animated: true
         )
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
     override func initView() {
@@ -90,13 +115,12 @@ class DestinationViewController: BaseViewController {
         view.addSubview(destinationTitle)
         self.destinationTitle = destinationTitle
         
-        let busStopTextField = UITextField()
-        busStopTextField.translatesAutoresizingMaskIntoConstraints = false
-        busStopTextField.placeholder = "정류장 검색"
-        busStopTextField.setBaseTextField()
-        busStopTextField.delegate = self
-        view.addSubview(busStopTextField)
-        self.busStopTextField = busStopTextField
+        let busStationSearchBar = UISearchBar()
+        busStationSearchBar.translatesAutoresizingMaskIntoConstraints = false
+        busStationSearchBar.placeholder = "정류장 검색"
+        busStationSearchBar.delegate = self
+        view.addSubview(busStationSearchBar)
+        self.busStationSearchBar = busStationSearchBar
         
         let currentStationTapGesture = UITapGestureRecognizer(target: self, action: #selector(tapCurrentStation))
         
@@ -121,17 +145,18 @@ class DestinationViewController: BaseViewController {
         currentStationStackView.addArrangedSubview(currentStationLabel)
         self.currentStationLabel = currentStationLabel
         
-        let busStopTableView = UITableView()
-        busStopTableView.translatesAutoresizingMaskIntoConstraints = false
-        busStopTableView.delegate = self
-        busStopTableView.dataSource = self
-        busStopTableView.register(
+        let busStationTableView = UITableView()
+        busStationTableView.translatesAutoresizingMaskIntoConstraints = false
+        busStationTableView.delegate = self
+        busStationTableView.dataSource = self
+        busStationTableView.rowHeight = 54
+        busStationTableView.showsVerticalScrollIndicator = false
+        busStationTableView.register(
             DestinationTableViewCell.self,
             forCellReuseIdentifier: DestinationTableViewCell.identifier
         )
-        busStopTableView.rowHeight = 54
-        view.addSubview(busStopTableView)
-        self.busStopTableView = busStopTableView
+        view.addSubview(busStationTableView)
+        self.busStationTableView = busStationTableView
     }
     
     override func initConstraint() {
@@ -143,22 +168,22 @@ class DestinationViewController: BaseViewController {
             destinationTitle.topAnchor.constraint(equalTo: backgroundView.topAnchor),
             destinationTitle.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
             
-            busStopTextField.topAnchor.constraint(equalTo: destinationTitle.bottomAnchor, constant: 16),
-            busStopTextField.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
-            busStopTextField.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
-            busStopTextField.heightAnchor.constraint(equalToConstant: 40),
+            busStationSearchBar.topAnchor.constraint(equalTo: destinationTitle.bottomAnchor, constant: 16),
+            busStationSearchBar.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
+            busStationSearchBar.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
+            busStationSearchBar.heightAnchor.constraint(equalToConstant: 40),
             
-            currentStationStackView.topAnchor.constraint(equalTo: busStopTextField.bottomAnchor, constant: 16),
+            currentStationStackView.topAnchor.constraint(equalTo: busStationSearchBar.bottomAnchor, constant: 16),
             currentStationStackView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
             currentStationStackView.heightAnchor.constraint(equalToConstant: 16),
             
             currentStationImageView.widthAnchor.constraint(equalToConstant: 16),
             currentStationImageView.heightAnchor.constraint(equalToConstant: 16),
             
-            busStopTableView.topAnchor.constraint(equalTo: currentStationStackView.bottomAnchor, constant: 24),
-            busStopTableView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
-            busStopTableView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
-            busStopTableView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor)
+            busStationTableView.topAnchor.constraint(equalTo: currentStationStackView.bottomAnchor, constant: 24),
+            busStationTableView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
+            busStationTableView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
+            busStationTableView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor)
         ])
     }
 }
@@ -167,44 +192,79 @@ class DestinationViewController: BaseViewController {
 
 extension DestinationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.stationRouteItemList.count
+        return isSearched ? self.filteredStationList.count : self.stationRouteItemList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = busStopTableView.dequeueReusableCell(
-            withIdentifier: DestinationTableViewCell.identifier,
-            for: indexPath
-        ) as? DestinationTableViewCell else {
-            return UITableViewCell()
+        var cell: UITableViewCell = .init()
+        
+        if isSearched {
+            guard let filteredStationCell = busStationTableView.dequeueReusableCell(
+                withIdentifier: DestinationSearchedTableViewCell.identifier,
+                for: indexPath
+            ) as? DestinationSearchedTableViewCell else {
+                return UITableViewCell()
+            }
+            
+            let station = filteredStationList[indexPath.row]
+            let stationSequence = station.seq ?? "0"
+            let nextStationIndex: Int = Int(stationSequence) ?? 0
+            let isLastStation = nextStationIndex == stationRouteItemList.count
+            let nextStation: String? = isLastStation 
+            ? nil
+            : stationRouteItemList[nextStationIndex].stationNm
+            
+            filteredStationCell.setupCell(with: station, nextStation)
+            
+            cell = filteredStationCell
+        } else {
+            guard let busStationCell = busStationTableView.dequeueReusableCell(
+                withIdentifier: DestinationTableViewCell.identifier,
+                for: indexPath
+            ) as? DestinationTableViewCell else {
+                return UITableViewCell()
+            }
+            
+            let stationRoute = stationRouteItemList[indexPath.row]
+            let isLast = stationRouteItemList.endIndex - 1 == indexPath.row
+            
+            busStationCell.setupCell(
+                item: stationRoute,
+                isLast: isLast,
+                indexPath: indexPath,
+                nearestStationIndex: locationDataManager.nearestStationIndex
+            )
+            
+            cell = busStationCell
         }
         
-        let stationRoute = stationRouteItemList[indexPath.row]
-        let isLast = stationRouteItemList.endIndex - 1 == indexPath.row
-        cell.setupCell(
-            item: stationRoute,
-            isLast: isLast,
-            indexPath: indexPath,
-            nearestStationIndex: locationDataManager.nearestStationIndex
-        )
         return cell
     }
 }
 
-// MARK: - UITextFieldDelegate
+// MARK: - UISearchBarDelegate
 
-extension DestinationViewController: UITextFieldDelegate {
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        print("textFieldShouldBeginEditing")
-        return true
+extension DestinationViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            isSearched = false
+            return
+        }
+        isSearched = true
+        filteredStationList = stationRouteItemList.filter {
+            let stationName = $0.stationNm ?? "알 수 없는 정류장"
+            return stationName.contains(searchText)
+        }
+        print("filteredStationList: \(filteredStationList.count)")
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        busStationSearchBar.resignFirstResponder()
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        busStopTextField.resignFirstResponder()
-        return true
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        isSearched = false
+        busStationSearchBar.resignFirstResponder()
     }
 }
 
