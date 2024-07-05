@@ -118,6 +118,7 @@ class DestinationViewController: BaseViewController {
         let busStationSearchBar = UISearchBar()
         busStationSearchBar.translatesAutoresizingMaskIntoConstraints = false
         busStationSearchBar.placeholder = "정류장 검색"
+        busStationSearchBar.backgroundImage = UIImage()
         busStationSearchBar.delegate = self
         view.addSubview(busStationSearchBar)
         self.busStationSearchBar = busStationSearchBar
@@ -188,9 +189,17 @@ class DestinationViewController: BaseViewController {
     }
 }
 
-// MARK: - UITableViewDelegate, UITableViewDataSource
+// MARK: - UITableViewDelegate
 
-extension DestinationViewController: UITableViewDelegate, UITableViewDataSource {
+extension DestinationViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        busStationSearchBar.resignFirstResponder()
+    }
+}
+
+// MARK: - UITableViewDataSource
+
+extension DestinationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isSearched ? self.filteredStationList.count : self.stationRouteItemList.count
     }
@@ -210,7 +219,7 @@ extension DestinationViewController: UITableViewDelegate, UITableViewDataSource 
             let stationSequence = station.seq ?? "0"
             let nextStationIndex: Int = Int(stationSequence) ?? 0
             let isLastStation = nextStationIndex == stationRouteItemList.count
-            let nextStation: String? = isLastStation 
+            let nextStation: String? = isLastStation
             ? nil
             : stationRouteItemList[nextStationIndex].stationNm
             
@@ -255,7 +264,6 @@ extension DestinationViewController: UISearchBarDelegate {
             let stationName = $0.stationNm ?? "알 수 없는 정류장"
             return stationName.contains(searchText)
         }
-        print("filteredStationList: \(filteredStationList.count)")
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
