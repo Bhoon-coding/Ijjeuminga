@@ -50,13 +50,17 @@ class DestinationSearchedTableViewCell: BaseTableViewCell<UITableViewCell> {
             directionIcon.widthAnchor.constraint(equalToConstant: 16),
             directionIcon.heightAnchor.constraint(equalToConstant: 16),
             
-            // MARK: 에러나면 이쪽부분 의심 (Y축, leading만 잡아주고있음)
             busStationLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             busStationLabel.leadingAnchor.constraint(equalTo: directionIcon.trailingAnchor, constant: 32),
             
             nextBusStationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            nextBusStationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 8),
+            nextBusStationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ])
+    }
+    
+    internal func setupCell(with station: Rest.BusRouteInfo.ItemList, _ nextStation: String?) {
+        self.busStationLabel.text = station.stationNm
+        self.nextBusStationLabel.text = (nextStation ?? "종점") + " 방향"
     }
 
 }
