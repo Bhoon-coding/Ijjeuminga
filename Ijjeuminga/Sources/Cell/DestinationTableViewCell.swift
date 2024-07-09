@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
+final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, Int)> {
     
     static let identifier: String = "DestinationTableViewCell"
     
@@ -91,18 +91,19 @@ final class DestinationTableViewCell: BaseTableViewCell<UITableViewCell> {
     
     }
     
-    internal func setupCell(
-        item: Rest.BusRouteInfo.ItemList,
-        isLast: Bool,
-        indexPath: IndexPath,
-        nearestStationIndex: Int
-    ) {
-        guard let stationName = item.stationNm else { return }
-        directionTopLine.isHidden = indexPath.row == 0
-        directionBottomLine.isHidden = isLast
-        busStationLabel.text = stationName
-        currentPositionIcon.isHidden = nearestStationIndex != indexPath.row
-        directionIcon.isHidden = nearestStationIndex == indexPath.row
+    override func configureCell(data: (DestinationTableData, Int)?) {
+        guard let (data, index) = data else { return }
+        
+        switch data {
+        case .searchResult:
+            break
+        case .stationResult(let station, let isLast, let nearestStationIndex):
+            directionTopLine.isHidden = index == 0
+            directionBottomLine.isHidden = isLast
+            busStationLabel.text = station.stationNm
+            currentPositionIcon.isHidden = nearestStationIndex != index
+            directionIcon.isHidden = nearestStationIndex == index
+        }
     }
 }
 

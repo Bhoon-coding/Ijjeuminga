@@ -9,7 +9,7 @@ import UIKit
 
 import RxSwift
 
-class DestinationViewController: BaseViewController {
+class DestinationViewController: ViewModelInjectionBaseViewController<DestinationViewModel, DestinationViewModelOutput> {
     
     private weak var backgroundView: UIView!
     private weak var destinationTitle: UILabel!
@@ -19,9 +19,11 @@ class DestinationViewController: BaseViewController {
     private weak var currentStationLabel: UILabel!
     private weak var busStationTableView: UITableView!
     
+    
+    private var dataList: [DestinationTableData] = []
+    // TODO: [] 아래 프로퍼티 viewModel에서 처리
     private var stationRouteSubject = PublishSubject<[Rest.BusRouteInfo.ItemList]>()
-    private var stationRouteItemList: [Rest.BusRouteInfo.ItemList] = []
-    private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
+    
     private var isSearched: Bool = false {
         didSet {
             configureTableView()
@@ -32,8 +34,8 @@ class DestinationViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchStationByRoute()
-        bind()
+//        fetchStationByRoute()
+//        bind()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -57,29 +59,16 @@ class DestinationViewController: BaseViewController {
         }
     }
     
-    private func fetchStationByRoute() {
-        BusRouteInfoAPIService()
-            .getStaionByRoute(with: "100100124")
-            .subscribe { [weak self] res in
-                guard let self = self else { return }
-                guard let resStationRoute = res.msgBody.itemList else { return }
-                self.stationRouteSubject.onNext(resStationRoute)
-
-            } onFailure: { error in
-                print("error: \(error)")
-
-            }
-            .disposed(by: disposeBag)
-    }
-    
-    private func bind() {
-        stationRouteSubject.bind(onNext: { [weak self] itemList in
-            guard let self = self else { return }
-            self.stationRouteItemList = itemList
-            locationDataManager.stations = self.stationRouteItemList
-            configureTableView()
-        })
-        .disposed(by: disposeBag)
+    override func bind() {
+        super.bind()
+        self.viewModel.input = DestinationViewModelInput()
+        self.viewModel.output.tableData
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] in
+                self?.dataList = $0
+                self?.busStationTableView.reloadData()
+            }.disposed(by: viewDisposeBag)
+        
     }
     
     @objc 
@@ -201,7 +190,8 @@ extension DestinationViewController: UITableViewDelegate {
 
 extension DestinationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isSearched ? self.filteredStationList.count : self.stationRouteItemList.count
+//        return isSearched ? self.filteredStationList.count : self.stationRouteItemList.count
+        return dataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -215,15 +205,16 @@ extension DestinationViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             
-            let station = filteredStationList[indexPath.row]
-            let stationSequence = station.seq ?? "0"
-            let nextStationIndex: Int = Int(stationSequence) ?? 0
-            let isLastStation = nextStationIndex == stationRouteItemList.count
-            let nextStation: String? = isLastStation
-            ? nil
-            : stationRouteItemList[nextStationIndex].stationNm
+//            let station = filteredStationList[indexPath.row]
+//            let stationSequence = station.seq ?? "0"
+//            let nextStationIndex: Int = Int(stationSequence) ?? 0
+//            let isLastStation = nextStationIndex == stationRouteItemList.count
+//            let nextStation: String? = isLastStation
+//            ? nil
+//            : stationRouteItemList[nextStationIndex].stationNm
             
-            filteredStationCell.setupCell(with: station, nextStation)
+//            filteredStationCell.setupCell(with: station, nextStation)
+//            filteredStationCell.configureCell(data: <#T##DestinationTableData?#>)
             
             cell = filteredStationCell
         } else {
@@ -233,16 +224,8 @@ extension DestinationViewController: UITableViewDataSource {
             ) as? DestinationTableViewCell else {
                 return UITableViewCell()
             }
-            
-            let stationRoute = stationRouteItemList[indexPath.row]
-            let isLast = stationRouteItemList.endIndex - 1 == indexPath.row
-            
-            busStationCell.setupCell(
-                item: stationRoute,
-                isLast: isLast,
-                indexPath: indexPath,
-                nearestStationIndex: locationDataManager.nearestStationIndex
-            )
+            let station = dataList[indexPath.row]
+            busStationCell.configureCell(data: (station, indexPath.row))
             
             cell = busStationCell
         }
@@ -260,10 +243,7 @@ extension DestinationViewController: UISearchBarDelegate {
             return
         }
         isSearched = true
-        filteredStationList = stationRouteItemList.filter {
-            let stationName = $0.stationNm ?? "알 수 없는 정류장"
-            return stationName.contains(searchText)
-        }
+        viewModel.input?.searchText.onNext(searchText)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -276,6 +256,6 @@ extension DestinationViewController: UISearchBarDelegate {
     }
 }
 
-#Preview {
-    DestinationViewController()
-}
+//#Preview {
+//    DestinationViewController()
+//}

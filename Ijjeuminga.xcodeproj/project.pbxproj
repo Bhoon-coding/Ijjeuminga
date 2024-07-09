@@ -25,7 +25,6 @@
 		E118620C2C190D3F00C423D3 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118620B2C190D3F00C423D3 /* Parameters.swift */; };
 		E118620E2C190EE900C423D3 /* Extension + Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118620D2C190EE900C423D3 /* Extension + Encodable.swift */; };
 		E11862122C1BAC3000C423D3 /* BusPositionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11862112C1BAC3000C423D3 /* BusPositionAPI.swift */; };
-		E1201AF12C2D2B79005DDE24 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1201AF02C2D2B79005DDE24 /* Constant.swift */; };
 		E1201AFA2C2D4A1C005DDE24 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = E1201AF92C2D4A1C005DDE24 /* SwiftyJSON */; };
 		E1201B032C326AFF005DDE24 /* LocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1201B022C326AFF005DDE24 /* LocationDataManager.swift */; };
 		E1201B062C327611005DDE24 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E1201B052C327611005DDE24 /* Alamofire */; };
@@ -35,6 +34,7 @@
 		E13EBB512C27C03D0062277A /* BustRouteInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */; };
 		E144D3802C3528B500483B9A /* Extension + UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E144D37F2C3528B500483B9A /* Extension + UIImage.swift */; };
 		E144D3822C369B2200483B9A /* DestinationSearchedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E144D3812C369B2200483B9A /* DestinationSearchedTableViewCell.swift */; };
+		E1572C772C3A3BB900A2A876 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1572C762C3A3BB900A2A876 /* Constant.swift */; };
 		E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */; };
 		E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */; };
 		E18B7E642C05E6A700C94FFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E632C05E6A700C94FFD /* Assets.xcassets */; };
@@ -61,11 +61,11 @@
 		E118620B2C190D3F00C423D3 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		E118620D2C190EE900C423D3 /* Extension + Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Encodable.swift"; sourceTree = "<group>"; };
 		E11862112C1BAC3000C423D3 /* BusPositionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusPositionAPI.swift; sourceTree = "<group>"; };
-		E1201AF02C2D2B79005DDE24 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = Ijjeuminga/Util/Constants/Constant.swift; sourceTree = SOURCE_ROOT; };
 		E1201B022C326AFF005DDE24 /* LocationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataManager.swift; sourceTree = "<group>"; };
 		E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BustRouteInfoAPI.swift; sourceTree = "<group>"; };
 		E144D37F2C3528B500483B9A /* Extension + UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIImage.swift"; sourceTree = "<group>"; };
 		E144D3812C369B2200483B9A /* DestinationSearchedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSearchedTableViewCell.swift; sourceTree = "<group>"; };
+		E1572C762C3A3BB900A2A876 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = Ijjeuminga/Util/Constant.swift; sourceTree = SOURCE_ROOT; };
 		E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ijjeuminga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18B7E5A2C05E6A500C94FFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -169,20 +169,20 @@
 			path = api;
 			sourceTree = "<group>";
 		};
-		E1201AF22C2D2B7D005DDE24 /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				E1201AF02C2D2B79005DDE24 /* Constant.swift */,
-			);
-			path = Constants;
-			sourceTree = "<group>";
-		};
 		E1201B012C326AEA005DDE24 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				E1201B022C326AFF005DDE24 /* LocationDataManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		E1572C732C3A3B8D00A2A876 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				E1572C762C3A3BB900A2A876 /* Constant.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		E18B7E4E2C05E6A500C94FFD = {
@@ -246,8 +246,8 @@
 		E18B7E752C05E8DD00C94FFD /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				E1572C732C3A3B8D00A2A876 /* Constants */,
 				E1201B012C326AEA005DDE24 /* Managers */,
-				E1201AF22C2D2B7D005DDE24 /* Constants */,
 				E11862092C19083900C423D3 /* Log.swift */,
 				9FD4916E2C0F0D0D00445C45 /* Extension */,
 				E118620B2C190D3F00C423D3 /* Parameters.swift */,
@@ -371,10 +371,10 @@
 				9FD491682C0F097000445C45 /* TestViewController.swift in Sources */,
 				E11861C62C142DB600C423D3 /* Extension + Color.swift in Sources */,
 				E144D3802C3528B500483B9A /* Extension + UIImage.swift in Sources */,
+				E1572C772C3A3BB900A2A876 /* Constant.swift in Sources */,
 				9FD4916D2C0F0C0900445C45 /* Extension + UIView.swift in Sources */,
 				E11861C42C141E5600C423D3 /* Extension + UITextField.swift in Sources */,
 				E11862122C1BAC3000C423D3 /* BusPositionAPI.swift in Sources */,
-				E1201AF12C2D2B79005DDE24 /* Constant.swift in Sources */,
 				9FD4916D2C0F0C0900445C45 /* Extension + UIView.swift in Sources */,
 				E118620E2C190EE900C423D3 /* Extension + Encodable.swift in Sources */,
 				9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */,

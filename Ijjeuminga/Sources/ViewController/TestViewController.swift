@@ -89,7 +89,8 @@ final class TestViewController: BaseViewController {
                 let navBackButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
                 navBackButtonItem.tintColor = .black
                 self?.navigationItem.backBarButtonItem = navBackButtonItem
-                let destinationVC = DestinationViewController()
+                let viewModel = DestinationViewModel()
+                let destinationVC = DestinationViewController(viewModel: viewModel)
                 self?.navigationController?.pushViewController(destinationVC, animated: true)
             }
             .disposed(by: disposeBag)
