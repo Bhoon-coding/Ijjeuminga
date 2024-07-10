@@ -30,17 +30,16 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
             currentStationStackView.isHidden = isSearched
         }
     }
-    private let locationDataManager = LocationDataManager()
+//    private let locationDataManager = LocationDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        fetchStationByRoute()
-//        bind()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        locationDataManager.requestLocationAuth()
+//        locationDataManager.requestLocationAuth()
     }
     
     private func configureTableView() {
@@ -53,10 +52,6 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
             DestinationTableViewCell.self,
             forCellReuseIdentifier: DestinationTableViewCell.identifier
         )
-        
-        DispatchQueue.main.async {
-            self.busStationTableView.reloadData()
-        }
     }
     
     override func bind() {
@@ -73,13 +68,13 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     
     @objc 
     private func tapCurrentStation() {
-        let nearestStationIndex: Int = locationDataManager.nearestStationIndex
+//        let nearestStationIndex: Int = locationDataManager.nearestStationIndex
         
-        busStationTableView.scrollToRow(
-            at: IndexPath(row: nearestStationIndex, section: 0),
-            at: .middle,
-            animated: true
-        )
+//        busStationTableView.scrollToRow(
+//            at: IndexPath(row: nearestStationIndex, section: 0),
+//            at: .middle,
+//            animated: true
+//        )
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -190,7 +185,6 @@ extension DestinationViewController: UITableViewDelegate {
 
 extension DestinationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return isSearched ? self.filteredStationList.count : self.stationRouteItemList.count
         return dataList.count
     }
     
@@ -204,17 +198,9 @@ extension DestinationViewController: UITableViewDataSource {
             ) as? DestinationSearchedTableViewCell else {
                 return UITableViewCell()
             }
-            
-//            let station = filteredStationList[indexPath.row]
-//            let stationSequence = station.seq ?? "0"
-//            let nextStationIndex: Int = Int(stationSequence) ?? 0
-//            let isLastStation = nextStationIndex == stationRouteItemList.count
-//            let nextStation: String? = isLastStation
-//            ? nil
-//            : stationRouteItemList[nextStationIndex].stationNm
-            
-//            filteredStationCell.setupCell(with: station, nextStation)
-//            filteredStationCell.configureCell(data: <#T##DestinationTableData?#>)
+
+            let station = dataList[indexPath.row]
+            filteredStationCell.configureCell(data: station)
             
             cell = filteredStationCell
         } else {
@@ -243,7 +229,14 @@ extension DestinationViewController: UISearchBarDelegate {
             return
         }
         isSearched = true
-        viewModel.input?.searchText.onNext(searchText)
+        searchBar.rx.text.orEmpty
+            .debounce(.microseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe { [weak self] in
+                self?.viewModel.input?.searchText.onNext($0)
+            }
+            .disposed(by: viewDisposeBag)
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -251,7 +244,6 @@ extension DestinationViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        isSearched = false
         busStationSearchBar.resignFirstResponder()
     }
 }

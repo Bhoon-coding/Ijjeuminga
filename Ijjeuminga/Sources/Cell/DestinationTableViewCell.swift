@@ -92,6 +92,8 @@ final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, I
     }
     
     override func configureCell(data: (DestinationTableData, Int)?) {
+        // MARK: - super 안해도 되나?
+//        super.configureCell(data: data)
         guard let (data, index) = data else { return }
         
         switch data {

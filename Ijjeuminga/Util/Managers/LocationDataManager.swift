@@ -17,8 +17,6 @@ final class LocationDataManager: NSObject {
         locationManager.delegate = self
     }
     
-    deinit { }
-    
     func requestLocationAuth() {
         guard locationManager.authorizationStatus == .notDetermined else { return }
         locationManager.requestAlwaysAuthorization()

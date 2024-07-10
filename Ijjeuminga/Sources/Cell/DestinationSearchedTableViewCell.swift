@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DestinationSearchedTableViewCell: BaseTableViewCell<UITableViewCell> {
+class DestinationSearchedTableViewCell: BaseTableViewCell<DestinationTableData> {
 
     static let identifier: String = "DestinationSearchedTableViewCell"
     
@@ -58,9 +58,16 @@ class DestinationSearchedTableViewCell: BaseTableViewCell<UITableViewCell> {
         ])
     }
     
-    internal func setupCell(with station: Rest.BusRouteInfo.ItemList, _ nextStation: String?) {
-        self.busStationLabel.text = station.stationNm
-        self.nextBusStationLabel.text = (nextStation ?? "종점") + " 방향"
+    override func configureCell(data: DestinationTableData?) {
+        
+        guard let data = data else { return }
+        switch data {
+        case .searchResult(let station, let nextStation):
+            self.busStationLabel.text = station.stationNm
+            self.nextBusStationLabel.text = nextStation
+        case .stationResult:
+            break
+        }
     }
 
 }
