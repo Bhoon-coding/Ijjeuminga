@@ -11,13 +11,12 @@ import RxSwift
 
 class DestinationViewModelInput: BaseViewModelInput {
     let searchText = PublishSubject<String>()
-    let currentPosition = PublishSubject<Int>()
-    
+    let currentPosTapped = PublishSubject<Bool>()
 }
 
 class DestinationViewModelOutput: BaseViewModelOutput {
     let tableData = PublishSubject<[DestinationTableData]>()
-    let nearestIndex = PublishSubject<Int>()
+    let currentPosIndex = PublishSubject<Int>()
 }
 
 class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
@@ -32,8 +31,8 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
             initEvent()
         }
     }
-    
-    
+
+    private var currentPosIndex: Int = -1
     private var stationList: [Rest.BusRouteInfo.ItemList] = []
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
     
@@ -57,10 +56,18 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
             }
             .disposed(by: viewDisposeBag)
         
+        input.currentPosTapped
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                self.output.currentPosIndex.onNext(self.currentPosIndex)
+            }
+            .disposed(by: viewDisposeBag)
+        
         // TODO: [] viewModel의 input 형태로 만들어야 하나?
-        locationDataManager.output.nearestStationIdx
+        locationDataManager.output.nearestIndex
             .subscribe { [weak self] nearIndex in
                 guard let self = self else { return }
+                self.currentPosIndex = nearIndex
                 createDataList(with: stationList, at: nearIndex)
             }
             .disposed(by: viewDisposeBag)

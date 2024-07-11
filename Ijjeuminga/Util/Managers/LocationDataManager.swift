@@ -24,7 +24,7 @@ final class LocationDataManager: NSObject, LocationDataManageable {
     
     struct Output {
         fileprivate init() { }
-        var nearestStationIdx = PublishSubject<Int>()
+        var nearestIndex = PublishSubject<Int>()
     }
     
     let input = Input()
@@ -99,7 +99,7 @@ extension LocationDataManager: CLLocationManagerDelegate {
         
         if let minDistance = distances.min(), let nearestIndex = distances.firstIndex(of: minDistance) {
             print("가장 가까운 정류장: \(stations[nearestIndex])")
-            self.output.nearestStationIdx.onNext(nearestIndex)
+            self.output.nearestIndex.onNext(nearestIndex)
             locationManager.stopUpdatingLocation()
         } else {
             print("No distances calculated.")

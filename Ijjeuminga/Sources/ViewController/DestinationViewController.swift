@@ -55,7 +55,7 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
                 self?.busStationTableView.reloadData()
             }.disposed(by: viewDisposeBag)
         
-        self.viewModel.output.nearestIndex
+        self.viewModel.output.currentPosIndex
             .observe(on: MainScheduler.instance)
             .subscribe { [weak self] in
                 self?.busStationTableView.scrollToRow(
@@ -69,7 +69,8 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     
     @objc 
     private func tapCurrentStation() {
-        viewModel.input?.currentPosition.onNext(0)
+        // TODO: [] stackView가 tap 되는걸 감지하려고 하는데 onNext로 어떤걸 넘겨야할지..?
+        viewModel.input?.currentPosTapped.onNext(true)
 //        let nearestStationIndex: Int = locationDataManager.nearestStationIndex
         
 //        busStationTableView.scrollToRow(
