@@ -40,6 +40,7 @@
 		E18B7E642C05E6A700C94FFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E632C05E6A700C94FFD /* Assets.xcassets */; };
 		E18B7E672C05E6A700C94FFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E652C05E6A700C94FFD /* LaunchScreen.storyboard */; };
 		E1EEB6A72C115262009F7273 /* DestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EEB6A62C115262009F7273 /* DestinationViewController.swift */; };
+		E1F0FC412C3FB58C002B75EC /* Extension + Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0FC402C3FB58C002B75EC /* Extension + Collection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,7 @@
 		E18B7E662C05E6A700C94FFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E18B7E682C05E6A700C94FFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1EEB6A62C115262009F7273 /* DestinationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewController.swift; sourceTree = "<group>"; };
+		E1F0FC402C3FB58C002B75EC /* Extension + Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Collection.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				E11861C52C142DB600C423D3 /* Extension + Color.swift */,
 				E118620D2C190EE900C423D3 /* Extension + Encodable.swift */,
 				E144D37F2C3528B500483B9A /* Extension + UIImage.swift */,
+				E1F0FC402C3FB58C002B75EC /* Extension + Collection.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				9FD4916D2C0F0C0900445C45 /* Extension + UIView.swift in Sources */,
 				E11861C42C141E5600C423D3 /* Extension + UITextField.swift in Sources */,
 				E11862122C1BAC3000C423D3 /* BusPositionAPI.swift in Sources */,
+				E1F0FC412C3FB58C002B75EC /* Extension + Collection.swift in Sources */,
 				9FD4916D2C0F0C0900445C45 /* Extension + UIView.swift in Sources */,
 				E118620E2C190EE900C423D3 /* Extension + Encodable.swift in Sources */,
 				9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */,
@@ -531,7 +535,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R4G74AF442;
+				DEVELOPMENT_TEAM = H84YUCF7F5;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ijjeuminga/Resources/Info.plist;
@@ -561,7 +565,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R4G74AF442;
+				DEVELOPMENT_TEAM = H84YUCF7F5;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ijjeuminga/Resources/Info.plist;

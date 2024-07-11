@@ -89,7 +89,8 @@ final class TestViewController: BaseViewController {
                 let navBackButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
                 navBackButtonItem.tintColor = .black
                 self?.navigationItem.backBarButtonItem = navBackButtonItem
-                let viewModel = DestinationViewModel()
+                let locationDataManager = LocationDataManager()
+                let viewModel = DestinationViewModel(locationDataManager: locationDataManager)
                 let destinationVC = DestinationViewController(viewModel: viewModel)
                 self?.navigationController?.pushViewController(destinationVC, animated: true)
             }

@@ -11,43 +11,57 @@ import RxSwift
 
 class DestinationViewModelInput: BaseViewModelInput {
     let searchText = PublishSubject<String>()
+    let currentPosition = PublishSubject<Int>()
+    
 }
 
 class DestinationViewModelOutput: BaseViewModelOutput {
     let tableData = PublishSubject<[DestinationTableData]>()
+    let nearestIndex = PublishSubject<Int>()
 }
 
 class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
+    var locationDataManager: LocationDataManageable
+    
+    init(locationDataManager: LocationDataManageable) {
+        self.locationDataManager = locationDataManager
+    }
+    
     var input: DestinationViewModelInput? {
         didSet {
             initEvent()
         }
     }
     
-    private var isSearched: Bool = false // TODO: [] createDataList() 구현부를 분기처리할때 사용하는데 isSearched를 viewModel, VC 둘중 하나만 사용할순 없을까
-    private let locationDataManager = LocationDataManager()
-    private var stationRouteItemList: [Rest.BusRouteInfo.ItemList] = []
+    
+    private var stationList: [Rest.BusRouteInfo.ItemList] = []
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
     
     private func initEvent() {
         guard let input = input else { return }
-        locationDataManager.requestLocationAuth()
         fetchStationByRoute()
+        locationDataManager.requestLocationAuth()
         
         input.searchText
             .subscribe { [weak self] textInput in
                 guard let self = self, let text = textInput.element else { return }
                 guard !text.isEmpty else {
-                    self.isSearched = false
                     fetchStationByRoute()
                     return
                 }
-                self.isSearched = true
-                self.filteredStationList = stationRouteItemList.filter {
-                    let stationName = $0.stationNm ?? "알 수 없는 정류장"
+                self.filteredStationList = stationList.filter {
+                    let stationName = $0.stationNm ?? ""
                     return stationName.contains(text)
                 }
-                createDataList(with: filteredStationList)
+                createFilteredDataList(with: filteredStationList)
+            }
+            .disposed(by: viewDisposeBag)
+        
+        // TODO: [] viewModel의 input 형태로 만들어야 하나?
+        locationDataManager.output.nearestStationIdx
+            .subscribe { [weak self] nearIndex in
+                guard let self = self else { return }
+                createDataList(with: stationList, at: nearIndex)
             }
             .disposed(by: viewDisposeBag)
     }
@@ -56,10 +70,9 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
         BusRouteInfoAPIService()
             .getStaionByRoute(with: "100100124")
             .subscribe { [weak self] res in
-                guard let resStationRouteList = res.msgBody.itemList else { return }
-                self?.stationRouteItemList = resStationRouteList
-                self?.createDataList(with: resStationRouteList)
-
+                guard let stationList = res.msgBody.itemList else { return }
+                self?.stationList = stationList
+                self?.locationDataManager.input.stations.onNext(stationList)
             } onFailure: { error in
                 print("error: \(error.localizedDescription)")
 
@@ -67,34 +80,34 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
             .disposed(by: disposeBag)
     }
     
-    func createDataList(with list: [Rest.BusRouteInfo.ItemList]) {
-        var newList: [DestinationTableData]
-        
-        if self.isSearched {
-            newList = list.compactMap { item in
-                guard let stationName = item.stationNm,
-                      let sequence = item.seq,
-                      let seqInt = Int(sequence)
-                else {
-                    return nil
-                }
-                let nextItem = stationRouteItemList.count > seqInt
-                ? "\(stationRouteItemList[seqInt].stationNm!) 방향" // TODO: [] forced(!) 말고 다른방법?
-                : "종점"
-                return DestinationTableData.searchResult(
-                    station: item,
-                    nextStation: nextItem
-                )
-            }
-        } else {
-            newList = list.enumerated().map { index, itemList in
-                return DestinationTableData.stationResult(
-                    station: itemList,
-                    isLast: index == list.count - 1,
-                    nearestStationIndex: locationDataManager.nearestStationIndex
-                )
-            }
+    func createDataList(with list: [Rest.BusRouteInfo.ItemList], at nearIndex: Int) {
+        let newList = list.enumerated().map { index, itemList in
+            return DestinationTableData.stationResult(
+                station: itemList,
+                isLast: index == list.count - 1,
+                nearestIndex: nearIndex
+            )
         }
+        
+        output.tableData.onNext(newList)
+    }
+    
+    func createFilteredDataList(with list: [Rest.BusRouteInfo.ItemList]) {
+        let newList: [DestinationTableData] = list.compactMap { item in
+            guard let seqString = item.seq, let seq = Int(seqString),
+                  let stationName = stationList[safe: seq]?.stationNm
+            else {
+                return nil
+            }
+            let nextItem = stationList.count > seq
+            ? "\(stationName) 방향"
+            : "종점"
+            return DestinationTableData.searchResult(
+                station: item,
+                nextStation: nextItem
+            )
+        }
+        
         output.tableData.onNext(newList)
     }
 }
@@ -102,7 +115,7 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
 enum DestinationTableData {
     
     case searchResult(station: Rest.BusRouteInfo.ItemList, nextStation: String)
-    case stationResult(station: Rest.BusRouteInfo.ItemList, isLast: Bool, nearestStationIndex: Int)
+    case stationResult(station: Rest.BusRouteInfo.ItemList, isLast: Bool, nearestIndex: Int)
     
 }
 

@@ -92,19 +92,18 @@ final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, I
     }
     
     override func configureCell(data: (DestinationTableData, Int)?) {
-        // MARK: - super 안해도 되나?
-//        super.configureCell(data: data)
+        // MARK: - super 안해도 되는지?
         guard let (data, index) = data else { return }
         
         switch data {
         case .searchResult:
             break
-        case .stationResult(let station, let isLast, let nearestStationIndex):
+        case .stationResult(let station, let isLast, let nearestIndex):
             directionTopLine.isHidden = index == 0
             directionBottomLine.isHidden = isLast
             busStationLabel.text = station.stationNm
-            currentPositionIcon.isHidden = nearestStationIndex != index
-            directionIcon.isHidden = nearestStationIndex == index
+            currentPositionIcon.isHidden = index != nearestIndex
+            directionIcon.isHidden = index == nearestIndex
         }
     }
 }

@@ -19,10 +19,7 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     private weak var currentStationLabel: UILabel!
     private weak var busStationTableView: UITableView!
     
-    
     private var dataList: [DestinationTableData] = []
-    // TODO: [] 아래 프로퍼티 viewModel에서 처리
-    private var stationRouteSubject = PublishSubject<[Rest.BusRouteInfo.ItemList]>()
     
     private var isSearched: Bool = false {
         didSet {
@@ -30,16 +27,10 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
             currentStationStackView.isHidden = isSearched
         }
     }
-//    private let locationDataManager = LocationDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        locationDataManager.requestLocationAuth()
     }
     
     private func configureTableView() {
@@ -64,14 +55,25 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
                 self?.busStationTableView.reloadData()
             }.disposed(by: viewDisposeBag)
         
+        self.viewModel.output.nearestIndex
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] in
+                self?.busStationTableView.scrollToRow(
+                    at: IndexPath(row: $0, section: 0),
+                    at: .middle,
+                    animated: true
+                )
+            }.disposed(by: viewDisposeBag)
+        
     }
     
     @objc 
     private func tapCurrentStation() {
+        viewModel.input?.currentPosition.onNext(0)
 //        let nearestStationIndex: Int = locationDataManager.nearestStationIndex
         
 //        busStationTableView.scrollToRow(
-//            at: IndexPath(row: nearestStationIndex, section: 0),
+//            at: IndexPath(row: viewModel.output.nearestIndex, section: 0),
 //            at: .middle,
 //            animated: true
 //        )
@@ -229,6 +231,8 @@ extension DestinationViewController: UISearchBarDelegate {
             return
         }
         isSearched = true
+        
+        // TODO: [] rx를 쓰는게 맞는지
         searchBar.rx.text.orEmpty
             .debounce(.microseconds(500), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
@@ -236,6 +240,9 @@ extension DestinationViewController: UISearchBarDelegate {
                 self?.viewModel.input?.searchText.onNext($0)
             }
             .disposed(by: viewDisposeBag)
+        
+        // TODO: [] 그냥 input으로 보내면 되는지?
+//        viewModel.input?.searchText.onNext(searchText)
         
     }
     
