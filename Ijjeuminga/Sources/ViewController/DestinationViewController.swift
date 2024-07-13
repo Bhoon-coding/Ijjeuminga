@@ -47,7 +47,6 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     
     override func bind() {
         super.bind()
-        self.viewModel.input = DestinationViewModelInput()
         self.viewModel.output.tableData
             .observe(on: MainScheduler.instance)
             .subscribe { [weak self] in
@@ -65,19 +64,16 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
                 )
             }.disposed(by: viewDisposeBag)
         
+        self.busStationSearchBar.rx.text.orEmpty
+            .debounce(.microseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .bind(to: self.viewModel.input.searchText)
+            .disposed(by: viewDisposeBag)
     }
     
     @objc 
     private func tapCurrentStation() {
-        // TODO: [] stackView가 tap 되는걸 감지하려고 하는데 onNext로 어떤걸 넘겨야할지..?
-        viewModel.input?.currentPosTapped.onNext(true)
-//        let nearestStationIndex: Int = locationDataManager.nearestStationIndex
-        
-//        busStationTableView.scrollToRow(
-//            at: IndexPath(row: viewModel.output.nearestIndex, section: 0),
-//            at: .middle,
-//            animated: true
-//        )
+        viewModel.input.currentPosTapped.onNext(())
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -194,7 +190,9 @@ extension DestinationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell = .init()
         
-        if isSearched {
+        guard let item = dataList[safe: indexPath.row] else { return UITableViewCell() }
+        switch item {
+        case .searchResult(station: let station, nextStation: let nextStation):
             guard let filteredStationCell = busStationTableView.dequeueReusableCell(
                 withIdentifier: DestinationSearchedTableViewCell.identifier,
                 for: indexPath
@@ -202,19 +200,19 @@ extension DestinationViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
 
-            let station = dataList[indexPath.row]
-            filteredStationCell.configureCell(data: station)
+            filteredStationCell.configureCell(data: item)
             
             cell = filteredStationCell
-        } else {
+            
+        case .stationResult(station: let station, isLast: let isLast, nearestIndex: let nearestIndex):
             guard let busStationCell = busStationTableView.dequeueReusableCell(
                 withIdentifier: DestinationTableViewCell.identifier,
                 for: indexPath
             ) as? DestinationTableViewCell else {
                 return UITableViewCell()
             }
-            let station = dataList[indexPath.row]
-            busStationCell.configureCell(data: (station, indexPath.row))
+            
+            busStationCell.configureCell(data: (item, indexPath.row))
             
             cell = busStationCell
         }
@@ -232,19 +230,6 @@ extension DestinationViewController: UISearchBarDelegate {
             return
         }
         isSearched = true
-        
-        // TODO: [] rx를 쓰는게 맞는지
-        searchBar.rx.text.orEmpty
-            .debounce(.microseconds(500), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .subscribe { [weak self] in
-                self?.viewModel.input?.searchText.onNext($0)
-            }
-            .disposed(by: viewDisposeBag)
-        
-        // TODO: [] 그냥 input으로 보내면 되는지?
-//        viewModel.input?.searchText.onNext(searchText)
-        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

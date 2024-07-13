@@ -11,7 +11,7 @@ import RxSwift
 
 class DestinationViewModelInput: BaseViewModelInput {
     let searchText = PublishSubject<String>()
-    let currentPosTapped = PublishSubject<Bool>()
+    let currentPosTapped = PublishSubject<Void>()
 }
 
 class DestinationViewModelOutput: BaseViewModelOutput {
@@ -20,26 +20,16 @@ class DestinationViewModelOutput: BaseViewModelOutput {
 }
 
 class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
-    var locationDataManager: LocationDataManageable
     
-    init(locationDataManager: LocationDataManageable) {
-        self.locationDataManager = locationDataManager
-    }
-    
-    var input: DestinationViewModelInput? {
-        didSet {
-            initEvent()
-        }
-    }
+    let input = DestinationViewModelInput()
 
     private var currentPosIndex: Int = -1
     private var stationList: [Rest.BusRouteInfo.ItemList] = []
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
     
-    private func initEvent() {
-        guard let input = input else { return }
+    override func attachView() {
         fetchStationByRoute()
-        locationDataManager.requestLocationAuth()
+        LocationDataManager.shared.requestLocationAuth()
         
         input.searchText
             .subscribe { [weak self] textInput in
@@ -62,15 +52,6 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
                 self.output.currentPosIndex.onNext(self.currentPosIndex)
             }
             .disposed(by: viewDisposeBag)
-        
-        // TODO: [] viewModel의 input 형태로 만들어야 하나?
-        locationDataManager.output.nearestIndex
-            .subscribe { [weak self] nearIndex in
-                guard let self = self else { return }
-                self.currentPosIndex = nearIndex
-                createDataList(with: stationList, at: nearIndex)
-            }
-            .disposed(by: viewDisposeBag)
     }
     
     private func fetchStationByRoute() {
@@ -79,12 +60,22 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
             .subscribe { [weak self] res in
                 guard let stationList = res.msgBody.itemList else { return }
                 self?.stationList = stationList
-                self?.locationDataManager.input.stations.onNext(stationList)
+                self?.getCurrentPosition(stationList: stationList)
             } onFailure: { error in
                 print("error: \(error.localizedDescription)")
 
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func getCurrentPosition(stationList: [Rest.BusRouteInfo.ItemList]) {
+        LocationDataManager.shared.compareLocation(to: stationList)
+            .subscribe { [weak self] nearestIndex in
+                guard let self = self else { return }
+                self.currentPosIndex = nearestIndex
+                createDataList(with: stationList, at: nearestIndex)
+            }
+            .disposed(by: viewDisposeBag)
     }
     
     func createDataList(with list: [Rest.BusRouteInfo.ItemList], at nearIndex: Int) {

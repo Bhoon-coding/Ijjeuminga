@@ -9,43 +9,18 @@ import CoreLocation
 
 import RxSwift
 
-protocol LocationDataManageable {
-    var input: LocationDataManager.Input { get }
-    var output: LocationDataManager.Output { get }
-    func requestLocationAuth()
-}
-
-final class LocationDataManager: NSObject, LocationDataManageable {
+class LocationDataManager: NSObject {
     
-    struct Input { // 여긴 왜 구조체? (VC는 클래스다 -> BaseViewModelInput을 상속받고 있어서?)
-        fileprivate init() { }
-        var stations = PublishSubject<[Rest.BusRouteInfo.ItemList]>()
+    static let shared = LocationDataManager()
+    private override init() {
+        super.init()
+        locationManager.delegate = self
     }
-    
-    struct Output {
-        fileprivate init() { }
-        var nearestIndex = PublishSubject<Int>()
-    }
-    
-    let input = Input()
-    let output = Output()
     
     private let locationManager = CLLocationManager()
     private var lastLocation: CLLocation?
     
     let disposeBag = DisposeBag()
-    
-    override init() {
-        super.init()
-        locationManager.delegate = self
-        
-        self.input.stations
-            .subscribe { [weak self] stations in
-                guard let self = self, let lastLocation = self.lastLocation else { return }
-                self.compareLocation(with: lastLocation, to: stations)
-            }
-            .disposed(by: disposeBag)
-    }
     
     func requestLocationAuth() {
         guard locationManager.authorizationStatus == .notDetermined else { return }
@@ -84,13 +59,14 @@ extension LocationDataManager: CLLocationManagerDelegate {
         self.lastLocation = lastLocation
     }
     
-    func compareLocation(with currentLocation: CLLocation, to stations: [Rest.BusRouteInfo.ItemList]) {
+    func compareLocation(to stations: [Rest.BusRouteInfo.ItemList]) -> Observable<Int> {
         // TODO: [] 현재 거리와 500m ~ 1km 차이나는 정류장을 현재정류장으로 보여지게 해야함
+        guard let currentLocation = self.lastLocation else { return .empty() }
         var distances: [CLLocationDistance] = []
         for station in stations {
             guard let gpsX = station.gpsX, let gpsY = station.gpsY else {
                 print("stations 데이터가 없음")
-                return
+                return .empty()
             }
             let stationLocation = CLLocation(latitude: Double(gpsY)!, longitude: Double(gpsX)!)
             let distance = currentLocation.distance(from: stationLocation)
@@ -99,11 +75,12 @@ extension LocationDataManager: CLLocationManagerDelegate {
         
         if let minDistance = distances.min(), let nearestIndex = distances.firstIndex(of: minDistance) {
             print("가장 가까운 정류장: \(stations[nearestIndex])")
-            self.output.nearestIndex.onNext(nearestIndex)
             locationManager.stopUpdatingLocation()
+            return .just(nearestIndex)
         } else {
             print("No distances calculated.")
         }
+        return .empty()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
