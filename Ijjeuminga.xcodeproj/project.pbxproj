@@ -41,7 +41,18 @@
 		E18B7E672C05E6A700C94FFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E652C05E6A700C94FFD /* LaunchScreen.storyboard */; };
 		E1EEB6A72C115262009F7273 /* DestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EEB6A62C115262009F7273 /* DestinationViewController.swift */; };
 		E1F0FC412C3FB58C002B75EC /* Extension + Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0FC402C3FB58C002B75EC /* Extension + Collection.swift */; };
+		E1F0FC4D2C437444002B75EC /* IjjeumingaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0FC4C2C437444002B75EC /* IjjeumingaTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1F0FC4E2C437444002B75EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E18B7E4F2C05E6A500C94FFD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E18B7E562C05E6A500C94FFD;
+			remoteInfo = Ijjeuminga;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		9F0F6FAA2C0C07C500E236A5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +86,9 @@
 		E18B7E682C05E6A700C94FFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1EEB6A62C115262009F7273 /* DestinationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewController.swift; sourceTree = "<group>"; };
 		E1F0FC402C3FB58C002B75EC /* Extension + Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Collection.swift"; sourceTree = "<group>"; };
+		E1F0FC4A2C437444002B75EC /* IjjeumingaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IjjeumingaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1F0FC4C2C437444002B75EC /* IjjeumingaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IjjeumingaTests.swift; sourceTree = "<group>"; };
+		E1F0FC542C451090002B75EC /* KoreaTempLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = KoreaTempLocation.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +101,13 @@
 				E1201B1F2C3276B5005DDE24 /* RxBlocking in Frameworks */,
 				E1201B212C3276B5005DDE24 /* RxCocoa in Frameworks */,
 				E1201AFA2C2D4A1C005DDE24 /* SwiftyJSON in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1F0FC472C437444002B75EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,8 +212,9 @@
 		E18B7E4E2C05E6A500C94FFD = {
 			isa = PBXGroup;
 			children = (
-				9F26991D2C1543A500996F5F /* .swiftlint.yml */,
 				E18B7E592C05E6A500C94FFD /* Ijjeuminga */,
+				9F26991D2C1543A500996F5F /* .swiftlint.yml */,
+				E1F0FC4B2C437444002B75EC /* IjjeumingaTests */,
 				E18B7E582C05E6A500C94FFD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -201,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */,
+				E1F0FC4A2C437444002B75EC /* IjjeumingaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -249,6 +272,7 @@
 		E18B7E752C05E8DD00C94FFD /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				E1F0FC532C451078002B75EC /* Gpx */,
 				E1572C732C3A3B8D00A2A876 /* Constants */,
 				E1201B012C326AEA005DDE24 /* Managers */,
 				E11862092C19083900C423D3 /* Log.swift */,
@@ -257,6 +281,22 @@
 			);
 			name = Util;
 			path = ../Util;
+			sourceTree = "<group>";
+		};
+		E1F0FC4B2C437444002B75EC /* IjjeumingaTests */ = {
+			isa = PBXGroup;
+			children = (
+				E1F0FC4C2C437444002B75EC /* IjjeumingaTests.swift */,
+			);
+			path = IjjeumingaTests;
+			sourceTree = "<group>";
+		};
+		E1F0FC532C451078002B75EC /* Gpx */ = {
+			isa = PBXGroup;
+			children = (
+				E1F0FC542C451090002B75EC /* KoreaTempLocation.gpx */,
+			);
+			path = Gpx;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,6 +327,24 @@
 			productReference = E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E1F0FC492C437444002B75EC /* IjjeumingaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1F0FC502C437444002B75EC /* Build configuration list for PBXNativeTarget "IjjeumingaTests" */;
+			buildPhases = (
+				E1F0FC462C437444002B75EC /* Sources */,
+				E1F0FC472C437444002B75EC /* Frameworks */,
+				E1F0FC482C437444002B75EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E1F0FC4F2C437444002B75EC /* PBXTargetDependency */,
+			);
+			name = IjjeumingaTests;
+			productName = IjjeumingaTests;
+			productReference = E1F0FC4A2C437444002B75EC /* IjjeumingaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -299,6 +357,10 @@
 				TargetAttributes = {
 					E18B7E562C05E6A500C94FFD = {
 						CreatedOnToolsVersion = 15.2;
+					};
+					E1F0FC492C437444002B75EC = {
+						CreatedOnToolsVersion = 15.2;
+						TestTargetID = E18B7E562C05E6A500C94FFD;
 					};
 				};
 			};
@@ -321,6 +383,7 @@
 			projectRoot = "";
 			targets = (
 				E18B7E562C05E6A500C94FFD /* Ijjeuminga */,
+				E1F0FC492C437444002B75EC /* IjjeumingaTests */,
 			);
 		};
 /* End PBXProject section */
@@ -333,6 +396,13 @@
 				9F26991E2C1543A500996F5F /* .swiftlint.yml in Resources */,
 				E18B7E672C05E6A700C94FFD /* LaunchScreen.storyboard in Resources */,
 				E18B7E642C05E6A700C94FFD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1F0FC482C437444002B75EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,7 +465,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E1F0FC462C437444002B75EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1F0FC4D2C437444002B75EC /* IjjeumingaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1F0FC4F2C437444002B75EC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E18B7E562C05E6A500C94FFD /* Ijjeuminga */;
+			targetProxy = E1F0FC4E2C437444002B75EC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E18B7E652C05E6A700C94FFD /* LaunchScreen.storyboard */ = {
@@ -589,6 +675,42 @@
 			};
 			name = Release;
 		};
+		E1F0FC512C437444002B75EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R4G74AF442;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ijjeuminga.IjjeumingaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ijjeuminga.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Ijjeuminga";
+			};
+			name = Debug;
+		};
+		E1F0FC522C437444002B75EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R4G74AF442;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ijjeuminga.IjjeumingaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ijjeuminga.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Ijjeuminga";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -606,6 +728,15 @@
 			buildConfigurations = (
 				E18B7E6C2C05E6A700C94FFD /* Debug */,
 				E18B7E6D2C05E6A700C94FFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E1F0FC502C437444002B75EC /* Build configuration list for PBXNativeTarget "IjjeumingaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1F0FC512C437444002B75EC /* Debug */,
+				E1F0FC522C437444002B75EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
