@@ -177,6 +177,22 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
 extension DestinationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         busStationSearchBar.resignFirstResponder()
+        
+        showRouteGuidePopup(dataList[indexPath.row])
+    }
+    
+    private func showRouteGuidePopup(_ station: DestinationTableData) {
+        let routeGuidePopup = CustomAlertController()
+            .setTitleMessage("안내를 시작할까요?")
+            .addaction("취소", .cancel)
+            .addaction("시작", .default) { _ in
+                // TODO: [] 선택된 정류소(station)정보 넘겨주기
+                print(station)
+            }
+            .setPreferredAction(action: .default)
+            .build()
+        
+        present(routeGuidePopup, animated: true)
     }
 }
 
