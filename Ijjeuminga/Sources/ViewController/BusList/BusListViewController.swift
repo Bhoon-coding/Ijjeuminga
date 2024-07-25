@@ -157,10 +157,13 @@ extension BusListViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BusListTableViewCell.identifier, for: indexPath) as? BusListTableViewCell else {return UITableViewCell()}
             let busInfo = self.recentSearchBusList[indexPath.row]
             cell.configureCell(data: BusInfo(busNumber: busInfo.busNumer ?? "", routeId: busInfo.routeId ?? "", type: Int(busInfo.type), lastDate: self.getCurrentDateString()))
+            cell.index = indexPath.row
+            cell.delegate = self
             cell.selectionStyle = .none
             return cell
         case self.searchListTableView:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BusListTableViewCell.identifier, for: indexPath) as? BusListTableViewCell else {return UITableViewCell()}
+            cell.isSearchCell = true
             let busInfo = self.searchedBusList[indexPath.row]
             cell.configureCell(data: BusInfo(busNumber: busInfo.busNumber, routeId: busInfo.routeId, type: Int(busInfo.type), lastDate: self.getCurrentDateString()))
             cell.selectionStyle = .none
@@ -173,8 +176,15 @@ extension BusListViewController: UITableViewDataSource {
 
 extension BusListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let busInfo = self.searchedBusList[indexPath.row]
-        CoreDataManager.shared.saveBusInfo(busNumber: busInfo.busNumber, routeId: busInfo.routeId, type: Int32(busInfo.type), lastDate: self.getCurrentDateString()) { result in
+        switch tableView {
+        case self.searchListTableView:
+            let busInfo = self.searchedBusList[indexPath.row]
+            CoreDataManager.shared.saveBusInfo(busNumber: busInfo.busNumber, routeId: busInfo.routeId, type: Int32(busInfo.type), lastDate: self.getCurrentDateString()) { result in
+            }
+        case self.recentSearchListTableView:
+            print("다음 페이지로 넘어가기")
+        default:
+            break
         }
     }
 }
@@ -189,6 +199,21 @@ extension BusListViewController: UITextFieldDelegate {
             self.recentSearchListTableView.isHidden = true
             self.searchListTableView.isHidden = false
             self.searchTitleLabel.text = "검색 결과"
+        }
+    }
+}
+
+extension BusListViewController: BusListTableViewCellDelegate {
+    func deleteButtonTapped(index: Int) {
+        let routeId = self.recentSearchBusList[index].routeId ?? ""
+        CoreDataManager.shared.deleteBusInfo(routeId: routeId) { result in
+            switch result {
+            case true:
+                self.recentSearchBusList.remove(at: index)
+                self.recentSearchListTableView.reloadData()
+            default:
+                print("fail")
+            }
         }
     }
 }

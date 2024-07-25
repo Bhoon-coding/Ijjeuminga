@@ -34,7 +34,6 @@ class OpenXlsx {
                 for workBook in try file.parseWorkbooks() {
                     for (name, path) in try file.parseWorksheetPathsAndNames(workbook: workBook) {
                         if let workSheetName = name {
-                            print(workSheetName)
                         }
                         
                         let workSheet = try file.parseWorksheet(at: path)

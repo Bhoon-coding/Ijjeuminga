@@ -8,12 +8,21 @@
 import Foundation
 import UIKit
 
+protocol BusListTableViewCellDelegate: AnyObject {
+    func deleteButtonTapped(index: Int)
+}
+
 class BusListTableViewCell: BaseTableViewCell<BusInfo> {
     
     static let identifier = "BusListTableViewCell"
     
     private weak var numberLabel: UILabel!
     private weak var typeLabel: UILabel!
+    private weak var deleteButton: UIButton!
+    
+    weak var delegate: BusListTableViewCellDelegate?
+    var index: Int = 0
+    var isSearchCell: Bool = false
     
     override func initView() {
         let numberLabel = UILabel()
@@ -28,6 +37,15 @@ class BusListTableViewCell: BaseTableViewCell<BusInfo> {
         typeLabel.textColor = UIColor(named: Color.grayCACACA)
         self.contentView.addSubview(typeLabel)
         self.typeLabel = typeLabel
+        
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(nil, for: .normal)
+        button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        button.tintColor = UIColor(named: Color.grayCACACA)
+        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        self.contentView.addSubview(button)
+        self.deleteButton = button
     }
     
     override func initConstraint() {
@@ -37,6 +55,9 @@ class BusListTableViewCell: BaseTableViewCell<BusInfo> {
         self.typeLabel.topAnchor.constraint(equalTo: self.numberLabel.bottomAnchor, constant: 4).isActive = true
         self.typeLabel.leadingAnchor.constraint(equalTo: self.numberLabel.leadingAnchor).isActive = true
         self.typeLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16).isActive = true
+        
+        self.deleteButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -24).isActive = true
+        self.deleteButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
     }
     
     override func configureCell(data: BusInfo?) {
@@ -63,5 +84,11 @@ class BusListTableViewCell: BaseTableViewCell<BusInfo> {
         default:
             break
         }
+        
+        self.deleteButton.isHidden = self.isSearchCell == true ? true : false
+    }
+    
+    @objc private func deleteButtonTapped() {
+        delegate?.deleteButtonTapped(index: self.index)
     }
 }

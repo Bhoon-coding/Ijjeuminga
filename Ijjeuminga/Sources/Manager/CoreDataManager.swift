@@ -37,23 +37,63 @@ struct CoreDataManager {
     }
     
     mutating func saveBusInfo(busNumber: String, routeId: String, type: Int32, lastDate: String, onSuccess: @escaping ((Bool) -> Void)) {
-        if let context = self.context, let entity = NSEntityDescription.entity(forEntityName: self.modelName, in: context) {
-            
-            if let bus: RecentBusInfo = NSManagedObject(entity: entity, insertInto: context) as? RecentBusInfo {
-                bus.busNumer = busNumber
-                bus.routeId = routeId
-                bus.type = type
-                bus.lastDate = lastDate
+        if !self.isBusExist(routeId: routeId) {
+            if let context = self.context, let entity = NSEntityDescription.entity(forEntityName: self.modelName, in: context) {
                 
-                self.contextSave { success in
-                    onSuccess(success)
+                if let bus: RecentBusInfo = NSManagedObject(entity: entity, insertInto: context) as? RecentBusInfo {
+                    bus.busNumer = busNumber
+                    bus.routeId = routeId
+                    bus.type = type
+                    bus.lastDate = lastDate
+                    
+                    self.contextSave { success in
+                        onSuccess(success)
+                    }
                 }
             }
+        } else {
+            self.updateBusInfo(routId: routeId)
         }
     }
     
-    mutating func deleteBusInfo(id: Int64, onSuccess: @escaping ((Bool) -> Void)) {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredRequest(id: id)
+    mutating func isBusExist(routeId: String) -> Bool {
+        let fetchRequest: NSFetchRequest<RecentBusInfo> = RecentBusInfo.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "routeId == %@", routeId)
+        
+        do {
+            let count = try context?.count(for: fetchRequest) ?? 0
+            return count > 0
+        } catch {
+            print("중복 검사 실패: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
+    mutating func updateBusInfo(routId: String) {
+        let fetchRequest: NSFetchRequest<RecentBusInfo> = RecentBusInfo.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "routeId == %@", routId)
+        
+        do {
+            let results = try context?.fetch(fetchRequest)
+            if let busUpdate = results?.first {
+                
+                let date = Date()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                                
+                busUpdate.lastDate = formatter.string(from: date)
+                
+                try context?.save()
+            } else {
+                print("")
+            }
+        } catch {
+            print("업데이트 실패: \(error.localizedDescription)")
+        }
+    }
+    
+    mutating func deleteBusInfo(routeId: String, onSuccess: @escaping ((Bool) -> Void)) {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredRequest(routeId: routeId)
         
         do {
             if let results: [NSManagedObject] = try context?.fetch(fetchRequest) as? [NSManagedObject] {
@@ -73,10 +113,10 @@ struct CoreDataManager {
 }
 
 extension CoreDataManager {
-    fileprivate func filteredRequest(id: Int64) -> NSFetchRequest<NSFetchRequestResult> {
+    fileprivate func filteredRequest(routeId: String) -> NSFetchRequest<NSFetchRequestResult> {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult>
             = NSFetchRequest<NSFetchRequestResult>(entityName: modelName)
-        fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+        fetchRequest.predicate = NSPredicate(format: "routeId = %@", routeId)
         return fetchRequest
     }
     
