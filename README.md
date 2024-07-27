@@ -1,3 +1,16 @@
+### TODO
+
+1. 컨벤션
+    - Color Asset 
+    - self. 
+    - string처리 
+    - final class
+
+2. Splash 화면
+
+
+---
+
 
 노션ID와 구간 정보로 차량들의 위치 정보 조회
 https://www.data.go.kr/data/15000332/openapi.do
