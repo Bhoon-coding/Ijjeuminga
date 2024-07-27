@@ -21,6 +21,13 @@ http://api.bus.go.kr/contents/sub02/getStaionByRoute.html
 특정차량 위치 정보 조회 
 http://api.bus.go.kr/contents/sub02/getBusPosByVehId.html
 
+## Trouble Shooting
+
+팀원들의 작업 merge과정에서 `project.pbxproj` 폭풍 충돌.. 및 해결하는데 3시간 소요 
+해결하는 방법 
+-  Tuist
+-  [.gitattributes](https://swiftlogic.io/posts/automatically-resolving-git-merge-conflicts-in-xcodes-project-pbxproj/)
+
 
 ## Convention
 
