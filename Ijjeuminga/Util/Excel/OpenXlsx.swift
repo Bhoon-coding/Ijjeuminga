@@ -21,7 +21,11 @@ class OpenXlsx {
     }
     
     convenience init() {
-        self.init(fileName: "busList", fileType: "xlsx", filePath: Bundle.main.path(forResource: "busList", ofType: "xlsx"))
+        self.init(
+            fileName: "busList",
+            fileType: "xlsx",
+            filePath: Bundle.main.path(forResource: "busList", ofType: "xlsx")
+        )
     }
     
     func openXlsx() -> [BusInfo]? {
@@ -34,6 +38,7 @@ class OpenXlsx {
                 for workBook in try file.parseWorkbooks() {
                     for (name, path) in try file.parseWorksheetPathsAndNames(workbook: workBook) {
                         if let workSheetName = name {
+                            
                         }
                         
                         let workSheet = try file.parseWorksheet(at: path)
@@ -48,12 +53,14 @@ class OpenXlsx {
                         }
                     }
                 }
+            } catch {
+                print(#function, "Parsing error: \(error.localizedDescription)")
             }
-            catch {}
         }
         return nil
     }
     
+    // TODO: [] Extension UIViewController에 구현되어있는데 삭제 확인
     func getCurrentDateString() -> String {
         let date = Date()
         let formatter = DateFormatter()

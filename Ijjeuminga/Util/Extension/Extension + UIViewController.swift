@@ -1,11 +1,11 @@
 //
-//  UIViewController.swift
+//  Extension + UIViewController.swift
 //  Ijjeuminga
 //
 //  Created by 조성빈 on 7/21/24.
 //
 
-import UIKit
+import UIKit.UIViewController
 
 extension UIViewController {
     func getCurrentDateString() -> String {

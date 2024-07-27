@@ -23,14 +23,13 @@
 		C782F6202C27BF630053E3DB /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C782F61F2C27BF630053E3DB /* RxCocoa */; };
 		C782F6222C27BF630053E3DB /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = C782F6212C27BF630053E3DB /* RxRelay */; };
 		C782F6242C27BF630053E3DB /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C782F6232C27BF630053E3DB /* RxSwift */; };
-		C782F6262C27C4100053E3DB /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6252C27C4100053E3DB /* UITextField.swift */; };
 		C782F62C2C27C4E90053E3DB /* BusList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F62B2C27C4E90053E3DB /* BusList.swift */; };
 		C782F62F2C28401E0053E3DB /* CoreXLSX in Frameworks */ = {isa = PBXBuildFile; productRef = C782F62E2C28401E0053E3DB /* CoreXLSX */; };
 		C782F6342C2AD5F80053E3DB /* busList.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = C782F6332C2AD5F80053E3DB /* busList.xlsx */; };
 		C782F6712C3A34A90053E3DB /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6702C3A34A90053E3DB /* CoreDataManager.swift */; };
 		C782F6742C4D31010053E3DB /* RecentBusInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6722C4D31010053E3DB /* RecentBusInfo+CoreDataClass.swift */; };
 		C782F6752C4D31010053E3DB /* RecentBusInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6732C4D31010053E3DB /* RecentBusInfo+CoreDataProperties.swift */; };
-		C782F6772C4D371B0053E3DB /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6762C4D371B0053E3DB /* UIViewController.swift */; };
+		C782F6772C4D371B0053E3DB /* Extension + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6762C4D371B0053E3DB /* Extension + UIViewController.swift */; };
 		C782F67A2C4FD3740053E3DB /* OpenXlsx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6792C4FD3740053E3DB /* OpenXlsx.swift */; };
 		E1067C232C539F25005FE587 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1067C222C539F25005FE587 /* Constant.swift */; };
 		E11861C22C135F1700C423D3 /* DestinationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */; };
@@ -96,13 +95,12 @@
 		C782F5F82C1E7EA60053E3DB /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		C782F5FA2C1E80CE0053E3DB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		C782F5FD2C1E89A90053E3DB /* BusListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusListTableViewCell.swift; sourceTree = "<group>"; };
-		C782F6252C27C4100053E3DB /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		C782F62B2C27C4E90053E3DB /* BusList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusList.swift; sourceTree = "<group>"; };
 		C782F6332C2AD5F80053E3DB /* busList.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = busList.xlsx; path = Ijjeuminga/Resources/Files/busList.xlsx; sourceTree = SOURCE_ROOT; };
 		C782F6702C3A34A90053E3DB /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		C782F6722C4D31010053E3DB /* RecentBusInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecentBusInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C782F6732C4D31010053E3DB /* RecentBusInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecentBusInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		C782F6762C4D371B0053E3DB /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		C782F6762C4D371B0053E3DB /* Extension + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIViewController.swift"; sourceTree = "<group>"; };
 		C782F6792C4FD3740053E3DB /* OpenXlsx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenXlsx.swift; sourceTree = "<group>"; };
 		E1067C222C539F25005FE587 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTableViewCell.swift; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 			isa = PBXGroup;
 			children = (
 				C782F6272C27C4CB0053E3DB /* Model */,
-				C782F66F2C3A349A0053E3DB /* Manager */,
 				9FD491752C114ACC00445C45 /* ViewModel */,
 				E18B7E732C05E8D600C94FFD /* ViewController */,
 				E18B7E752C05E8DD00C94FFD /* Util */,
@@ -181,8 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				9FD4916C2C0F0C0900445C45 /* Extension + UIView.swift */,
-				C782F6252C27C4100053E3DB /* UITextField.swift */,
-				C782F6762C4D371B0053E3DB /* UIViewController.swift */,
+				C782F6762C4D371B0053E3DB /* Extension + UIViewController.swift */,
 				E11861C32C141E5600C423D3 /* Extension + UITextField.swift */,
 				E11861C52C142DB600C423D3 /* Extension + Color.swift */,
 				E118620D2C190EE900C423D3 /* Extension + Encodable.swift */,
@@ -195,9 +191,9 @@
 		9FD491752C114ACC00445C45 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				E1067C252C5527D3005FE587 /* Destination */,
 				C782F5F52C1E75FF0053E3DB /* BusList */,
 				9FD491762C114AD800445C45 /* BaseViewModel.swift */,
-				E11861C72C16663900C423D3 /* DestinationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -290,6 +286,30 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		E1067C242C55279D005FE587 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				C782F66F2C3A349A0053E3DB /* Manager */,
+			);
+			path = Local;
+			sourceTree = "<group>";
+		};
+		E1067C252C5527D3005FE587 /* Destination */ = {
+			isa = PBXGroup;
+			children = (
+				E11861C72C16663900C423D3 /* DestinationViewModel.swift */,
+			);
+			path = Destination;
+			sourceTree = "<group>";
+		};
+		E1067C262C5527FC005FE587 /* Destination */ = {
+			isa = PBXGroup;
+			children = (
+				E1EEB6A62C115262009F7273 /* DestinationViewController.swift */,
+			);
+			path = Destination;
+			sourceTree = "<group>";
+		};
 		E11861C92C17BA4500C423D3 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,8 +322,9 @@
 		E11861D52C17BC0800C423D3 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
-				E11862102C1BAC0E00C423D3 /* api */,
+				E1067C242C55279D005FE587 /* Local */,
 				E118620F2C1BAABF00C423D3 /* Remote */,
+				E11862102C1BAC0E00C423D3 /* api */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -392,10 +413,10 @@
 		E18B7E732C05E8D600C94FFD /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				E1067C262C5527FC005FE587 /* Destination */,
 				C782F5F22C1E75CB0053E3DB /* BusList */,
 				9F0F6FAA2C0C07C500E236A5 /* BaseViewController.swift */,
 				9FD491672C0F097000445C45 /* TestViewController.swift */,
-				E1EEB6A62C115262009F7273 /* DestinationViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -575,9 +596,8 @@
 				E18B7E5B2C05E6A500C94FFD /* AppDelegate.swift in Sources */,
 				C782F62C2C27C4E90053E3DB /* BusList.swift in Sources */,
 				9FD491642C0F04DF00445C45 /* BaseTableViewCell.swift in Sources */,
-				C782F6262C27C4100053E3DB /* UITextField.swift in Sources */,
 				9FD491772C114AD800445C45 /* BaseViewModel.swift in Sources */,
-				C782F6772C4D371B0053E3DB /* UIViewController.swift in Sources */,
+				C782F6772C4D371B0053E3DB /* Extension + UIViewController.swift in Sources */,
 				C782F6742C4D31010053E3DB /* RecentBusInfo+CoreDataClass.swift in Sources */,
 				C782F6752C4D31010053E3DB /* RecentBusInfo+CoreDataProperties.swift in Sources */,
 				C782F5F72C1E761B0053E3DB /* BusListViewModel.swift in Sources */,

@@ -5,7 +5,7 @@
 //  Created by hayeon on 6/4/24.
 //
 
-import UIKit
+import UIKit.UIView
 
 extension UIView {
     func setConstraintsToMatch(_ superView: UIView, constant: CGFloat = 0, safeArea: Bool = true) {
