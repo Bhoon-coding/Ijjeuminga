@@ -12,6 +12,7 @@ import RxSwift
 class DestinationViewModelInput: BaseViewModelInput {
     let searchText = PublishSubject<String>()
     let currentPosTapped = PublishSubject<Void>()
+    let routeId = PublishSubject<String>()
 }
 
 class DestinationViewModelOutput: BaseViewModelOutput {
@@ -26,16 +27,21 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     private var currentPosIndex: Int = -1
     private var stationList: [Rest.BusRouteInfo.ItemList] = []
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
+    private var routeId: String
+    
+    init(routeId: String) {
+        self.routeId = routeId
+    }
     
     override func attachView() {
-        fetchStationByRoute()
+        fetchStationByRoute(with: routeId)
         LocationDataManager.shared.requestLocationAuth()
         
         input.searchText
             .subscribe { [weak self] textInput in
                 guard let self = self, let text = textInput.element else { return }
                 guard !text.isEmpty else {
-                    fetchStationByRoute()
+                    fetchStationByRoute(with: routeId)
                     return
                 }
                 self.filteredStationList = stationList.filter {
@@ -54,9 +60,9 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
             .disposed(by: viewDisposeBag)
     }
     
-    private func fetchStationByRoute() {
+    private func fetchStationByRoute(with routeId: String) {
         BusRouteInfoAPIService()
-            .getStaionByRoute(with: "100100124")
+            .getStaionByRoute(with: routeId)
             .subscribe { [weak self] res in
                 guard let stationList = res.msgBody.itemList else { return }
                 self?.stationList = stationList

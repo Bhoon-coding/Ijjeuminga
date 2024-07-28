@@ -85,17 +85,6 @@ final class TestViewController: BaseViewController {
     }
     
     private func bind() {
-        destinationButton.rx.tap
-            .asDriver{ _ in .never() }
-            .drive { [weak self] event in
-                let navBackButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-                navBackButtonItem.tintColor = .black
-                self?.navigationItem.backBarButtonItem = navBackButtonItem
-                let viewModel = DestinationViewModel()
-                let destinationVC = DestinationViewController(viewModel: viewModel)
-                self?.navigationController?.pushViewController(destinationVC, animated: true)
-            }
-            .disposed(by: disposeBag)
 
     }
 }

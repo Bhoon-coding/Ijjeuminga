@@ -176,13 +176,18 @@ extension BusListViewController: UITableViewDataSource {
 
 extension BusListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let busInfo = self.searchedBusList[indexPath.row]
+        self.navigationController?.pushViewController(DestinationViewController(viewModel: DestinationViewModel(routeId: busInfo.routeId)), animated: true)
         switch tableView {
         case self.searchListTableView:
-            let busInfo = self.searchedBusList[indexPath.row]
             CoreDataManager.shared.saveBusInfo(busNumber: busInfo.busNumber, routeId: busInfo.routeId, type: Int32(busInfo.type), lastDate: self.getCurrentDateString()) { result in
+                if result {
+                    self.navigationController?.pushViewController(DestinationViewController(viewModel: DestinationViewModel(routeId: busInfo.routeId)), animated: true)
+                }
             }
         case self.recentSearchListTableView:
             print("다음 페이지로 넘어가기")
+            self.navigationController?.pushViewController(DestinationViewController(viewModel: DestinationViewModel(routeId: busInfo.routeId)), animated: true)
         default:
             break
         }
