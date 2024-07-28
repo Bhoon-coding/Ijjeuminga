@@ -6,19 +6,23 @@
 //
 
 import UIKit
-import RxSwift
+
 import RxCocoa
+import RxSwift
+
+// TODO: [] 삭제 필요
 
 final class TestViewController: BaseViewController {
     
     private weak var backgroundView: UIView!
     private weak var titleLabel: UILabel!
     private weak var subtitleLabel: UILabel!
-    private weak var moveButton: UIButton!
-    
+    private weak var destinationButton: UIButton!
+    private weak var destinationVC: DestinationViewController!
+        
     override func initView() {
         super.initView()
-        
+
         let backgroundView = UIView()
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.backgroundColor = .yellow
@@ -31,7 +35,7 @@ final class TestViewController: BaseViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .center
         titleLabel.font = .systemFont(ofSize: 20, weight: .heavy)
-        titleLabel.textColor = .blue
+        titleLabel.textColor = UIColor.blueBus
         titleLabel.text = "이쯤인가"
         view.addSubview(titleLabel)
         self.titleLabel = titleLabel
@@ -45,13 +49,15 @@ final class TestViewController: BaseViewController {
         view.addSubview(subtitleLabel)
         self.subtitleLabel = subtitleLabel
         
-        let moveButton = UIButton()
-        moveButton.translatesAutoresizingMaskIntoConstraints = false
-        moveButton.setTitle("move!", for: .normal)
-        moveButton.setTitleColor(.black, for: .normal)
-        moveButton.isEnabled = true
-        view.addSubview(moveButton)
-        self.moveButton = moveButton
+        let destinationButton = UIButton()
+        destinationButton.translatesAutoresizingMaskIntoConstraints = false
+        destinationButton.setTitle("destination", for: .normal)
+        destinationButton.setTitleColor(.black, for: .normal)
+        destinationButton.isEnabled = true
+        view.addSubview(destinationButton)
+        self.destinationButton = destinationButton
+        
+        bind()
     }
     
     override func initConstraint() {
@@ -65,46 +71,29 @@ final class TestViewController: BaseViewController {
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             subtitleLabel.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
-            
-            moveButton.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 8),
-            moveButton.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
-            moveButton.heightAnchor.constraint(equalToConstant: 40),
-            moveButton.widthAnchor.constraint(equalToConstant: 100)
+        
+            destinationButton.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 8),
+            destinationButton.centerXAnchor.constraint(equalTo: subtitleLabel.centerXAnchor),
+            destinationButton.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
+            destinationButton.trailingAnchor.constraint(equalTo: subtitleLabel.trailingAnchor)
         ])
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        moveButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.backgroundView.backgroundColor = .green
-                let controller = TestViewController()
-                controller.view.backgroundColor = .black
-                self?.navigationController?.pushViewController(controller, animated: true)
-            })
-            .disposed(by: viewDisposeBag)
-        
-        BusPositionAPIService()
-            .getBusPosition(with: "100100124") // BusRouteId
-            .subscribe { [weak self] response in
-                print("================ LOG ================")
-                print("||")
-                print("||", self!)
-                print("||", #function)
-                print("||", "message: \(response)")
-                print("||")
-                print("=====================================")
 
-            } onFailure: { error in
-                print("================ LOG ================")
-                print("||")
-                print("||", self)
-                print("||", #function)
-                print("||", "error message: \(error)")
-                print("||")
-                print("=====================================")
-
+    }
+    
+    private func bind() {
+        destinationButton.rx.tap
+            .asDriver{ _ in .never() }
+            .drive { [weak self] event in
+                let navBackButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+                navBackButtonItem.tintColor = .black
+                self?.navigationItem.backBarButtonItem = navBackButtonItem
+                let viewModel = DestinationViewModel()
+                let destinationVC = DestinationViewController(viewModel: viewModel)
+                self?.navigationController?.pushViewController(destinationVC, animated: true)
             }
             .disposed(by: disposeBag)
 

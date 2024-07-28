@@ -5,8 +5,9 @@
 //  Created by BH on 2024/06/11.
 //
 
-import Alamofire
 import Foundation
+
+import Alamofire
 
 enum CustomError: Error {
     enum NetworkError: Error {
@@ -44,55 +45,5 @@ enum CustomError: Error {
             }
         }
     }
-    
-    enum DGTokenError: Error {
-        case invalidToken
-        case expiredToken
-        case disconnectedToken
-        case notFoundToken
-        
-        var messageDescription: String {
-            switch self {
-            case .invalidToken:
-                return "유효하지 않은 토큰 입니다."
-            case .disconnectedToken:
-                return "연결해제된 토큰입니다. (groupId, deviceId)"
-            case .expiredToken:
-                return "토큰이 만료 되었습니다."
-            case .notFoundToken:
-                return "토큰을 찾을 수 없습니다."
-            }
-        }
-        
-    }
-
-    enum InternalError: Error {
-        
-        /// 저장된 Fcm token 찾을 수 없음
-        case fcmTokenNotFound
-        /// 인코딩 실패
-        case encodingFail
-        /// 디코딩 실패
-        case decodingFail
-        /// 데이터 변환 실패
-        case parsingFail
-        /// Date Formatting 실패
-        case dateFormattingFail
-        
-        var messageDescription: String {
-            switch self {
-            case .fcmTokenNotFound:
-                return "fcm 토큰을 찾을 수 없습니다."
-            case .parsingFail:
-                return "parsing 에러"
-            case .encodingFail:
-                return "인코딩 실패"
-            case .decodingFail:
-                return "디코딩 실패"
-            case .dateFormattingFail:
-                return "DateFormatting 실패 (날짜 변환 실패)"
-            }
-        }
-        
-    }
 }
+

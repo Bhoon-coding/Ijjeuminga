@@ -5,10 +5,12 @@
 //  Created by BH on 2024/06/11.
 //
 
-import Alamofire
 import Foundation
+
+import Alamofire
 import RxCocoa
 import RxSwift
+import SwiftyJSON
 
 class NetworkManager {
     static let instance: NetworkManager = .init()
@@ -39,7 +41,8 @@ class NetworkManager {
                 || nsError.code == CFNetworkErrors.cfurlErrorCannotFindHost.rawValue
                 || nsError.code == CFNetworkErrors.cfurlErrorCannotConnectToHost.rawValue
                 || nsError.code == CFNetworkErrors.cfurlErrorNetworkConnectionLost.rawValue
-                || nsError.code == CFNetworkErrors.cfurlErrorDNSLookupFailed.rawValue {
+                || nsError.code == CFNetworkErrors.cfurlErrorDNSLookupFailed.rawValue
+            {
                 return CustomError.NetworkError.networkUnavailable
             }
 
@@ -48,38 +51,39 @@ class NetworkManager {
 
         return nil
     }
-
-    // swiftlint:disable:next function_body_length
-    static func request<R: Codable>(host: String = APICommon.host,
-                                    parameters: Parameters? = nil,
-                                    path: String,
-                                    method: HTTPMethod = .get,
-                                    header: HTTPHeaders? = nil,
-                                    encoding: ParameterEncoding = URLEncoding(destination: .methodDependent, 
-                                                                              arrayEncoding: .brackets,
-                                                                              boolEncoding: .literal))
-        -> Single<R> {
+    
+    static func request<R: Codable>(
+        host: String = APICommon.host,
+        parameters: Parameters? = nil,
+        path: String,
+        method: HTTPMethod = .get,
+        header: HTTPHeaders? = nil,
+        encoding: ParameterEncoding = URLEncoding(destination: .methodDependent, arrayEncoding: .brackets, boolEncoding: .literal)
+    ) -> Single<R> {
         Single<R>.create { observer in
 
-            guard let url = URL(string: host + path) else {
+            guard let urlString = URL(string: host + path) else {
                 observer(.failure(CustomError.NetworkError.invalidURL))
                 return Disposables.create()
             }
 
             let request = NetworkManager.instance.session
-                .request(url,
-                         method: method,
-                         parameters: parameters?.toDictionary(),
-                         encoding: encoding,
-                         headers: header)
+                .request(
+                    urlString,
+                    method: method,
+                    parameters: parameters?.toDictionary(),
+                    encoding: encoding,
+                    headers: header
+                )
                 .responseDecodable(of: R.self) { res in
-
                     var responseBodyString = ""
-                    
+                    var body: JSON?
+
                     if let responseBody = res.data,
-                       // swiftlint:disable:next non_optional_string_data_conversion
-                       let stringData = String(data: responseBody, encoding: .utf8) {
+                       let stringData = String(data: responseBody, encoding: .utf8)
+                    {
                         responseBodyString = stringData
+                        body = try? JSON(data: responseBody)
                     }
 
                     switch res.result {
@@ -92,19 +96,19 @@ class NetworkManager {
                         Log.network("|| request path : \(res.request?.url?.path ?? "")")
                         Log.network("|| request url : \(res.request?.url?.absoluteString ?? "")")
                         Log.network("|| request headers : \(res.request?.headers ?? [:])")
-                        Log.network("|| response body : \(responseBodyString)")
+//                        Log.network("|| response body : \(responseBodyString)")
+                        Log.network("|| response body : \(String(describing: body))")
                         Log.network("|| http Code : \(res.response?.statusCode ?? -1)")
                         Log.network("||")
                         Log.network("==============================")
                         
                         // 기 정의된 에러 코드 체크
                         if let response = res.response {
-                            let definition = CommonAPIError(httpStatusCode: response.statusCode, errorMsg: afError.failureReason)
-                            let error = CustomError.NetworkError.apiError(definition: definition)
-                            observer(.failure(error))
+                            observer(.failure(CustomError.NetworkError.apiError(definition: CommonAPIError(httpStatusCode: response.statusCode, errorMsg: afError.failureReason))))
                             return
                         }
-                
+//                
+
                         // 네트워크 연결 유실 체크
                         guard let httpResponse = res.response,
                               let httpError = NetworkManager.createHttpError(httpResponse, error: afError)
@@ -126,7 +130,7 @@ class NetworkManager {
                         } catch {
                             Log.network(afError)
                             observer(.failure(CustomError.NetworkError.parsingFail))
-                            Log.error("Catch \(#function): \(CustomError.NetworkError.parsingFail) -> \(res.data ?? Data())")
+                            Log.error("Catch \(#function): \(CustomError.NetworkError.parsingFail) -> \(res.data)")
                             return
                         }
 
@@ -138,7 +142,8 @@ class NetworkManager {
                         Log.network("|| host : \(res.request?.url?.host ?? "")")
                         Log.network("|| request path : \(res.request?.url?.path ?? "")")
                         Log.network("|| request url : \(res.request?.url?.absoluteString ?? "")")
-                        Log.network("|| response body : \(responseBodyString)")
+//                        Log.network("|| response body : \(responseBodyString)")
+                        Log.network("|| response body : \(String(describing: body))")
                         Log.network("|| http Code : \(res.response?.statusCode ?? -1)")
                         Log.network("||")
                         Log.network("==============================")
@@ -157,15 +162,21 @@ private final class NetworkIntercepter: RequestInterceptor {
     static let maximumRetryCount: Int = 3
 
     /// 로그 등록
-    func adapt(_ urlRequest: URLRequest, for _: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+    func adapt(
+        _ urlRequest: URLRequest,
+        for _: Session,
+        completion: @escaping (Result<URLRequest, Error>
+        ) -> Void) {
         var urlRequest = urlRequest
+        var body: JSON?
         var jsonHttpBodyString = ""
-        
         if let httpBodyData = urlRequest.httpBody,
-           // swiftlint:disable:next non_optional_string_data_conversion
-           let stringData = String(data: httpBodyData, encoding: .utf8) {
+           let stringData = String(data: httpBodyData, encoding: .utf8)
+        {
             jsonHttpBodyString = stringData
+            body = try? JSON(data: httpBodyData)
         }
+        
         if let urlString = urlRequest.url?.absoluteString {
             let encodedString = urlString.replacingOccurrences(of: "%25", with: "%")
             urlRequest.url = URL(string: encodedString)
@@ -177,12 +188,15 @@ private final class NetworkIntercepter: RequestInterceptor {
         Log.network("|| method : \(urlRequest.httpMethod ?? "")")
         Log.network("|| header : \(urlRequest.headers)")
         if !jsonHttpBodyString.isEmpty {
-            Log.network("|| requestbody : \(jsonHttpBodyString)")
+//            Log.network("|| requestbody : \(jsonHttpBodyString)")
+            Log.network("|| requestbody : \(body)")
         }
         Log.network("||")
         Log.network("==============================")
         completion(.success(urlRequest))
     }
+    
+    
 
     /// 네트워크 연결 유실 시 Retry 설정
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
@@ -195,13 +209,16 @@ private final class NetworkIntercepter: RequestInterceptor {
         }
         // Device Network 연결 유실, timeout 발생 시 1.5초 간격 retry 시도
         if let nsError = ((error.asAFError)?.underlyingError as? NSError),
-           nsError.code == CFNetworkErrors.cfurlErrorTimedOut.rawValue {
+           nsError.code == CFNetworkErrors.cfurlErrorTimedOut.rawValue
+        {
             var requestBodyString = ""
-            
+            var body: JSON?
+
             if let requestBody = request.request?.httpBody,
-               // swiftlint:disable:next non_optional_string_data_conversion
-               let stringData = String(data: requestBody, encoding: .utf8) {
+               let stringData = String(data: requestBody, encoding: .utf8)
+            {
                 requestBodyString = stringData
+                body = try? JSON(data: requestBody)
             }
 
             Log.network("========= Retry Request 🤔 =========")
@@ -209,9 +226,10 @@ private final class NetworkIntercepter: RequestInterceptor {
             Log.network("|| host : \(request.request?.url?.host ?? "")")
             Log.network("|| path : \(request.request?.url?.path ?? "")")
             Log.network("|| method : \(request.request?.httpMethod ?? "")")
-            Log.network("|| header : \(request.request?.headers ?? .default)")
+            Log.network("|| header : \(String(describing: request.request?.headers))")
             if !requestBodyString.isEmpty {
-                Log.network("|| body : \(requestBodyString)")
+//                Log.network("|| body : \(requestBodyString)")
+                Log.network("|| body : \(String(describing: body))")
             }
             Log.network("||")
             Log.network("==============================")

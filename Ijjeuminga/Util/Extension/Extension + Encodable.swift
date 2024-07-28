@@ -12,7 +12,7 @@ extension Encodable {
         let data = try JSONEncoder().encode(self)
         
         guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [String: Any] else {
-            throw NSError(domain: "encode", code: 0)
+            throw NSError()
         }
         
         return dictionary
