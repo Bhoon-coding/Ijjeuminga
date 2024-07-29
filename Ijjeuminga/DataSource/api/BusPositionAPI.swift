@@ -11,7 +11,7 @@ import Alamofire
 import RxSwift
 import RxCocoa
 
-extension Rest.BusPos {
+extension Rest {
     struct BusPosition: APIDefinition {
         
         var path: String = "/api/rest/buspos/getBusPosByRouteSt"
@@ -30,20 +30,44 @@ extension Rest.BusPos {
         }
         
         struct BusPositionResponse: Codable {
-            let sectionOrd: String // 구간순번
-            let sectionId: String // 구간ID
-            let stopFlag: String // 정류소 도착여부
-            let dataTm: String // 제공시간
-            let busNum: String // 차량번호
-            let congetion: String // 차량내부 혼잡도
-            
-            enum CodingKeys: String, CodingKey {
-                case sectionOrd = "sectOrd"
-                case busNum = "plainNo"
-                case sectionId, stopFlag, dataTm, congetion
-            }
+            let comMsgHeader: COMMsgHeader
+            let msgHeader: MsgHeader
+            let msgBody: MsgBody
         }
         
+        struct COMMsgHeader: Codable {
+            let responseTime, requestMsgID, responseMsgID, returnCode: String?
+            let errMsg, successYN: String?
+        }
+        
+        struct MsgHeader: Codable {
+            let headerMsg, headerCD: String?
+            let itemCount: Int
+        }
+
+        struct MsgBody: Codable {
+            let itemList: [ItemList]?
+        }
+
+        // MARK: - ItemList
+        struct ItemList: Codable {
+            let stopFlag: String? // 정류소 도착여부
+            let lastStnId: String? // 마지막으로 지나온 정류장 ID
+            let busNum: String? // 차량번호
+            let vehId: String? // 버스 ID
+            let posX: String? // 버스 위치 X 좌표
+            let posY: String? // 버스 위치 Y 좌표
+            
+            enum CodingKeys: String, CodingKey {
+                case busNum = "plainNo"
+                case stopFlag = "stopFlag"
+                case lastStnId = "lastStnId"
+                case vehId = "vehId"
+                case posX = "posX"
+                case posY = "posY"
+            }
+        }
+
         init(parameters: BusPositionParameters) {
             let params = Parameters()
             
@@ -61,14 +85,14 @@ extension Rest.BusPos {
 protocol BusPositionAPIServiceable {
     func getBusPosition(
         with busRouteId: String
-    ) -> Single<Rest.BusPos.BusPosition.BusPositionResponse>
+    ) -> Single<Rest.BusPosition.BusPositionResponse>
 }
 
 struct BusPositionAPIService: BusPositionAPIServiceable {
     func getBusPosition(
         with busRouteId: String
-    ) -> Single<Rest.BusPos.BusPosition.BusPositionResponse> {
-        Rest.BusPos.BusPosition(parameters: Rest.BusPos.BusPosition.BusPositionParameters(
+    ) -> Single<Rest.BusPosition.BusPositionResponse> {
+        Rest.BusPosition(parameters: Rest.BusPosition.BusPositionParameters(
             busRouteId: busRouteId
         ))
         .rx
@@ -76,8 +100,8 @@ struct BusPositionAPIService: BusPositionAPIServiceable {
     }
 }
             
-extension Reactive where Base == Rest.BusPos.BusPosition {
-    func request() -> Single<Rest.BusPos.BusPosition.BusPositionResponse> {
+extension Reactive where Base == Rest.BusPosition {
+    func request() -> Single<Rest.BusPosition.BusPositionResponse> {
         NetworkManager.request(
             parameters: base.parameters,
             path: base.path,

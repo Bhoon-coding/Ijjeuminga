@@ -18,6 +18,7 @@
 		9F24B5992C1E891700CF4D89 /* RealTimeBusLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B5982C1E891700CF4D89 /* RealTimeBusLocationViewModel.swift */; };
 		9F24B59B2C1E8B9C00CF4D89 /* RealTimeBusLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F24B59A2C1E8B9C00CF4D89 /* RealTimeBusLocationViewController.swift */; };
 		9F26991E2C1543A500996F5F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 9F26991D2C1543A500996F5F /* .swiftlint.yml */; };
+		9FB1562B2C30F78C0083991E /* RealTimeBusAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB1562A2C30F78C0083991E /* RealTimeBusAPI.swift */; };
 		9FD491642C0F04DF00445C45 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */; };
 		9FD491662C0F05F000445C45 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */; };
 		9FD491682C0F097000445C45 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491672C0F097000445C45 /* TestViewController.swift */; };
@@ -103,6 +104,7 @@
 		9F24B5982C1E891700CF4D89 /* RealTimeBusLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimeBusLocationViewModel.swift; sourceTree = "<group>"; };
 		9F24B59A2C1E8B9C00CF4D89 /* RealTimeBusLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimeBusLocationViewController.swift; sourceTree = "<group>"; };
 		9F26991D2C1543A500996F5F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
+		9FB1562A2C30F78C0083991E /* RealTimeBusAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimeBusAPI.swift; sourceTree = "<group>"; };
 		9FD491632C0F04DF00445C45 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		9FD491652C0F05F000445C45 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		9FD491672C0F097000445C45 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 			children = (
 				E11862112C1BAC3000C423D3 /* BusPositionAPI.swift */,
 				E13EBB502C27C03D0062277A /* BustRouteInfoAPI.swift */,
+				9FB1562A2C30F78C0083991E /* RealTimeBusAPI.swift */,
 			);
 			path = api;
 			sourceTree = "<group>";
@@ -629,11 +632,13 @@
 			files = (
 				9F24B5932C18779F00CF4D89 /* Extension+NSLayoutConstraint.swift in Sources */,
 				9F24B58C2C18709B00CF4D89 /* BusStopStatusType.swift in Sources */,
+				9FB1562B2C30F78C0083991E /* RealTimeBusAPI.swift in Sources */,
 				9F24B59B2C1E8B9C00CF4D89 /* RealTimeBusLocationViewController.swift in Sources */,
 				9F24B5892C18704600CF4D89 /* BusStopStatusTableViewCell.swift in Sources */,
 				9F24B5912C18759500CF4D89 /* BaseView.swift in Sources */,
 				9F24B5952C1E7F3500CF4D89 /* RealTimeBusLocationDataSource.swift in Sources */,
 				E1FDB9A42C1E8B8A0062E9D7 /* Constant.swift in Sources */,
+				E11862122C1BAC3000C423D3 /* BusPositionAPI.swift in Sources */,
 				9F24B58F2C18753700CF4D89 /* CircleStatusBarView.swift in Sources */,
 				9F24B5972C1E81A100CF4D89 /* BaseTableDiffableDataSource.swift in Sources */,
 				9F24B5992C1E891700CF4D89 /* RealTimeBusLocationViewModel.swift in Sources */,

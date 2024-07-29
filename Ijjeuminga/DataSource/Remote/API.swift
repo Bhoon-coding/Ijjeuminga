@@ -15,7 +15,6 @@ struct APICommon {
 }
 
 struct Rest {
-    struct BusPos {}
     
 }
 

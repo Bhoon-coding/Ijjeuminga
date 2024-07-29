@@ -60,10 +60,15 @@ class RealTimeBusLocationDataSource: BaseTableDiffableDataSoceurce<RealTimeBusLo
         }
         
         cell.configureCell(data: itemIdentifier)
+        cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
     }
 }
