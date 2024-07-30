@@ -11,6 +11,7 @@ import RxCocoa
 import CoreLocation
 
 class RealTimeBusLocationViewModelOutput: BaseViewModelOutput {
+    let busNumber = PublishSubject<String>()
 }
 
 class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOutput> {
@@ -28,7 +29,13 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     private let busRouteId: String
     private let destinationBusStopId: String
     
-    private var currentBusRouteNumber: String = ""
+    private var currentBusRouteNumber: String = "" {
+        didSet {
+            if oldValue != currentBusRouteNumber {
+                output.busNumber.onNext(currentBusRouteNumber)
+            }
+        }
+    }
     private var currentBusVehID: String = ""
     private var currentBusPositionInfo: RealTimeBusInfo?
     private var busStationList: [BusStationInfo] = []
@@ -169,6 +176,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         return dataList
     }
  
-    private func notice() {} // 3 정거장 전부터 음성 안내 및 진동
-    private func finish() {} // 종료
+    private func notice() {} // TODO: 3 정거장 전부터 음성 안내 및 진동
+    private func finish() {} // TODO: 종료
+    private func startTimer() {} // TODO: 30초마다 업데이트
 }

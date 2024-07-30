@@ -43,20 +43,20 @@ enum BusStopStatusType: Int {
     var font: UIFont {
         switch self {
         case .current:
-            return .boldSystemFont(ofSize: 26)
+            return UIFont(name: Font.sandollGothicBold, size: 26) ?? .boldSystemFont(ofSize: 26)
         case .next, .previous:
-            return .boldSystemFont(ofSize: 16)
+            return UIFont(name: Font.sandollGothicBold, size: 16) ?? .boldSystemFont(ofSize: 16)
         case .destination, .twoStopsAgo:
-            return .boldSystemFont(ofSize: 14)
+            return UIFont(name: Font.sandollGothicBold, size: 14) ?? .boldSystemFont(ofSize: 14)
         }
     }
     
     var titleFont: UIFont? {
         switch self {
         case .next:
-            return .boldSystemFont(ofSize: 13)
+            return UIFont(name: Font.sandollGothicBold, size: 13) ?? .boldSystemFont(ofSize: 13)
         case .current:
-            return .boldSystemFont(ofSize: 16)
+            return UIFont(name: Font.sandollGothicBold, size: 16) ?? .boldSystemFont(ofSize: 16)
         default:
             return nil
         }

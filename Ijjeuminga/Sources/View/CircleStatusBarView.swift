@@ -84,7 +84,3 @@ class CircleStatusBarView: BaseView {
         self.statusType = statusType
     }
 }
-
-#Preview {
-    CircleStatusBarView()
-}

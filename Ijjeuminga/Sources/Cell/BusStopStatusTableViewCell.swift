@@ -35,6 +35,8 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<RealTimeBusLocationDat
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.numberOfLines = 1
+        nameLabel.minimumScaleFactor = 0.5
+        nameLabel.adjustsFontSizeToFitWidth = true
         self.nameLabel = nameLabel
         
         let textBottomSpacer = UIView()
