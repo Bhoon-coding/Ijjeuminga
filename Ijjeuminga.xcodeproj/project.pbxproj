@@ -637,7 +637,6 @@
 				9F24B5892C18704600CF4D89 /* BusStopStatusTableViewCell.swift in Sources */,
 				9F24B5912C18759500CF4D89 /* BaseView.swift in Sources */,
 				9F24B5952C1E7F3500CF4D89 /* RealTimeBusLocationDataSource.swift in Sources */,
-				E1FDB9A42C1E8B8A0062E9D7 /* Constant.swift in Sources */,
 				E11862122C1BAC3000C423D3 /* BusPositionAPI.swift in Sources */,
 				9F24B58F2C18753700CF4D89 /* CircleStatusBarView.swift in Sources */,
 				9F24B5972C1E81A100CF4D89 /* BaseTableDiffableDataSource.swift in Sources */,
@@ -843,6 +842,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ijjeuminga/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "이쯤인가";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -873,6 +873,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ijjeuminga/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "이쯤인가";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
