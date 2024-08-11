@@ -8,5 +8,5 @@
 import Foundation
 
 struct Constant {
-    static let serviceKey: String = "dcSu1vzCY1%2FLNHvgyHqmCnNupNj%2BJV6PZzZ1fMeXiU6H0jKF5xEq8A2o6CKzsY7%2BamzkTLG2XwQXG4q727pufg%3D%3D"
+    static let serviceKey: String = "24%2FpJnYDR4XV94MesDsNCLczRWS6TzkgXkazU4usR4gOt1mDnMi9i2hwfhMIQOa9rKP791WsLYupJwYxM%2FjXhQ%3D%3D"
 }

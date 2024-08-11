@@ -185,9 +185,8 @@ extension DestinationViewController: UITableViewDelegate {
         let routeGuidePopup = CustomAlertController()
             .setTitleMessage("안내를 시작할까요?")
             .addaction("취소", .cancel)
-            .addaction("시작", .default) { _ in
-                // TODO: [] 선택된 정류소(station)정보 넘겨주기
-                print(station)
+            .addaction("시작", .default) { [weak self] _ in
+                self?.viewModel.input.showRealTimeBusLocation.onNext(station)
             }
             .setPreferredAction(action: .default)
             .build()

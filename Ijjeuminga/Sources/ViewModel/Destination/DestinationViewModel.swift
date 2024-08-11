@@ -13,11 +13,13 @@ class DestinationViewModelInput: BaseViewModelInput {
     let searchText = PublishSubject<String>()
     let currentPosTapped = PublishSubject<Void>()
     let routeId = PublishSubject<String>()
+    let showRealTimeBusLocation = PublishSubject<DestinationTableData>()
 }
 
 class DestinationViewModelOutput: BaseViewModelOutput {
     let tableData = PublishSubject<[DestinationTableData]>()
     let currentPosIndex = PublishSubject<Int>()
+    let close = PublishSubject<Void>()
 }
 
 class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
@@ -57,6 +59,19 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
                 guard let self = self else { return }
                 self.output.currentPosIndex.onNext(self.currentPosIndex)
             }
+            .disposed(by: viewDisposeBag)
+        
+        input.showRealTimeBusLocation
+            .subscribe(onNext: { [weak self] in
+                switch $0 {
+                case .searchResult(station: let destination, _),
+                        .stationResult(station: let destination, _, _):
+                    guard let stationId = destination.station else {
+                        return
+                    }
+                    self?.openRealTimeBusLocation(destinationId: stationId)
+                }
+            })
             .disposed(by: viewDisposeBag)
     }
     
@@ -113,6 +128,15 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
         }
         
         output.tableData.onNext(newList)
+    }
+    
+    private func openRealTimeBusLocation(destinationId: String) {
+        let viewModel = RealTimeBusLocationViewModel(busRouteId: routeId, destinationBusStopId: destinationId)
+        let controller = RealTimeBusLocationViewController(viewModel: viewModel)
+        viewModel.output.close
+            .bind(to: output.close)
+            .disposed(by: disposeBag)
+        output.pushVC.onNext((controller, true))
     }
 }
 

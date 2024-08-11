@@ -10,11 +10,13 @@ import RxSwift
 
 class BusListViewModelInput: BaseViewModelInput {
     let searchedText = PublishSubject<String>()
+    let selectBus = PublishSubject<String>()
 }
 
 class BusListViewModelOutput: BaseViewModelOutput {
     let searchedBusList = PublishSubject<[BusInfo]>()
     let recentBusList = PublishSubject<[RecentBusInfo]>()
+    let close = PublishSubject<Void>()
 }
 
 class BusListViewModel: BaseViewModel<BusListViewModelOutput> {
@@ -27,6 +29,12 @@ class BusListViewModel: BaseViewModel<BusListViewModelOutput> {
         self.getBusTotalList()
         self.getRecentSearchBusList()
         self.getSearchedBusList()
+        
+        input.selectBus
+            .subscribe { [weak self] in
+                self?.openBusStopList(routeId: $0)
+            }
+            .disposed(by: viewDisposeBag)
     }
     
     private func getBusTotalList() {
@@ -50,5 +58,14 @@ class BusListViewModel: BaseViewModel<BusListViewModelOutput> {
                 }
                 self.output.searchedBusList.onNext(self.searchedBusList)
             }.disposed(by: viewDisposeBag)
+    }
+    
+    private func openBusStopList(routeId: String) {
+        let viewModel = DestinationViewModel(routeId: routeId)
+        let controller = DestinationViewController(viewModel: viewModel)
+        viewModel.output.close
+            .bind(to: output.close)
+            .disposed(by: disposeBag)
+        output.pushVC.onNext((controller, true))
     }
 }

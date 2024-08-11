@@ -54,7 +54,7 @@ extension Rest {
         
         struct RealTimeBusParameters: Codable {
             let vehId: String
-            var serviceKey: String = Constant.realTimeBusKey
+            var serviceKey: String = Constant.serviceKey
         }
         
         struct RealTimeBusResponse: Codable {
