@@ -27,15 +27,20 @@ class CircleStatusBarView: BaseView {
         didSet {
             barView.backgroundColor = statusType.color
             circleView.backgroundColor = statusType.color
-            switch statusType {
-            case .destination, .twoStopsAgo:
+        }
+    }
+    
+    private var positionType: BusStopPositionType = .topMiddle {
+        didSet {
+            switch positionType {
+            case .top, .bottom:
                 circleLeadingConstraint.constant = -(Padding.circleWidth / 2) + 1
                 barWidthConstraint.constant = 0
-            case .next, .previous:
+            case .topMiddle, .bottomMiddle:
                 barHeightConstraint.constant = 1
                 barWidthConstraint.constant = 36
                 circleLeadingConstraint.constant = -1
-            case .current:
+            case .middle:
                 barHeightConstraint.constant = 4
                 barWidthConstraint.constant = 85
                 circleLeadingConstraint.constant = 1
@@ -80,7 +85,8 @@ class CircleStatusBarView: BaseView {
         self.barWidthConstraint = barView.widthAnchor.constraint(equalToConstant: 100).withActive
     }
     
-    func configure(statusType: BusStopStatusType) {
+    func configure(statusType: BusStopStatusType, positionType: BusStopPositionType) {
         self.statusType = statusType
+        self.positionType = positionType
     }
 }

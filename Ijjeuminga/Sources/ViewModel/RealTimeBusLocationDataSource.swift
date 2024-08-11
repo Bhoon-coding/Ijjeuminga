@@ -40,10 +40,19 @@ enum RealTimeBusLocationSectionData: Hashable {
 struct RealTimeBusLocationData: Hashable {
     let name: String
     let type: BusStopStatusType
+    let isEmpty: Bool
+    let uuid = UUID().uuidString
+    
+    init(name: String, type: BusStopStatusType) {
+        self.name = name
+        self.type = type
+        self.isEmpty = name == "정류장에 대한 정보가 없습니다"
+    }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine("name")
         hasher.combine(type.rawValue)
+        hasher.combine(uuid)
     }
 }
 
@@ -59,7 +68,7 @@ class RealTimeBusLocationDataSource: BaseTableDiffableDataSoceurce<RealTimeBusLo
             return nil
         }
         
-        cell.configureCell(data: itemIdentifier)
+        cell.configureCell(data: (itemIdentifier, indexPath.row))
         cell.selectionStyle = .none
         return cell
     }

@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class BusStopStatusTableViewCell: BaseTableViewCell<RealTimeBusLocationData> {
+final class BusStopStatusTableViewCell: BaseTableViewCell<(RealTimeBusLocationData, Int)> {
     
     static let id = "BusStopStatusTableViewCell"
     
@@ -18,13 +18,16 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<RealTimeBusLocationDat
     private weak var titleLabel: UILabel!
     private weak var nameLabel: UILabel!
     private weak var textBottomSpacer: UIView!
+    private weak var textStackView: UIStackView!
+    private weak var spacer: UIView!
+    private weak var totalStackView: UIStackView!
     
     override func initView() {
         super.initView()
         
         let circleBarView = CircleStatusBarView()
         circleBarView.translatesAutoresizingMaskIntoConstraints = false
-        circleBarView.configure(statusType: .current)
+        circleBarView.configure(statusType: .current, positionType: .middle)
         self.circleBarView = circleBarView
         
         let titleLabel = UILabel()
@@ -47,14 +50,12 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<RealTimeBusLocationDat
         textStackView.translatesAutoresizingMaskIntoConstraints = false
         textStackView.axis = .vertical
         textStackView.spacing = 10
-        textStackView.alignment = .fill
         textStackView.distribution = .equalSpacing
+        self.textStackView = textStackView
         
         let textContainerStackView = UIStackView(arrangedSubviews: [textStackView, textBottomSpacer])
         textContainerStackView.translatesAutoresizingMaskIntoConstraints = false
         textContainerStackView.axis = .vertical
-        textContainerStackView.alignment = .fill
-        textContainerStackView.distribution = .fill
         
         let circleBarBottomSpacer = UIView()
         circleBarBottomSpacer.translatesAutoresizingMaskIntoConstraints = false
@@ -63,21 +64,29 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<RealTimeBusLocationDat
         let circleStackView = UIStackView(arrangedSubviews: [circleBarView, circleBarBottomSpacer])
         circleStackView.translatesAutoresizingMaskIntoConstraints = false
         circleStackView.axis = .vertical
-        circleStackView.spacing = 0
-        circleStackView.alignment = .fill
         circleStackView.distribution = .equalSpacing
         
         let spacer = UIView()
         spacer.translatesAutoresizingMaskIntoConstraints = false
         spacer.setContentHuggingPriority(.defaultLow, for: .vertical)
+        self.spacer = spacer
+        
         let totalStackView = UIStackView(arrangedSubviews: [circleStackView, textContainerStackView, spacer])
         totalStackView.translatesAutoresizingMaskIntoConstraints = false
         totalStackView.axis = .horizontal
         totalStackView.spacing = 16
         totalStackView.alignment = .bottom
         totalStackView.distribution = .fillProportionally
+        self.totalStackView = totalStackView
+        
         contentView.addSubview(totalStackView)
+    }
+    
+    override func initConstraint() {
+        super.initConstraint()
+        
         totalStackView.setConstraintsToMatch(contentView, top: 32, bottom: 32)
+        
         NSLayoutConstraint.activate([
             textStackView.topAnchor.constraint(equalTo: totalStackView.topAnchor),
             circleBarBottomSpacer.heightAnchor.constraint(equalToConstant: 4),
@@ -86,21 +95,22 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<RealTimeBusLocationDat
         ])
     }
 
-    override func configureCell(data: RealTimeBusLocationData?) {
+    override func configureCell(data: (RealTimeBusLocationData, Int)?) {
         super.configureCell(data: data)
         
-        guard let data = data else {
+        guard let (data, index) = data,
+              let position = BusStopPositionType(rawValue: index) else {
             return
         }
-        
+
+        circleBarView.configure(statusType: data.type, positionType: position)
+        circleBarBottomSpacer.isHidden = position != .middle
+        textBottomSpacer.isHidden = position != .topMiddle
         nameLabel.text = data.name
         nameLabel.textColor = data.type.color
-        nameLabel.font = data.type.font
-        titleLabel.text = data.type.title
-        titleLabel.isHidden = data.type.title.isEmpty
-        titleLabel.font = data.type.titleFont
-        circleBarView.configure(statusType: data.type)
-        circleBarBottomSpacer.isHidden = data.type != .current
-        textBottomSpacer.isHidden = data.type != .next
+        nameLabel.font = data.isEmpty ? BusStopPositionType.topMiddle.font : position.font
+        titleLabel.text = position.title
+        titleLabel.isHidden = position.title.isEmpty || data.isEmpty
+        titleLabel.font = position.titleFont
     }
 }
