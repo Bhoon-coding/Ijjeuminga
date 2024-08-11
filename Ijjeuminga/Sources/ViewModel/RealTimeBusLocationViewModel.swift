@@ -9,9 +9,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 import CoreLocation
+import AVFoundation
 
 class RealTimeBusLocationViewModelOutput: BaseViewModelOutput {
     let busNumber = PublishSubject<String>()
+    let close = PublishSubject<Void>()
 }
 
 class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOutput> {
@@ -19,7 +21,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     typealias Snapshot = NSDiffableDataSourceSnapshot<RealTimeBusLocationSectionData, RealTimeBusLocationData>
     typealias RealTimeBusInfo = Rest.RealTimeBus.ItemList
     typealias BusPositionInfo = Rest.BusPosition.ItemList
-    typealias BusStationInfo = Rest.BusRouteInfo.ItemList
+    typealias BusStopInfo = Rest.BusRouteInfo.ItemList
     
     lazy var dataSource: RealTimeBusLocationDataSource = {
         let dataSource = RealTimeBusLocationDataSource()
@@ -29,6 +31,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     private let busRouteId: String
     private let destinationBusStopId: String
     
+    private var timerDisposeBag = DisposeBag()
     private var currentBusRouteNumber: String = "" {
         didSet {
             if oldValue != currentBusRouteNumber {
@@ -38,7 +41,18 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     }
     private var currentBusVehID: String = ""
     private var currentBusPositionInfo: RealTimeBusInfo?
-    private var busStationList: [BusStationInfo] = []
+    private var busStopList: [BusStopInfo] = []
+    
+    private var remainingBusStopCount: Int? {
+        let busStopId = currentBusPositionInfo?.lastStnId ?? ""
+        
+        if let index1 = busStopList.firstIndex(where: { $0.station == busStopId }),
+           let index2 = busStopList.firstIndex(where: { $0.station == destinationBusStopId }),
+           abs(index1 - index2) <= 3 {
+            return abs(index1 - index2)
+        }
+        return nil
+    }
     
     init(busRouteId: String, destinationBusStopId: String) {
         self.busRouteId = busRouteId
@@ -61,13 +75,13 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 .asObservable()
         )
         .flatMap({ [weak self] (station, busPos) -> Observable<BusPositionInfo> in
-            self?.busStationList = station.msgBody.itemList ?? []
+            self?.busStopList = station.msgBody.itemList ?? []
             return LocationDataManager.shared.compareLocation(to: busPos.msgBody.itemList ?? [])
         })
         .flatMap({ [weak self] data -> Observable<Rest.RealTimeBus.RealTimeBusResponse> in
             guard let vehId = data.vehId,
                   !vehId.isEmpty,
-                  let stationList = self?.busStationList,
+                  let stationList = self?.busStopList,
                   !stationList.isEmpty else {
                 return .never()
             }
@@ -85,6 +99,8 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             
             self?.currentBusPositionInfo = busInfo
             self?.createSnapShot()
+            self?.startTimer()
+            self?.notice()
         }
         .disposed(by: viewDisposeBag)
     }
@@ -98,6 +114,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 
                 self?.currentBusPositionInfo = busInfo
                 self?.createSnapShot()
+                self?.notice()
             } onFailure: { error in
                 Log.error(error.localizedDescription)
             }
@@ -120,18 +137,18 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     
     private func createDataList() -> [RealTimeBusLocationData] {
         var dataList: [RealTimeBusLocationData] = []
-        let busStationID = currentBusPositionInfo?.lastStnId ?? ""
+        let busStopId = currentBusPositionInfo?.lastStnId ?? ""
         
-        if let index1 = busStationList.firstIndex(where: { $0.station == busStationID }),
-           let index2 = busStationList.firstIndex(where: { $0.station == destinationBusStopId }) {
-            let current = busStationList[index1]
-            let destination = busStationList[index2]
+        if let index1 = busStopList.firstIndex(where: { $0.station == busStopId }),
+           let index2 = busStopList.firstIndex(where: { $0.station == destinationBusStopId }) {
+            let current = busStopList[index1]
+            let destination = busStopList[index2]
             dataList.append(.init(name: destination.stationNm ?? "",
                                   type: .destination))
             
             if index1 < index2 {
                 if index1 + 1 < index2 {
-                    let next = busStationList[index1 + 1]
+                    let next = busStopList[index1 + 1]
                     dataList.append(.init(name: next.stationNm ?? "",
                                           type: .next))
                 }
@@ -140,19 +157,19 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                                       type: .current))
                 
                 if index1 - 1 >= 0 {
-                    let previous = busStationList[index1 - 1]
+                    let previous = busStopList[index1 - 1]
                     dataList.append(.init(name: previous.stationNm ?? "",
                                           type: .previous))
                 }
                 
                 if index1 - 2 >= 0 {
-                    let twoStopsAgo = busStationList[index1 - 2]
+                    let twoStopsAgo = busStopList[index1 - 2]
                     dataList.append(.init(name: twoStopsAgo.stationNm ?? "", 
                                           type: .twoStopsAgo))
                 }
             } else if index1 > index2 {
                 if index1 - 1 > index2 {
-                    let next = busStationList[index1 - 1]
+                    let next = busStopList[index1 - 1]
                     dataList.append(.init(name: next.stationNm ?? "",
                                           type: .next))
                 }
@@ -161,13 +178,13 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                                       type: .current))
                 
                 if index1 + 1 >= 0 {
-                    let previous = busStationList[index1 + 1]
+                    let previous = busStopList[index1 + 1]
                     dataList.append(.init(name: previous.stationNm ?? "",
                                           type: .previous))
                 }
                 
                 if index1 + 2 >= 0 {
-                    let twoStopsAgo = busStationList[index1 + 2]
+                    let twoStopsAgo = busStopList[index1 + 2]
                     dataList.append(.init(name: twoStopsAgo.stationNm ?? "",
                                           type: .twoStopsAgo))
                 }
@@ -175,8 +192,69 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         }
         return dataList
     }
- 
-    private func notice() {} // TODO: 3 정거장 전부터 음성 안내 및 진동
-    private func finish() {} // TODO: 종료
-    private func startTimer() {} // TODO: 30초마다 업데이트
+    
+    private func notice() {
+        guard let count = self.remainingBusStopCount,
+              count >= 0 && count <= 3 else {
+            return
+        }
+        
+        if count == 0 {
+            finish()
+            return
+        }
+        
+        var countText = ""
+        switch count {
+        case 1:
+            countText = "한"
+        case 2:
+            countText = "두"
+        case 3:
+            countText = "세"
+        default:
+            break
+        }
+        
+        vibrate()
+        speak(text: "도착까지 \(countText) 정거장 남았습니다")
+    }
+    
+    private func finish() {
+        self.timerDisposeBag = DisposeBag()
+        
+        let closePopup = CustomAlertController()
+            .setTitleMessage("안내를 종료합니다.")
+            .addaction("확인", .default) { [weak self] _ in
+                self?.output.close.onNext(())
+            }
+            .setPreferredAction(action: .default)
+            .build()
+        
+        output.presentVC.onNext((closePopup, true))
+    }
+    
+    private func vibrate() {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+    }
+    
+    private func speak(text: String) {
+        let speechSynthesizer = AVSpeechSynthesizer()
+        let speechUtterance = AVSpeechUtterance(string: text)
+        speechSynthesizer.speak(speechUtterance)
+    }
+    
+    private func startTimer() {
+        timerDisposeBag = DisposeBag()
+        
+        Observable<Int>
+            .timer(.seconds(15), scheduler: MainScheduler.instance)
+            .subscribe { [weak self] _ in
+                guard let vehId = self?.currentBusVehID else {
+                    return
+                }
+                self?.loadBusPosition(vehId: vehId)
+            }
+            .disposed(by: timerDisposeBag)
+    }
 }

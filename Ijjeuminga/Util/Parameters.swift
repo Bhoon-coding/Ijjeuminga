@@ -25,6 +25,8 @@ enum CodeKey: String {
     
     case endOrd
     
+    case vehId
+    
     case serviceKey
     
     // MARK: - Header
@@ -62,6 +64,7 @@ public class Parameters {
     private var params: [String: Codable?] = [:]
 
     func append(_ code: Code) {
+        params["resultType"] = "json"
         params[code.key.rawValue] = code.value
     }
 

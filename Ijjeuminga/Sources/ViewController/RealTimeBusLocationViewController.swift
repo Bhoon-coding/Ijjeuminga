@@ -117,7 +117,7 @@ final class RealTimeBusLocationViewController:
                     .setTitleMessage("안내를 종료할까요?")
                     .addaction("취소", .cancel)
                     .addaction("종료", .default) { [weak self] _ in
-                        self?.navigationController?.popViewController(animated: true)
+                        self?.viewModel.output.close.onNext(())
                     }
                     .setPreferredAction(action: .default)
                     .build()
