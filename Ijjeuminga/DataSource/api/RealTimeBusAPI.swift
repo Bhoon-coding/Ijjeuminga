@@ -83,7 +83,7 @@ extension Rest {
             let busNum: String? // 차량번호
             let lastStnId: String? // 마지막으로 지나간 정류장 ID
             let congetion: String? // 차량내부 혼잡도
-            let stopFlag: String? //정류소 도착 여부
+            let stopFlag: String? //정류소 도착 여부(0:운행중, 1:도착)
             let stId: String? //정류소 고유 ID
             
             enum CodingKeys: String, CodingKey {

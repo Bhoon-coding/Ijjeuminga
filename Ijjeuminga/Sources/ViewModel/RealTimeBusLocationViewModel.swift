@@ -97,10 +97,11 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 return
             }
             
+            let previous = self?.currentBusPositionInfo
             self?.currentBusPositionInfo = busInfo
             self?.createSnapShot()
             self?.startTimer()
-            self?.notice()
+            self?.notice(previousInfo: previous, currentInfo: busInfo)
         }
         .disposed(by: viewDisposeBag)
     }
@@ -111,10 +112,10 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 guard let busInfo = data.msgBody.itemList?.first else {
                     return
                 }
-                
+                let previous = self?.currentBusPositionInfo
                 self?.currentBusPositionInfo = busInfo
                 self?.createSnapShot()
-                self?.notice()
+                self?.notice(previousInfo: previous, currentInfo: busInfo)
             } onFailure: { error in
                 Log.error(error.localizedDescription)
             }
@@ -193,14 +194,22 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         return dataList
     }
     
-    private func notice() {
-        guard let count = self.remainingBusStopCount,
-              count >= 0 && count <= 3 else {
+    private func notice(previousInfo: RealTimeBusInfo?,
+                        currentInfo: RealTimeBusInfo) {
+        guard currentInfo.lastStnId != (previousInfo?.lastStnId ?? ""),
+              let count = self.remainingBusStopCount,
+              count >= 0 && count <= 3,
+              currentInfo.stopFlag == "1" else {
             return
         }
         
         if count == 0 {
-            finish()
+            timerDisposeBag = DisposeBag()
+            vibrate()
+            speak(text: "목적지에 도착했습니다")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                self.finish()
+            }
             return
         }
         
@@ -221,8 +230,6 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     }
     
     private func finish() {
-        self.timerDisposeBag = DisposeBag()
-        
         let closePopup = CustomAlertController()
             .setTitleMessage("안내를 종료합니다.")
             .addaction("확인", .default) { [weak self] _ in
@@ -248,7 +255,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         timerDisposeBag = DisposeBag()
         
         Observable<Int>
-            .timer(.seconds(15), scheduler: MainScheduler.instance)
+            .interval(.seconds(15), scheduler: MainScheduler.instance)
             .subscribe { [weak self] _ in
                 guard let vehId = self?.currentBusVehID else {
                     return
