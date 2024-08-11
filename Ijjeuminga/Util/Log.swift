@@ -147,4 +147,3 @@ extension Log {
         log(message, arguments, level: .custom(category: category))
     }
 }
-
