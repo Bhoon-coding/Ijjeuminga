@@ -113,11 +113,12 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     
     func createFilteredDataList(with list: [Rest.BusRouteInfo.ItemList]) {
         let newList: [DestinationTableData] = list.compactMap { item in
-            guard let seqString = item.seq, let seq = Int(seqString),
-                  let stationName = stationList[safe: seq]?.stationNm
-            else {
+            guard let seqString = item.seq,
+                  let seq = Int(seqString),
+                  let stationName = stationList[safe: seq]?.stationNm else {
                 return nil
             }
+            
             let nextItem = stationList.count > seq
             ? "\(stationName) 방향"
             : "종점"

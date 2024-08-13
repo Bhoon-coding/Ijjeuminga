@@ -56,9 +56,13 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
         
         self.viewModel.output.currentPosIndex
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] in
+            .subscribe { [weak self] currentPosIndex in
+                guard currentPosIndex != -1 else {
+                    print("정류장 데이터가 없습니다\n잠시후 다시 시도해주세요")
+                    return
+                }
                 self?.busStationTableView.scrollToRow(
-                    at: IndexPath(row: $0, section: 0),
+                    at: IndexPath(row: currentPosIndex, section: 0),
                     at: .middle,
                     animated: true
                 )
