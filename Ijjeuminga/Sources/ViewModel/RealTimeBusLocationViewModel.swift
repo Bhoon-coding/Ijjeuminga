@@ -79,7 +79,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             .map { $0.msgBody.itemList ?? [] }
             .asObservable()
             .filter { [weak self] busStopList in
-                self?.showErrorAlert(busStopList.isEmpty)
+                self?.showErrorAlert(busStopList.isEmpty, text: "예기치 못한 문제가 발생했습니다.")
                 return !busStopList.isEmpty
             }
             .flatMap { [weak self] list -> Observable<[BusPositionInfo]> in
@@ -96,7 +96,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                     .map { $0.vehId ?? "" }
             }
             .filter { [weak self] vehId in
-                self?.showErrorAlert(vehId.isEmpty)
+                self?.showErrorAlert(vehId.isEmpty, text: "운행 중인 버스가 없습니다.")
                 return !vehId.isEmpty
             }
             .flatMap { [weak self] vehId -> Observable<Rest.RealTimeBus.RealTimeBusResponse> in
@@ -314,13 +314,13 @@ extension RealTimeBusLocationViewModel {
         output.presentVC.onNext((closePopup, true))
     }
     
-    private func showErrorAlert(_ show: Bool) {
+    private func showErrorAlert(_ show: Bool, text: String) {
         guard show else {
             return
         }
         
         let closePopup = CustomAlertController()
-            .setTitleMessage("예기치 못한 문제가 발생했습니다")
+            .setTitleMessage(text)
             .addaction("닫기", .default) { [weak self] _ in
                 self?.output.close.onNext(())
             }
