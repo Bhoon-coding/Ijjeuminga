@@ -60,6 +60,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         return nil
     }
     
+    private let speechSynthesizer = AVSpeechSynthesizer()
     init(busRouteId: String, destinationBusStopId: String) {
         self.busRouteId = busRouteId
         self.destinationBusStopId = destinationBusStopId
@@ -280,9 +281,8 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     }
     
     private func speak(text: String) {
-        let speechSynthesizer = AVSpeechSynthesizer()
         let speechUtterance = AVSpeechUtterance(string: text)
-        speechSynthesizer.speak(speechUtterance)
+        self.speechSynthesizer.speak(speechUtterance)
     }
     
     private func startTimer() {
