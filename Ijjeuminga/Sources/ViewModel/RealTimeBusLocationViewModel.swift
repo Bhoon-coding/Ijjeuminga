@@ -86,8 +86,8 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 self?.busStopList = list
                 return BusPositionAPIService()
                     .getBusPosition(busRouteId: routeId,
-                                    startOrd: "0",
-                                    endOrd: list.first(where: { $0.station == (self?.destinationBusStopId ?? "") })?.seq ?? "10")
+                                    startOrd: "1",
+                                    endOrd: list.last?.seq ?? "10")
                     .map { $0.msgBody.itemList ?? [] }
                     .asObservable()
             }
