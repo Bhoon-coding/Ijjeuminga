@@ -232,6 +232,7 @@ extension DestinationViewController: UITableViewDataSource {
             cell = busStationCell
         }
         
+        cell.selectionStyle = .none
         return cell
     }
 }
