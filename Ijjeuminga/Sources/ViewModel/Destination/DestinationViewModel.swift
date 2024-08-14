@@ -20,6 +20,7 @@ class DestinationViewModelOutput: BaseViewModelOutput {
     let tableData = PublishSubject<[DestinationTableData]>()
     let currentPosIndex = PublishSubject<Int>()
     let close = PublishSubject<Void>()
+    let networkError = PublishSubject<Error>()
 }
 
 class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
@@ -82,9 +83,12 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
                 guard let stationList = res.msgBody.itemList else { return }
                 self?.stationList = stationList
                 self?.getCurrentPosition(stationList: stationList)
-            } onFailure: { error in
-                print("error: \(error.localizedDescription)")
-
+            } onFailure: { [weak self] error in
+                if let networkError = error as? CustomError.NetworkError {
+                    self?.output.networkError.onNext(networkError)
+                } else {
+                    self?.output.networkError.onNext(error)
+                }
             }
             .disposed(by: disposeBag)
     }

@@ -75,6 +75,28 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
             .distinctUntilChanged()
             .bind(to: self.viewModel.input.searchText)
             .disposed(by: viewDisposeBag)
+        
+        self.viewModel.output.networkError
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] error in
+                if let networkError = error as? CustomError.NetworkError {
+                    self?.showErrorPopup(message: networkError.messageDescription)
+                } else {
+                    self?.showErrorPopup(message: error.localizedDescription)
+                }
+                
+            }
+            .disposed(by: viewDisposeBag)
+    }
+    
+    private func showErrorPopup(message: String) {
+        let errorPopup = CustomAlertController()
+            .setTitleMessage("네트워크 에러")
+            .setContentMessage(message)
+            .addaction("확인", .default)
+            .build()
+        
+        present(errorPopup, animated: true)
     }
     
     @objc 
