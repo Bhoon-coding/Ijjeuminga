@@ -5,7 +5,9 @@
 //  Created by BH on 2024/07/04.
 //
 
-import UIKit
+import UIKit.UITableViewCell
+
+import SkeletonView
 
 class DestinationSearchedTableViewCell: BaseTableViewCell<DestinationTableData> {
 

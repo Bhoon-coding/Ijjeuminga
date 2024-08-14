@@ -36,7 +36,7 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     }
     
     override func attachView() {
-        fetchStationByRoute(with: routeId)
+        fetchStationByRoute(with: self.routeId)
         LocationDataManager.shared.requestLocationAuth()
         
         input.searchText
@@ -108,8 +108,11 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
             )
         }
         
-        output.tableData.onNext(newList)
-        output.currentPosIndex.onNext(self.currentPosIndex)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.output.tableData.onNext(newList)
+            self.output.currentPosIndex.onNext(self.currentPosIndex)
+        }
+        
     }
     
     func createFilteredDataList(with list: [Rest.BusRouteInfo.ItemList]) {
