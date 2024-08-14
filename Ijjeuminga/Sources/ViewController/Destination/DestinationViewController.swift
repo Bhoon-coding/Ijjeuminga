@@ -157,8 +157,8 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
             destinationTitle.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
             
             busStationSearchBar.topAnchor.constraint(equalTo: destinationTitle.bottomAnchor, constant: 16),
-            busStationSearchBar.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
-            busStationSearchBar.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
+            busStationSearchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            busStationSearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             busStationSearchBar.heightAnchor.constraint(equalToConstant: 40),
             
             currentStationStackView.topAnchor.constraint(equalTo: busStationSearchBar.bottomAnchor, constant: 16),
@@ -236,6 +236,7 @@ extension DestinationViewController: UITableViewDataSource {
             cell = busStationCell
         }
         
+        cell.selectionStyle = .none
         return cell
     }
 }
@@ -260,6 +261,6 @@ extension DestinationViewController: UISearchBarDelegate {
     }
 }
 
-//#Preview {
-//    DestinationViewController()
-//}
+#Preview {
+    DestinationViewController(viewModel: DestinationViewModel(routeId: "100100139"))
+}

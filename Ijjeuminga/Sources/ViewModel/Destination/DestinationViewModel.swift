@@ -109,6 +109,7 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
         }
         
         output.tableData.onNext(newList)
+        output.currentPosIndex.onNext(self.currentPosIndex)
     }
     
     func createFilteredDataList(with list: [Rest.BusRouteInfo.ItemList]) {
