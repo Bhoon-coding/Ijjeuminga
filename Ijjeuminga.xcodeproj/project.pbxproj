@@ -24,6 +24,8 @@
 		9FD491682C0F097000445C45 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491672C0F097000445C45 /* TestViewController.swift */; };
 		9FD4916D2C0F0C0900445C45 /* Extension + UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD4916C2C0F0C0900445C45 /* Extension + UIView.swift */; };
 		9FD491772C114AD800445C45 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD491762C114AD800445C45 /* BaseViewModel.swift */; };
+		9FE73E4B2C70A77800E705DA /* KoreaBusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE73E4A2C70A77800E705DA /* KoreaBusType.swift */; };
+		9FE73E4D2C70B8B600E705DA /* TimeCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE73E4C2C70B8B600E705DA /* TimeCountView.swift */; };
 		C782F5F42C1E75E60053E3DB /* BusListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F5F32C1E75E60053E3DB /* BusListViewController.swift */; };
 		C782F5F72C1E761B0053E3DB /* BusListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F5F62C1E761B0053E3DB /* BusListViewModel.swift */; };
 		C782F5F92C1E7EA60053E3DB /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F5F82C1E7EA60053E3DB /* Font.swift */; };
@@ -110,6 +112,8 @@
 		9FD491672C0F097000445C45 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		9FD4916C2C0F0C0900445C45 /* Extension + UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIView.swift"; sourceTree = "<group>"; };
 		9FD491762C114AD800445C45 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		9FE73E4A2C70A77800E705DA /* KoreaBusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreaBusType.swift; sourceTree = "<group>"; };
+		9FE73E4C2C70B8B600E705DA /* TimeCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCountView.swift; sourceTree = "<group>"; };
 		C782F5F32C1E75E60053E3DB /* BusListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusListViewController.swift; sourceTree = "<group>"; };
 		C782F5F62C1E761B0053E3DB /* BusListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusListViewModel.swift; sourceTree = "<group>"; };
 		C782F5F82C1E7EA60053E3DB /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				9F24B58B2C18709B00CF4D89 /* BusStopStatusType.swift */,
+				9FE73E4A2C70A77800E705DA /* KoreaBusType.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 			children = (
 				9F24B58E2C18753700CF4D89 /* CircleStatusBarView.swift */,
 				9F24B5902C18759500CF4D89 /* BaseView.swift */,
+				9FE73E4C2C70B8B600E705DA /* TimeCountView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -630,6 +636,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FE73E4B2C70A77800E705DA /* KoreaBusType.swift in Sources */,
 				9F24B5932C18779F00CF4D89 /* Extension+NSLayoutConstraint.swift in Sources */,
 				9F24B58C2C18709B00CF4D89 /* BusStopStatusType.swift in Sources */,
 				9FB1562B2C30F78C0083991E /* RealTimeBusAPI.swift in Sources */,
@@ -673,6 +680,7 @@
 				E118620E2C190EE900C423D3 /* Extension + Encodable.swift in Sources */,
 				E118620C2C190D3F00C423D3 /* Parameters.swift in Sources */,
 				E11861D32C17BB7A00C423D3 /* ErrorCode.swift in Sources */,
+				9FE73E4D2C70B8B600E705DA /* TimeCountView.swift in Sources */,
 				E128DEB92C464C6500539ED7 /* CustomAlertController.swift in Sources */,
 				E11861C22C135F1700C423D3 /* DestinationTableViewCell.swift in Sources */,
 				E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */,

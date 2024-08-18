@@ -18,7 +18,7 @@ class BaseViewModelOutput {
     let error = PublishSubject<(Error, (() -> Void)?)>()
     let pushVC = PublishSubject<(UIViewController, Bool)>()
     let presentVC = PublishSubject<(UIViewController, Bool)>()
-    let showSpinner = PublishSubject<Bool>()
+    let showIndicator = PublishSubject<Bool>()
 }
 
 class BaseViewModel<T: BaseViewModelOutput> {

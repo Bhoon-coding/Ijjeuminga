@@ -53,7 +53,8 @@ class BaseViewController: UIViewController {
 
 class ViewModelInjectionBaseViewController<T, T2: BaseViewModelOutput>: BaseViewController {
     var viewModel: T!
-
+    weak var indicator: UIActivityIndicatorView?
+    
     init(viewModel: T) {
         super.init(nibName: nil, bundle: nil)
         
@@ -63,6 +64,19 @@ class ViewModelInjectionBaseViewController<T, T2: BaseViewModelOutput>: BaseView
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.style = .large
+        view.addSubview(indicator)
+        self.indicator = indicator
+        
+        indicator.setConstraintsToMatch(view)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,7 +100,23 @@ class ViewModelInjectionBaseViewController<T, T2: BaseViewModelOutput>: BaseView
         guard let viewModel = self.viewModel as? BaseViewModel<T2> else {
             return
         }
-
+        
+        viewModel.output.error
+            .subscribe(onNext: { (error, completion) in
+                let closePopup = CustomAlertController()
+                    .setTitleMessage(error.localizedDescription)
+                    .addaction("닫기", .default) { _ in
+                        guard let completion = completion else {
+                            return
+                        }
+                        completion()
+                    }
+                    .setPreferredAction(action: .default)
+                    .build()
+                
+                viewModel.output.presentVC.onNext((closePopup, true))
+            })
+            .disposed(by: disposeBag)
         viewModel.output.presentVC
             .subscribe(onNext: { [weak self] (controller, animated) in
                 self?.present(controller, animated: animated)
@@ -95,6 +125,15 @@ class ViewModelInjectionBaseViewController<T, T2: BaseViewModelOutput>: BaseView
         viewModel.output.pushVC
             .subscribe(onNext: { [weak self] (controller, animated) in
                 self?.navigationController?.pushViewController(controller, animated: animated)
+            })
+            .disposed(by: disposeBag)
+        viewModel.output.showIndicator
+            .subscribe(onNext: { [weak self] show in
+                if show {
+                    self?.indicator?.startAnimating()
+                } else {
+                    self?.indicator?.stopAnimating()
+                }
             })
             .disposed(by: disposeBag)
     }

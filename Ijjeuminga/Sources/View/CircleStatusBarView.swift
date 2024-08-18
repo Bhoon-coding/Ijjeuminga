@@ -42,8 +42,8 @@ class CircleStatusBarView: BaseView {
                 circleLeadingConstraint.constant = -1
             case .middle:
                 barHeightConstraint.constant = 4
-                barWidthConstraint.constant = 85
-                circleLeadingConstraint.constant = 1
+                barWidthConstraint.constant = 87
+                circleLeadingConstraint.constant = -5
             }
         }
     }

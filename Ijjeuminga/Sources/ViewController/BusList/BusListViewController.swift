@@ -193,7 +193,7 @@ extension BusListViewController: UITableViewDelegate {
         let busInfo = self.searchedBusList[indexPath.row]
         let routeId = busInfo.routeId
         
-        self.viewModel.input.selectBus.onNext(routeId)
+        self.viewModel.input.selectBus.onNext((routeId, KoreaBusType(rawValue: busInfo.type)?.color ?? .blueBus ))
         
         switch tableView {
         case self.searchListTableView:
