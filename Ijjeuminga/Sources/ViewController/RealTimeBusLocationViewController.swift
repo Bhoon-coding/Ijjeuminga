@@ -30,6 +30,7 @@ final class RealTimeBusLocationViewController:
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = viewModel.busColor
+        titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         self.titleLabel = titleLabel
         navigationItem.titleView = titleLabel
         
