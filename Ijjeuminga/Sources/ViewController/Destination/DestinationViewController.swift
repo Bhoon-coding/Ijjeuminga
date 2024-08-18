@@ -258,5 +258,5 @@ extension DestinationViewController: UISearchBarDelegate {
 }
 
 #Preview {
-    DestinationViewController(viewModel: DestinationViewModel(routeId: "100100139"))
+    DestinationViewController(viewModel: DestinationViewModel(routeId: "100100139", busColor: .blueBus))
 }
