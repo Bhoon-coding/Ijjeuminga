@@ -151,9 +151,14 @@ final class RealTimeBusLocationViewController:
             .disposed(by: viewDisposeBag)
 
         viewModel.output.startTimer
-            .observe(on: MainScheduler.instance)
             .subscribe { [weak timeCountView] time in
                 timeCountView?.input.startTimer.onNext(time)
+            }
+            .disposed(by: viewDisposeBag)
+        
+        viewModel.output.stopTimer
+            .subscribe { [weak timeCountView] _ in
+                timeCountView?.input.stopTimer.onNext(())
             }
             .disposed(by: viewDisposeBag)
         

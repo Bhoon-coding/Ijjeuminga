@@ -19,6 +19,7 @@ class RealTimeBusLocationViewModelOutput: BaseViewModelOutput {
     let busNumber = PublishSubject<String>()
     let close = PublishSubject<Void>()
     let startTimer = PublishSubject<Int>()
+    let stopTimer = PublishSubject<Void>()
     let enableButton = PublishSubject<Bool>()
 }
 
@@ -36,7 +37,6 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         return dataSource
     }()
 
-    private var timerDisposeBag = DisposeBag()
     private var currentBusRouteNumber: String = "" {
         didSet {
             if oldValue != currentBusRouteNumber {
@@ -162,9 +162,8 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 self?.createSnapShot()
                 self?.notice(previousInfo: previous, currentInfo: busInfo)
                 self?.output.startTimer.onNext(15)
-            } onFailure: { error in
+            } onFailure: { [weak self] error in
                 Log.error(error.localizedDescription)
-            } onDisposed: { [weak self] in
                 self?.output.startTimer.onNext(15)
             }
             .disposed(by: viewDisposeBag)
@@ -286,7 +285,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         }
         
         if count == 0 {
-            timerDisposeBag = DisposeBag()
+            output.stopTimer.onNext(())
             vibrate()
             speak(text: "목적지에 도착했습니다")
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
@@ -316,6 +315,13 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     }
     
     private func speak(text: String) {
+        do {
+           try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: AVAudioSession.CategoryOptions.mixWithOthers)
+           try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            Log.error(error)
+        }
+
         let speechUtterance = AVSpeechUtterance(string: text)
         self.speechSynthesizer.speak(speechUtterance)
     }

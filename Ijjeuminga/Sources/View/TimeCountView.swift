@@ -18,6 +18,7 @@ class TimeCountView: BaseReactiveView {
     
     struct Input {
         let startTimer = PublishSubject<Int>()
+        let stopTimer = PublishSubject<Void>()
     }
     
     struct Output {
@@ -88,36 +89,64 @@ class TimeCountView: BaseReactiveView {
                 self?.startTimer(count)
             })
             .disposed(by: disposeBag)
+        
+        input.stopTimer
+            .subscribe(onNext: { [weak self] count in
+                self?.stopTimer()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func startTimer(_ count: Int) {
         timerDisposeBag = DisposeBag()
-        titleLabel.text = "\(count)"
-        titleLabel.isHidden = false
-        indicator.stopAnimating()
-        self.isUserInteractionEnabled = true
+        self.updateStartTimerUI(count: count)
         
-        Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+        Observable<Int>.interval(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
             .subscribe(onNext: { [weak self] time in
                 guard time < 15 else {
                     self?.stopTimer()
                     return
                 }
-                self?.titleLabel.text = "\(count - time - 1)"
+                
+                self?.updateTimeText("\(count - time - 1)")
+                
             })
             .disposed(by: timerDisposeBag)
         
     }
     
+    private func updateTimeText(_ text: String) {
+        DispatchQueue.main.async {
+            self.titleLabel.text = text
+        }
+    }
+    
     private func stopTimer() {
         timerDisposeBag = DisposeBag()
-        titleLabel.text = ""
-        titleLabel.isHidden = true
-        indicator.startAnimating()
-        self.isUserInteractionEnabled = false
+        self.updateStopTimerUI()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
             self?.output.didTap.onNext(())
+        }
+    }
+    
+    private func updateStartTimerUI(count: Int) {
+        Log.info("start \(Date())")
+        DispatchQueue.main.async {
+            self.isUserInteractionEnabled = true
+            self.titleLabel.text = "\(count)"
+            self.titleLabel.isHidden = false
+            self.indicator.stopAnimating()
+        }
+    }
+    
+    private func updateStopTimerUI() {
+        Log.info("stop \(Date())")
+        DispatchQueue.main.async {
+            self.isUserInteractionEnabled = false
+            self.titleLabel.text = ""
+            self.titleLabel.isHidden = true
+            self.indicator.startAnimating()
         }
     }
 }
