@@ -91,8 +91,8 @@ class TimeCountView: BaseReactiveView {
             .disposed(by: disposeBag)
         
         input.stopTimer
-            .subscribe(onNext: { [weak self] count in
-                self?.stopTimer()
+            .subscribe(onNext: { [weak self] _ in
+                self?.stopTimer(end: true)
             })
             .disposed(by: disposeBag)
     }
@@ -121,17 +121,18 @@ class TimeCountView: BaseReactiveView {
         }
     }
     
-    private func stopTimer() {
+    private func stopTimer(end: Bool = false) {
         timerDisposeBag = DisposeBag()
-        self.updateStopTimerUI()
+        self.updateStopTimerUI(end: end)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
-            self?.output.didTap.onNext(())
+        if !end {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+                self?.output.didTap.onNext(())
+            }
         }
     }
     
     private func updateStartTimerUI(count: Int) {
-        Log.info("start \(Date())")
         DispatchQueue.main.async {
             self.isUserInteractionEnabled = true
             self.titleLabel.text = "\(count)"
@@ -140,13 +141,14 @@ class TimeCountView: BaseReactiveView {
         }
     }
     
-    private func updateStopTimerUI() {
-        Log.info("stop \(Date())")
+    private func updateStopTimerUI(end: Bool = false) {
         DispatchQueue.main.async {
             self.isUserInteractionEnabled = false
-            self.titleLabel.text = ""
-            self.titleLabel.isHidden = true
-            self.indicator.startAnimating()
+            self.titleLabel.text = end ? "0" : ""
+            self.titleLabel.isHidden = !end
+            if !end {
+                self.indicator.startAnimating()
+            }
         }
     }
 }

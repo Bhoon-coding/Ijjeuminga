@@ -161,7 +161,6 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 self?.currentBusPositionInfo = busInfo
                 self?.createSnapShot()
                 self?.notice(previousInfo: previous, currentInfo: busInfo)
-                self?.output.startTimer.onNext(15)
             } onFailure: { [weak self] error in
                 Log.error(error.localizedDescription)
                 self?.output.startTimer.onNext(15)
@@ -281,6 +280,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
               let count = self.remainingBusStopCount,
               count >= 0 && count <= 3,
               currentInfo.stopFlag == "1" else {
+            output.startTimer.onNext(15)
             return
         }
         
@@ -288,7 +288,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             output.stopTimer.onNext(())
             vibrate()
             speak(text: "목적지에 도착했습니다")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.showFinishAlert()
             }
             return
@@ -308,6 +308,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         
         vibrate()
         speak(text: "도착까지 \(countText) 정거장 남았습니다")
+        output.startTimer.onNext(15)
     }
     
     private func vibrate() {
