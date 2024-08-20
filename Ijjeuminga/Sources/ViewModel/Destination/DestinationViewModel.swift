@@ -19,6 +19,7 @@ class DestinationViewModelInput: BaseViewModelInput {
 class DestinationViewModelOutput: BaseViewModelOutput {
     let tableData = PublishSubject<[DestinationTableData]>()
     let currentPosIndex = PublishSubject<Int>()
+    let busNumber = PublishSubject<String>()
     let close = PublishSubject<Void>()
 }
 
@@ -27,10 +28,16 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     let input = DestinationViewModelInput()
 
     private var currentPosIndex: Int = -1
-    private var stationList: [Rest.BusRouteInfo.ItemList] = []
+    private var stationList: [Rest.BusRouteInfo.ItemList] = [] {
+        didSet {
+            if let busNumber = stationList.first?.busRouteAbrv {
+                output.busNumber.onNext(busNumber)
+            }
+        }
+    }
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
     private var routeId: String
-    private let busColor: UIColor
+    public let busColor: UIColor
     
     init(routeId: String, busColor: UIColor) {
         self.routeId = routeId
@@ -90,7 +97,10 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
                 guard let stationList = res.msgBody.itemList else { return }
                 self?.stationList = stationList
                 self?.getCurrentPosition(stationList: stationList)
-            } onFailure: { error in
+            } onFailure: { [weak self] error in
+                self?.output.error.onNext((error, {
+                    self?.output.close.onNext(())
+                }))
                 print("error: \(error.localizedDescription)")
 
             }
