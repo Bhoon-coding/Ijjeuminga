@@ -288,7 +288,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             output.stopTimer.onNext(())
             vibrate()
             speak(text: "목적지에 도착했습니다")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.showFinishAlert()
             }
             return

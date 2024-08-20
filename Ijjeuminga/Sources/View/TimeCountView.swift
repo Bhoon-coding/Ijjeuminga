@@ -143,10 +143,12 @@ class TimeCountView: BaseReactiveView {
     
     private func updateStopTimerUI(end: Bool = false) {
         DispatchQueue.main.async {
-            self.isUserInteractionEnabled = false
+            self.isUserInteractionEnabled = end
             self.titleLabel.text = end ? "0" : ""
             self.titleLabel.isHidden = !end
-            if !end {
+            if end {
+                self.indicator.stopAnimating()
+            } else {
                 self.indicator.startAnimating()
             }
         }
