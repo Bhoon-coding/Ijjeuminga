@@ -18,6 +18,7 @@ final class RealTimeBusLocationViewController:
     private weak var tableView: UITableView!
     private weak var closeButton: UIButton!
     private weak var stackView: UIStackView!
+    private weak var timeCountView: TimeCountView!
     private var dataList: [Int] = []
     
     override func initView() {
@@ -28,8 +29,8 @@ final class RealTimeBusLocationViewController:
         
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont(name: Font.sandollGothicBold, size: 24)
-        titleLabel.textColor = .redBus
+        titleLabel.textColor = viewModel.busColor
+        titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         self.titleLabel = titleLabel
         navigationItem.titleView = titleLabel
         
@@ -85,6 +86,11 @@ final class RealTimeBusLocationViewController:
         view.addSubview(stackView)
         self.stackView = stackView
         
+        let timeCountView = TimeCountView()
+        timeCountView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(timeCountView)
+        self.timeCountView = timeCountView
+        
         initEvent()
     }
 
@@ -101,7 +107,12 @@ final class RealTimeBusLocationViewController:
             tableView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
             
-            closeButton.heightAnchor.constraint(equalToConstant: 48)
+            closeButton.heightAnchor.constraint(equalToConstant: 48),
+            
+            timeCountView.widthAnchor.constraint(equalToConstant: TimeCountView.Padding.width),
+            timeCountView.heightAnchor.constraint(equalToConstant: TimeCountView.Padding.width),
+            timeCountView.bottomAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: -48),
+            timeCountView.trailingAnchor.constraint(equalTo: guideLabel.trailingAnchor)
         ])
     }
     
@@ -125,6 +136,10 @@ final class RealTimeBusLocationViewController:
                 self?.present(closePopup, animated: true)
             }
             .disposed(by: disposeBag)
+        
+        timeCountView.output.didTap
+            .bind(to: viewModel.input.updateBusLocation)
+            .disposed(by: disposeBag)
     }
     
     override func bind() {
@@ -133,6 +148,32 @@ final class RealTimeBusLocationViewController:
         viewModel.output.busNumber
             .observe(on: MainScheduler.instance)
             .bind(to: titleLabel.rx.text)
+            .disposed(by: viewDisposeBag)
+
+        viewModel.output.startTimer
+            .subscribe { [weak timeCountView] time in
+                timeCountView?.input.startTimer.onNext(time)
+            }
+            .disposed(by: viewDisposeBag)
+        
+        viewModel.output.stopTimer
+            .subscribe { [weak timeCountView] _ in
+                timeCountView?.input.stopTimer.onNext(())
+            }
+            .disposed(by: viewDisposeBag)
+        
+        viewModel.output.enableButton
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak closeButton, weak timeCountView] enable in
+                let color = UIColor.redBus.withAlphaComponent(enable ? 1 : 0.5)
+                var modified = closeButton?.configuration
+                modified?.attributedTitle?.foregroundColor = color
+                closeButton?.configuration = modified
+                closeButton?.layer.borderColor = color.cgColor
+                closeButton?.isUserInteractionEnabled = enable
+                timeCountView?.alpha = enable ? 1 : 0.5
+                timeCountView?.isUserInteractionEnabled = enable
+            })
             .disposed(by: viewDisposeBag)
     }
 }

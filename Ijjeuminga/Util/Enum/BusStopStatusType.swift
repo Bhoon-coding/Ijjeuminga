@@ -28,37 +28,45 @@ enum BusStopStatusType: Int {
             return .disabledText
         }
     }
-    
-    var title: String {
-        switch self {
-        case .next:
-            return "다음 정류장"
-        case .current:
-            return "이번 정류장"
-        default:
-            return ""
-        }
-    }
+}
+
+enum BusStopPositionType: Int {
+    case top
+    case topMiddle
+    case middle
+    case bottomMiddle
+    case bottom
     
     var font: UIFont {
         switch self {
-        case .current:
+        case .middle:
             return UIFont(name: Font.sandollGothicBold, size: 26) ?? .boldSystemFont(ofSize: 26)
-        case .next, .previous:
+        case .topMiddle, .bottomMiddle:
             return UIFont(name: Font.sandollGothicBold, size: 16) ?? .boldSystemFont(ofSize: 16)
-        case .destination, .twoStopsAgo:
+        case .top, .bottom:
             return UIFont(name: Font.sandollGothicBold, size: 14) ?? .boldSystemFont(ofSize: 14)
         }
     }
     
     var titleFont: UIFont? {
         switch self {
-        case .next:
+        case .topMiddle:
             return UIFont(name: Font.sandollGothicBold, size: 13) ?? .boldSystemFont(ofSize: 13)
-        case .current:
+        case .middle:
             return UIFont(name: Font.sandollGothicBold, size: 16) ?? .boldSystemFont(ofSize: 16)
         default:
             return nil
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .topMiddle:
+            return "다음 정류장"
+        case .middle:
+            return "이번 정류장"
+        default:
+            return ""
         }
     }
 }

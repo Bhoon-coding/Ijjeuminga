@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import UIKit
 import RxSwift
 
 class DestinationViewModelInput: BaseViewModelInput {
@@ -19,6 +19,7 @@ class DestinationViewModelInput: BaseViewModelInput {
 class DestinationViewModelOutput: BaseViewModelOutput {
     let tableData = PublishSubject<[DestinationTableData]>()
     let currentPosIndex = PublishSubject<Int>()
+    let busNumber = PublishSubject<String>()
     let close = PublishSubject<Void>()
     let networkError = PublishSubject<Error>()
 }
@@ -28,12 +29,22 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     let input = DestinationViewModelInput()
 
     private var currentPosIndex: Int = -1
-    private var stationList: [Rest.BusRouteInfo.ItemList] = []
+    private var stationList: [Rest.BusRouteInfo.ItemList] = [] {
+        didSet {
+            if let busNumber = stationList.first?.busRouteAbrv {
+                output.busNumber.onNext(busNumber)
+            }
+        }
+    }
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
     private var routeId: String
+    public let busColor: UIColor
     
-    init(routeId: String) {
+    init(routeId: String, busColor: UIColor) {
         self.routeId = routeId
+        self.busColor = busColor
+        
+        super.init()
     }
     
     override func attachView() {
@@ -67,10 +78,14 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
                 switch $0 {
                 case .searchResult(station: let destination, _),
                         .stationResult(station: let destination, _, _):
-                    guard let stationId = destination.station else {
+                    guard let stationId = destination.station,
+                          let stationList = self?.stationList,
+                          let index = self?.currentPosIndex,
+                          index < stationList.count,
+                          let startId = stationList[index].station else {
                         return
                     }
-                    self?.openRealTimeBusLocation(destinationId: stationId)
+                    self?.openRealTimeBusLocation(startId: startId, destinationId: stationId)
                 }
             })
             .disposed(by: viewDisposeBag)
@@ -84,11 +99,11 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
                 self?.stationList = stationList
                 self?.getCurrentPosition(stationList: stationList)
             } onFailure: { [weak self] error in
-                if let networkError = error as? CustomError.NetworkError {
-                    self?.output.networkError.onNext(networkError)
-                } else {
-                    self?.output.networkError.onNext(error)
-                }
+                self?.output.error.onNext((error, {
+                    self?.output.close.onNext(())
+                }))
+                print("error: \(error.localizedDescription)")
+
             }
             .disposed(by: disposeBag)
     }
@@ -139,8 +154,11 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
         output.tableData.onNext(newList)
     }
     
-    private func openRealTimeBusLocation(destinationId: String) {
-        let viewModel = RealTimeBusLocationViewModel(busRouteId: routeId, destinationBusStopId: destinationId)
+    private func openRealTimeBusLocation(startId: String, destinationId: String) {
+        let viewModel = RealTimeBusLocationViewModel(busRouteId: routeId,
+                                                     startBusStopId: startId,
+                                                     destinationBusStopId: destinationId, 
+                                                     busColor: busColor)
         let controller = RealTimeBusLocationViewController(viewModel: viewModel)
         viewModel.output.close
             .bind(to: output.close)
@@ -155,4 +173,3 @@ enum DestinationTableData {
     case stationResult(station: Rest.BusRouteInfo.ItemList, isLast: Bool, nearestIndex: Int)
     
 }
-

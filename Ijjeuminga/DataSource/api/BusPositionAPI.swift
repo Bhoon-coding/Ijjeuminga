@@ -24,8 +24,8 @@ extension Rest {
         
         struct BusPositionParameters: Codable {
             let busRouteId: String
-            var startOrd: String = "1"
-            var endOrd: String = "10"
+            var startOrd: String
+            var endOrd: String
             var serviceKey: String = Constant.serviceKey
         }
         
@@ -84,16 +84,22 @@ extension Rest {
 
 protocol BusPositionAPIServiceable {
     func getBusPosition(
-        with busRouteId: String
+        busRouteId: String,
+        startOrd: String,
+        endOrd: String
     ) -> Single<Rest.BusPosition.BusPositionResponse>
 }
 
 struct BusPositionAPIService: BusPositionAPIServiceable {
     func getBusPosition(
-        with busRouteId: String
+        busRouteId: String,
+        startOrd: String,
+        endOrd: String
     ) -> Single<Rest.BusPosition.BusPositionResponse> {
         Rest.BusPosition(parameters: Rest.BusPosition.BusPositionParameters(
-            busRouteId: busRouteId
+            busRouteId: busRouteId,
+            startOrd: startOrd,
+            endOrd: endOrd
         ))
         .rx
         .request()

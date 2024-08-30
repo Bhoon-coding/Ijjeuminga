@@ -12,6 +12,7 @@ import SkeletonView
 
 class DestinationViewController: ViewModelInjectionBaseViewController<DestinationViewModel, DestinationViewModelOutput> {
     
+    private weak var titleLabel: UILabel!
     private weak var backgroundView: UIView!
     private weak var destinationTitle: UILabel!
     private weak var busStationSearchBar: UISearchBar!
@@ -48,6 +49,10 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     
     override func bind() {
         super.bind()
+        self.viewModel.output.busNumber
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: viewDisposeBag)
+        
         self.viewModel.output.tableData
             .observe(on: MainScheduler.instance)
             .subscribe { [weak self] in
@@ -111,7 +116,15 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     override func initView() {
         super.initView()
 
-        navigationItem.title = "버스번호"
+        navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.tintColor = .black
+        
+        let titleLabel = UILabel()
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.textColor = viewModel.busColor
+        titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+        self.titleLabel = titleLabel
+        navigationItem.titleView = titleLabel
         
         let backgroundView = UIView()
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -314,5 +327,5 @@ extension DestinationViewController: UISearchBarDelegate {
 }
 
 #Preview {
-    DestinationViewController(viewModel: DestinationViewModel(routeId: "100100139"))
+    DestinationViewController(viewModel: DestinationViewModel(routeId: "100100139", busColor: .blueBus))
 }
