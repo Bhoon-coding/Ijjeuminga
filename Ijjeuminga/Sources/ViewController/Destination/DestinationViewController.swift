@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import SkeletonView
 
 class DestinationViewController: ViewModelInjectionBaseViewController<DestinationViewModel, DestinationViewModelOutput> {
     
@@ -57,13 +58,18 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
             .subscribe { [weak self] in
                 self?.dataList = $0
                 self?.busStationTableView.reloadData()
+                self?.view.hideSkeleton()
             }.disposed(by: viewDisposeBag)
         
         self.viewModel.output.currentPosIndex
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] in
+            .subscribe { [weak self] currentPosIndex in
+                guard currentPosIndex != -1 else {
+                    print("정류장 데이터가 없습니다\n잠시후 다시 시도해주세요")
+                    return
+                }
                 self?.busStationTableView.scrollToRow(
-                    at: IndexPath(row: $0, section: 0),
+                    at: IndexPath(row: currentPosIndex, section: 0),
                     at: .middle,
                     animated: true
                 )
@@ -74,6 +80,28 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
             .distinctUntilChanged()
             .bind(to: self.viewModel.input.searchText)
             .disposed(by: viewDisposeBag)
+        
+        self.viewModel.output.networkError
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] error in
+                if let networkError = error as? CustomError.NetworkError {
+                    self?.showErrorPopup(message: networkError.messageDescription)
+                } else {
+                    self?.showErrorPopup(message: error.localizedDescription)
+                }
+                
+            }
+            .disposed(by: viewDisposeBag)
+    }
+    
+    private func showErrorPopup(message: String) {
+        let errorPopup = CustomAlertController()
+            .setTitleMessage("네트워크 에러")
+            .setContentMessage(message)
+            .addaction("확인", .default)
+            .build()
+        
+        present(errorPopup, animated: true)
     }
     
     @objc 
@@ -100,32 +128,36 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
         
         let backgroundView = UIView()
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.isSkeletonable = true
         backgroundView.backgroundColor = .white
         view.addSubview(backgroundView)
         self.backgroundView = backgroundView
         
         let destinationTitle = UILabel()
         destinationTitle.translatesAutoresizingMaskIntoConstraints = false
+        destinationTitle.isSkeletonable = true
         destinationTitle.text = "목적지 선택"
         destinationTitle.font = .systemFont(ofSize: 24, weight: .bold)
-        view.addSubview(destinationTitle)
+        backgroundView.addSubview(destinationTitle)
         self.destinationTitle = destinationTitle
         
         let busStationSearchBar = UISearchBar()
         busStationSearchBar.translatesAutoresizingMaskIntoConstraints = false
+        busStationSearchBar.isSkeletonable = true
         busStationSearchBar.placeholder = "정류장 검색"
         busStationSearchBar.backgroundImage = UIImage()
         busStationSearchBar.delegate = self
-        view.addSubview(busStationSearchBar)
+        backgroundView.addSubview(busStationSearchBar)
         self.busStationSearchBar = busStationSearchBar
         
         let currentStationTapGesture = UITapGestureRecognizer(target: self, action: #selector(tapCurrentStation))
         
         let currentStationStackView = UIStackView()
         currentStationStackView.translatesAutoresizingMaskIntoConstraints = false
+        currentStationStackView.isSkeletonable = true
         currentStationStackView.spacing = 4
         currentStationStackView.addGestureRecognizer(currentStationTapGesture)
-        view.addSubview(currentStationStackView)
+        backgroundView.addSubview(currentStationStackView)
         self.currentStationStackView = currentStationStackView
         
         let currentStationImageView = UIImageView()
@@ -144,16 +176,21 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
         
         let busStationTableView = UITableView()
         busStationTableView.translatesAutoresizingMaskIntoConstraints = false
+        busStationTableView.isSkeletonable = true
         busStationTableView.delegate = self
         busStationTableView.dataSource = self
         busStationTableView.rowHeight = 54
+        busStationTableView.estimatedRowHeight = 54 // skeleton은 이 높이를 기준으로 잡음
         busStationTableView.showsVerticalScrollIndicator = false
         busStationTableView.register(
             DestinationTableViewCell.self,
             forCellReuseIdentifier: DestinationTableViewCell.identifier
         )
-        view.addSubview(busStationTableView)
+        backgroundView.addSubview(busStationTableView)
         self.busStationTableView = busStationTableView
+    
+        backgroundView.showAnimatedGradientSkeleton()
+        busStationTableView.showAnimatedGradientSkeleton()
     }
     
     override func initConstraint() {
@@ -185,6 +222,67 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     }
 }
 
+// MARK: - UITableViewDataSource
+
+extension DestinationViewController: SkeletonTableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell: UITableViewCell = .init()
+        
+        guard let item = dataList[safe: indexPath.row] else { return UITableViewCell() }
+        switch item {
+        case .searchResult:
+            guard let filteredStationCell = busStationTableView.dequeueReusableCell(
+                withIdentifier: DestinationSearchedTableViewCell.identifier,
+                for: indexPath
+            ) as? DestinationSearchedTableViewCell else {
+                return UITableViewCell()
+            }
+
+            filteredStationCell.configureCell(data: item)
+            cell = filteredStationCell
+            
+        case .stationResult:
+            guard let busStationCell = busStationTableView.dequeueReusableCell(
+                withIdentifier: DestinationTableViewCell.identifier,
+                for: indexPath
+            ) as? DestinationTableViewCell else {
+                return UITableViewCell()
+            }
+            
+            busStationCell.configureCell(data: (item, indexPath.row))
+            cell = busStationCell
+        }
+        
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    // MARK: - Skeleton
+    
+    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        guard let item = dataList[safe: indexPath.row] else { return ReusableCellIdentifier() }
+        switch item {
+        case .searchResult:
+            return DestinationSearchedTableViewCell.identifier
+        case .stationResult:
+            return DestinationTableViewCell.identifier
+        }
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
+        return skeletonView.dequeueReusableCell(withIdentifier: DestinationTableViewCell.identifier, for: indexPath)
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        UITableView.automaticNumberOfSkeletonRows
+    }
+}
+
 // MARK: - UITableViewDelegate
 
 extension DestinationViewController: UITableViewDelegate {
@@ -205,48 +303,6 @@ extension DestinationViewController: UITableViewDelegate {
             .build()
         
         present(routeGuidePopup, animated: true)
-    }
-}
-
-// MARK: - UITableViewDataSource
-
-extension DestinationViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell = .init()
-        
-        guard let item = dataList[safe: indexPath.row] else { return UITableViewCell() }
-        switch item {
-        case .searchResult(station: let station, nextStation: let nextStation):
-            guard let filteredStationCell = busStationTableView.dequeueReusableCell(
-                withIdentifier: DestinationSearchedTableViewCell.identifier,
-                for: indexPath
-            ) as? DestinationSearchedTableViewCell else {
-                return UITableViewCell()
-            }
-
-            filteredStationCell.configureCell(data: item)
-            
-            cell = filteredStationCell
-            
-        case .stationResult(station: let station, isLast: let isLast, nearestIndex: let nearestIndex):
-            guard let busStationCell = busStationTableView.dequeueReusableCell(
-                withIdentifier: DestinationTableViewCell.identifier,
-                for: indexPath
-            ) as? DestinationTableViewCell else {
-                return UITableViewCell()
-            }
-            
-            busStationCell.configureCell(data: (item, indexPath.row))
-            
-            cell = busStationCell
-        }
-        
-        cell.selectionStyle = .none
-        return cell
     }
 }
 

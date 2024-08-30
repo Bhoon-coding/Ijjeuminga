@@ -66,6 +66,7 @@
 		E18B7E5D2C05E6A500C94FFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B7E5C2C05E6A500C94FFD /* SceneDelegate.swift */; };
 		E18B7E642C05E6A700C94FFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E632C05E6A700C94FFD /* Assets.xcassets */; };
 		E18B7E672C05E6A700C94FFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E18B7E652C05E6A700C94FFD /* LaunchScreen.storyboard */; };
+		E1C10A982C6C690800EF6E6C /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = E1C10A972C6C690800EF6E6C /* SkeletonView */; };
 		E1EEB6A72C115262009F7273 /* DestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EEB6A62C115262009F7273 /* DestinationViewController.swift */; };
 		E1F0FC412C3FB58C002B75EC /* Extension + Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0FC402C3FB58C002B75EC /* Extension + Collection.swift */; };
 		E1F0FC4D2C437444002B75EC /* IjjeumingaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0FC4C2C437444002B75EC /* IjjeumingaTests.swift */; };
@@ -165,6 +166,7 @@
 				C782F6202C27BF630053E3DB /* RxCocoa in Frameworks */,
 				C782F6242C27BF630053E3DB /* RxSwift in Frameworks */,
 				C782F62F2C28401E0053E3DB /* CoreXLSX in Frameworks */,
+				E1C10A982C6C690800EF6E6C /* SkeletonView in Frameworks */,
 				C782F61E2C27BF630053E3DB /* RxBlocking in Frameworks */,
 				E1201B062C327611005DDE24 /* Alamofire in Frameworks */,
 				E1201AFA2C2D4A1C005DDE24 /* SwiftyJSON in Frameworks */,
@@ -522,6 +524,7 @@
 				C782F62E2C28401E0053E3DB /* CoreXLSX */,
 				E1201AF92C2D4A1C005DDE24 /* SwiftyJSON */,
 				E1201B052C327611005DDE24 /* Alamofire */,
+				E1C10A972C6C690800EF6E6C /* SkeletonView */,
 			);
 			productName = Ijjeuminga;
 			productReference = E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */;
@@ -577,6 +580,7 @@
 				C782F62D2C28401E0053E3DB /* XCRemoteSwiftPackageReference "CoreXLSX" */,
 				E1201AF82C2D4A1C005DDE24 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				E1201B042C327611005DDE24 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				E1C10A962C6C690800EF6E6C /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			productRefGroup = E18B7E582C05E6A500C94FFD /* Products */;
 			projectDirPath = "";
@@ -990,6 +994,14 @@
 				version = 5.8.1;
 			};
 		};
+		E1C10A962C6C690800EF6E6C /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.31.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1027,6 +1039,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E1201B042C327611005DDE24 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		E1C10A972C6C690800EF6E6C /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1C10A962C6C690800EF6E6C /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
 		};
 /* End XCSwiftPackageProductDependency section */
 
