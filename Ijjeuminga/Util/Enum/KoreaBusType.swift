@@ -39,13 +39,28 @@ enum KoreaBusType: Int {
         case .jiseonBus:
             return UIColor(named: Color.green)
         case .seoulSunhwanBus:
-            return UIColor(named: Color.yello)
+            return UIColor(named: Color.yellow)
         case .seoulGwangyeokBus:
             return UIColor(named: Color.red)
         case .maeulBus:
             return UIColor(named: Color.green)
         case .gonghangBus:
             return UIColor(named: Color.brown)
+        }
+    }
+    
+    var currentPosColor: UIColor? {
+        switch self {
+        case .seoulGanseonBus:
+            return .greenBus
+        case .jiseonBus:
+            return .redBus
+        case .seoulSunhwanBus:
+            return .redBus
+        case .seoulGwangyeokBus, .maeulBus:
+            return .blueBus
+        case .gonghangBus:
+            return .yellowBus
         }
     }
 }

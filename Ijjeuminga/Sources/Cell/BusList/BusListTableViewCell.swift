@@ -71,7 +71,7 @@ class BusListTableViewCell: BaseTableViewCell<BusInfo> {
             self.numberLabel.textColor = UIColor(named: Color.green)
         case 3:
             self.typeLabel.text = "서울 순환버스"
-            self.numberLabel.textColor = UIColor(named: Color.yello)
+            self.numberLabel.textColor = UIColor(named: Color.yellow)
         case 4:
             self.typeLabel.text = "서울 광역버스"
             self.numberLabel.textColor = UIColor(named: Color.red)

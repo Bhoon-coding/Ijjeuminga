@@ -19,6 +19,6 @@ struct Color {
     static let red = "redBus"
     static let grayCACACA = "searchText"
     static let black = "titleText"
-    static let yello = "yellowBus"
+    static let yellow = "yellowBus"
     static let brown = "brown"
 }

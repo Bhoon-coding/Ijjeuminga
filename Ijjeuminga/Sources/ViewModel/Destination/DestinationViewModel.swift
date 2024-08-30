@@ -39,12 +39,30 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
     private var routeId: String
     public let busColor: UIColor
+    public var currentPositionColor: UIColor?
     
     init(routeId: String, busColor: UIColor) {
         self.routeId = routeId
         self.busColor = busColor
-        
         super.init()
+        self.currentPositionColor = setCurrentPositionColor()
+        
+    }
+    
+    private func setCurrentPositionColor() -> UIColor {
+        switch busColor {
+        case .redBus:
+            currentPositionColor = .greenBus
+        case .greenBus:
+            currentPositionColor = .redBus
+        case .blueBus, .indigoBus:
+            currentPositionColor = .yellowBus
+        case .yellowBus:
+            currentPositionColor = .blueBus
+        default:
+            return .greenBus
+        }
+        return .greenBus
     }
     
     override func attachView() {

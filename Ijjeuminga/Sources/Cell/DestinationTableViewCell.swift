@@ -18,6 +18,9 @@ final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, I
     private weak var directionTopLine: UIView!
     private weak var directionBottomLine: UIView!
     private weak var currentPositionIcon: UIImageView!
+    
+    private var busColor: UIColor = .gray
+    private var currentPosColor: UIColor = .gray
 
     override func initView() {
         super.initView()
@@ -108,12 +111,24 @@ final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, I
         case .searchResult:
             break
         case .stationResult(let station, let isLast, let nearestIndex):
+            let type = KoreaBusType(rawValue: Int(station.routeType!)!)!
+            setColor(with: type)
+            
             directionTopLine.isHidden = index == 0
             directionBottomLine.isHidden = isLast
             busStationLabel.text = station.stationNm
             currentPositionIcon.isHidden = index != nearestIndex
             directionIcon.isHidden = index == nearestIndex
         }
+    }
+    
+    // MARK: - 정류장타입별 색상 지정
+    
+    private func setColor(with stationType: KoreaBusType) {
+        directionTopLine.backgroundColor = stationType.color
+        directionTopLine.backgroundColor = stationType.color
+        directionIcon.backgroundColor = stationType.color
+        currentPositionIcon.tintColor = stationType.currentPosColor
     }
 }
 
