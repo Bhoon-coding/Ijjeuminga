@@ -81,6 +81,10 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
         searchListTableView.isHidden = true
         self.view.addSubview(searchListTableView)
         self.searchListTableView = searchListTableView
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                 action: #selector(dismissKeyboard))
+        searchListTableView.addGestureRecognizer(tap)
     }
     
     override func initConstraint() {
@@ -151,6 +155,14 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
                 self?.recentSearchListTableView.reloadData()
             }.disposed(by: viewDisposeBag)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 extension BusListViewController: UITableViewDataSource {
@@ -190,11 +202,6 @@ extension BusListViewController: UITableViewDataSource {
 
 extension BusListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let busInfo = self.searchedBusList[indexPath.row]
-        let routeId = busInfo.routeId
-        
-        self.viewModel.input.selectBus.onNext((routeId, KoreaBusType(rawValue: busInfo.type)?.color ?? .blueBus ))
-        
         switch tableView {
         case self.searchListTableView:
             let busInfo = self.searchedBusList[indexPath.row]
@@ -218,32 +225,33 @@ extension BusListViewController: UITableViewDelegate {
             
         }
     }
-    
-    extension BusListViewController: UITextFieldDelegate {
-        func textFieldDidChangeSelection(_ textField: UITextField) {
-            if textField.text == "" {
-                self.recentSearchListTableView.isHidden = false
-                self.searchListTableView.isHidden = true
-                self.searchTitleLabel.text = "최근 검색 목록"
-            } else {
-                self.recentSearchListTableView.isHidden = true
-                self.searchListTableView.isHidden = false
-                self.searchTitleLabel.text = "검색 결과"
+}
+
+extension BusListViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField.text == "" {
+            self.recentSearchListTableView.isHidden = false
+            self.searchListTableView.isHidden = true
+            self.searchTitleLabel.text = "최근 검색 목록"
+        } else {
+            self.recentSearchListTableView.isHidden = true
+            self.searchListTableView.isHidden = false
+            self.searchTitleLabel.text = "검색 결과"
+        }
+    }
+}
+
+extension BusListViewController: BusListTableViewCellDelegate {
+    func deleteButtonTapped(index: Int) {
+        let routeId = self.recentSearchBusList[index].routeId ?? ""
+        CoreDataManager.shared.deleteBusInfo(routeId: routeId) { result in
+            switch result {
+            case true:
+                self.recentSearchBusList.remove(at: index)
+                self.recentSearchListTableView.reloadData()
+            default:
+                print("fail")
             }
         }
     }
-    
-    extension BusListViewController: BusListTableViewCellDelegate {
-        func deleteButtonTapped(index: Int) {
-            let routeId = self.recentSearchBusList[index].routeId ?? ""
-            CoreDataManager.shared.deleteBusInfo(routeId: routeId) { result in
-                switch result {
-                case true:
-                    self.recentSearchBusList.remove(at: index)
-                    self.recentSearchListTableView.reloadData()
-                default:
-                    print("fail")
-                }
-            }
-        }
-    }
+}
