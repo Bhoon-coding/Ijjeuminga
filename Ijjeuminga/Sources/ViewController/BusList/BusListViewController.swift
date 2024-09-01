@@ -12,14 +12,14 @@ import RxSwift
 import RxCocoa
 
 class BusListViewController: ViewModelInjectionBaseViewController<BusListViewModel, BusListViewModelOutput> {
-
+    
     private weak var titleLabel: UILabel!
     private weak var searchTextField: UITextField!
     private weak var searchTitleLabel: UILabel!
     private weak var dividingView: UIView!
     private weak var recentSearchListTableView: UITableView!
     private weak var searchListTableView: UITableView!
-        
+    
     private var container: NSPersistentContainer?
     
     private var recentSearchBusList = [RecentBusInfo]()
@@ -197,43 +197,53 @@ extension BusListViewController: UITableViewDelegate {
         
         switch tableView {
         case self.searchListTableView:
+            let busInfo = self.searchedBusList[indexPath.row]
+            let routeId = busInfo.routeId
             CoreDataManager.shared.saveBusInfo(busNumber: busInfo.busNumber, routeId: busInfo.routeId, type: Int32(busInfo.type), lastDate: self.getCurrentDateString()) { result in
                 if result {
+                    self.viewModel.input.selectBus.onNext((routeId, KoreaBusType(rawValue: busInfo.type)?.color ?? UIColor()))
                 }
             }
         case self.recentSearchListTableView:
             print("다음 페이지로 넘어가기")
+            let busInfo = self.recentSearchBusList[indexPath.row]
+            let routeId = busInfo.routeId ?? ""
+            CoreDataManager.shared.saveBusInfo(busNumber: busInfo.busNumer ?? "", routeId: busInfo.routeId ?? "", type: Int32(busInfo.type), lastDate: self.getCurrentDateString()) { result in
+                if result {
+                    self.viewModel.input.selectBus.onNext((routeId, KoreaBusType(rawValue: Int(busInfo.type))?.color ?? UIColor()))
+                }
+            }
         default:
             break
+            
         }
     }
-}
-
-extension BusListViewController: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField.text == "" {
-            self.recentSearchListTableView.isHidden = false
-            self.searchListTableView.isHidden = true
-            self.searchTitleLabel.text = "최근 검색 목록"
-        } else {
-            self.recentSearchListTableView.isHidden = true
-            self.searchListTableView.isHidden = false
-            self.searchTitleLabel.text = "검색 결과"
-        }
-    }
-}
-
-extension BusListViewController: BusListTableViewCellDelegate {
-    func deleteButtonTapped(index: Int) {
-        let routeId = self.recentSearchBusList[index].routeId ?? ""
-        CoreDataManager.shared.deleteBusInfo(routeId: routeId) { result in
-            switch result {
-            case true:
-                self.recentSearchBusList.remove(at: index)
-                self.recentSearchListTableView.reloadData()
-            default:
-                print("fail")
+    
+    extension BusListViewController: UITextFieldDelegate {
+        func textFieldDidChangeSelection(_ textField: UITextField) {
+            if textField.text == "" {
+                self.recentSearchListTableView.isHidden = false
+                self.searchListTableView.isHidden = true
+                self.searchTitleLabel.text = "최근 검색 목록"
+            } else {
+                self.recentSearchListTableView.isHidden = true
+                self.searchListTableView.isHidden = false
+                self.searchTitleLabel.text = "검색 결과"
             }
         }
     }
-}
+    
+    extension BusListViewController: BusListTableViewCellDelegate {
+        func deleteButtonTapped(index: Int) {
+            let routeId = self.recentSearchBusList[index].routeId ?? ""
+            CoreDataManager.shared.deleteBusInfo(routeId: routeId) { result in
+                switch result {
+                case true:
+                    self.recentSearchBusList.remove(at: index)
+                    self.recentSearchListTableView.reloadData()
+                default:
+                    print("fail")
+                }
+            }
+        }
+    }
