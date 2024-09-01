@@ -33,6 +33,9 @@ class BaseViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.viewDisposeBag = DisposeBag()
+        
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.topItem?.title = ""
     }
     
     override func viewDidLoad() {

@@ -43,6 +43,16 @@
 		C782F6752C4D31010053E3DB /* RecentBusInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6732C4D31010053E3DB /* RecentBusInfo+CoreDataProperties.swift */; };
 		C782F6772C4D371B0053E3DB /* Extension + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6762C4D371B0053E3DB /* Extension + UIViewController.swift */; };
 		C782F67A2C4FD3740053E3DB /* OpenXlsx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6792C4FD3740053E3DB /* OpenXlsx.swift */; };
+		C782F71D2C6A2F8B0053E3DB /* Ijjeuminga.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E1E9C2C42C539DCB0099752D /* Ijjeuminga.xcdatamodeld */; };
+		C782F71E2C6A2F8C0053E3DB /* Ijjeuminga.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E1E9C2C42C539DCB0099752D /* Ijjeuminga.xcdatamodeld */; };
+		C782F7562C6A34F40053E3DB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C782F7062C6A2B790053E3DB /* WidgetKit.framework */; };
+		C782F7572C6A34F40053E3DB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C782F7082C6A2B790053E3DB /* SwiftUI.framework */; };
+		C782F75A2C6A34F40053E3DB /* IjjeumingaWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F7592C6A34F40053E3DB /* IjjeumingaWidgetBundle.swift */; };
+		C782F75C2C6A34F40053E3DB /* IjjeumingaWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F75B2C6A34F40053E3DB /* IjjeumingaWidgetLiveActivity.swift */; };
+		C782F75E2C6A34F40053E3DB /* IjjeumingaWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F75D2C6A34F40053E3DB /* IjjeumingaWidget.swift */; };
+		C782F7602C6A34F40053E3DB /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F75F2C6A34F40053E3DB /* AppIntent.swift */; };
+		C782F7622C6A34F50053E3DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C782F7612C6A34F50053E3DB /* Assets.xcassets */; };
+		C782F7662C6A34F50053E3DB /* IjjeumingaWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C782F7552C6A34F40053E3DB /* IjjeumingaWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E1067C232C539F25005FE587 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1067C222C539F25005FE587 /* Constant.swift */; };
 		E11861C22C135F1700C423D3 /* DestinationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */; };
 		E11861C42C141E5600C423D3 /* Extension + UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C32C141E5600C423D3 /* Extension + UITextField.swift */; };
@@ -72,6 +82,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C782F7642C6A34F50053E3DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E18B7E4F2C05E6A500C94FFD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C782F7542C6A34F40053E3DB;
+			remoteInfo = IjjeumingaWidgetExtension;
+		};
 		E1F0FC4E2C437444002B75EC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E18B7E4F2C05E6A500C94FFD /* Project object */;
@@ -90,6 +107,17 @@
 			files = (
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C782F7192C6A2B7B0053E3DB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C782F7662C6A34F50053E3DB /* IjjeumingaWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -126,6 +154,15 @@
 		C782F6732C4D31010053E3DB /* RecentBusInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecentBusInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C782F6762C4D371B0053E3DB /* Extension + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIViewController.swift"; sourceTree = "<group>"; };
 		C782F6792C4FD3740053E3DB /* OpenXlsx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenXlsx.swift; sourceTree = "<group>"; };
+		C782F7062C6A2B790053E3DB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		C782F7082C6A2B790053E3DB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		C782F7552C6A34F40053E3DB /* IjjeumingaWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = IjjeumingaWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C782F7592C6A34F40053E3DB /* IjjeumingaWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IjjeumingaWidgetBundle.swift; sourceTree = "<group>"; };
+		C782F75B2C6A34F40053E3DB /* IjjeumingaWidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IjjeumingaWidgetLiveActivity.swift; sourceTree = "<group>"; };
+		C782F75D2C6A34F40053E3DB /* IjjeumingaWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IjjeumingaWidget.swift; sourceTree = "<group>"; };
+		C782F75F2C6A34F40053E3DB /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		C782F7612C6A34F50053E3DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C782F7632C6A34F50053E3DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1067C222C539F25005FE587 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTableViewCell.swift; sourceTree = "<group>"; };
 		E11861C32C141E5600C423D3 /* Extension + UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITextField.swift"; sourceTree = "<group>"; };
@@ -157,6 +194,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C782F7522C6A34F40053E3DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C782F7572C6A34F40053E3DB /* SwiftUI.framework in Frameworks */,
+				C782F7562C6A34F40053E3DB /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E18B7E542C05E6A500C94FFD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -274,6 +320,8 @@
 		C782F6012C27BABA0053E3DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C782F7062C6A2B790053E3DB /* WidgetKit.framework */,
+				C782F7082C6A2B790053E3DB /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -317,6 +365,19 @@
 				C782F6792C4FD3740053E3DB /* OpenXlsx.swift */,
 			);
 			path = Excel;
+			sourceTree = "<group>";
+		};
+		C782F7582C6A34F40053E3DB /* IjjeumingaWidget */ = {
+			isa = PBXGroup;
+			children = (
+				C782F7592C6A34F40053E3DB /* IjjeumingaWidgetBundle.swift */,
+				C782F75B2C6A34F40053E3DB /* IjjeumingaWidgetLiveActivity.swift */,
+				C782F75D2C6A34F40053E3DB /* IjjeumingaWidget.swift */,
+				C782F75F2C6A34F40053E3DB /* AppIntent.swift */,
+				C782F7612C6A34F50053E3DB /* Assets.xcassets */,
+				C782F7632C6A34F50053E3DB /* Info.plist */,
+			);
+			path = IjjeumingaWidget;
 			sourceTree = "<group>";
 		};
 		E1067C202C539DE6005FE587 /* Files */ = {
@@ -410,6 +471,7 @@
 				E18B7E592C05E6A500C94FFD /* Ijjeuminga */,
 				9F26991D2C1543A500996F5F /* .swiftlint.yml */,
 				E1F0FC4B2C437444002B75EC /* IjjeumingaTests */,
+				C782F7582C6A34F40053E3DB /* IjjeumingaWidget */,
 				E18B7E582C05E6A500C94FFD /* Products */,
 				C782F6012C27BABA0053E3DB /* Frameworks */,
 			);
@@ -420,6 +482,7 @@
 			children = (
 				E18B7E572C05E6A500C94FFD /* Ijjeuminga.app */,
 				E1F0FC4A2C437444002B75EC /* IjjeumingaTests.xctest */,
+				C782F7552C6A34F40053E3DB /* IjjeumingaWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -499,6 +562,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C782F7542C6A34F40053E3DB /* IjjeumingaWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C782F7672C6A34F50053E3DB /* Build configuration list for PBXNativeTarget "IjjeumingaWidgetExtension" */;
+			buildPhases = (
+				C782F7512C6A34F40053E3DB /* Sources */,
+				C782F7522C6A34F40053E3DB /* Frameworks */,
+				C782F7532C6A34F40053E3DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IjjeumingaWidgetExtension;
+			productName = IjjeumingaWidgetExtension;
+			productReference = C782F7552C6A34F40053E3DB /* IjjeumingaWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		E18B7E562C05E6A500C94FFD /* Ijjeuminga */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E18B7E6B2C05E6A700C94FFD /* Build configuration list for PBXNativeTarget "Ijjeuminga" */;
@@ -508,10 +588,12 @@
 				E18B7E552C05E6A500C94FFD /* Resources */,
 				9F10EAD12C15300A006EE938 /* SwiftLint */,
 				C782F61B2C27BABA0053E3DB /* Embed Frameworks */,
+				C782F7192C6A2B7B0053E3DB /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C782F7652C6A34F50053E3DB /* PBXTargetDependency */,
 			);
 			name = Ijjeuminga;
 			packageProductDependencies = (
@@ -551,9 +633,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1520;
+				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
+					C782F7542C6A34F40053E3DB = {
+						CreatedOnToolsVersion = 15.4;
+					};
 					E18B7E562C05E6A500C94FFD = {
 						CreatedOnToolsVersion = 15.2;
 					};
@@ -584,11 +669,20 @@
 			targets = (
 				E18B7E562C05E6A500C94FFD /* Ijjeuminga */,
 				E1F0FC492C437444002B75EC /* IjjeumingaTests */,
+				C782F7542C6A34F40053E3DB /* IjjeumingaWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C782F7532C6A34F40053E3DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C782F7622C6A34F50053E3DB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E18B7E552C05E6A500C94FFD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -632,6 +726,17 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C782F7512C6A34F40053E3DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C782F75A2C6A34F40053E3DB /* IjjeumingaWidgetBundle.swift in Sources */,
+				C782F7602C6A34F40053E3DB /* AppIntent.swift in Sources */,
+				C782F75E2C6A34F40053E3DB /* IjjeumingaWidget.swift in Sources */,
+				C782F75C2C6A34F40053E3DB /* IjjeumingaWidgetLiveActivity.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E18B7E532C05E6A500C94FFD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -651,6 +756,7 @@
 				C782F67A2C4FD3740053E3DB /* OpenXlsx.swift in Sources */,
 				9FD491682C0F097000445C45 /* TestViewController.swift in Sources */,
 				C782F5F92C1E7EA60053E3DB /* Font.swift in Sources */,
+				C782F71D2C6A2F8B0053E3DB /* Ijjeuminga.xcdatamodeld in Sources */,
 				9FD4916D2C0F0C0900445C45 /* Extension + UIView.swift in Sources */,
 				9F0F6FAB2C0C07C500E236A5 /* BaseViewController.swift in Sources */,
 				C782F5F42C1E75E60053E3DB /* BusListViewController.swift in Sources */,
@@ -694,6 +800,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C782F71E2C6A2F8C0053E3DB /* Ijjeuminga.xcdatamodeld in Sources */,
 				E1F0FC4D2C437444002B75EC /* IjjeumingaTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -701,6 +808,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C782F7652C6A34F50053E3DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C782F7542C6A34F40053E3DB /* IjjeumingaWidgetExtension */;
+			targetProxy = C782F7642C6A34F50053E3DB /* PBXContainerItemProxy */;
+		};
 		E1F0FC4F2C437444002B75EC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E18B7E562C05E6A500C94FFD /* Ijjeuminga */;
@@ -720,6 +832,62 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C782F7682C6A34F50053E3DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RLXHF6WVG6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IjjeumingaWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = IjjeumingaWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ijjeuminga.Ijjeuminga.IjjeumingaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C782F7692C6A34F50053E3DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RLXHF6WVG6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IjjeumingaWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = IjjeumingaWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ijjeuminga.Ijjeuminga.IjjeumingaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		E18B7E692C05E6A700C94FFD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -842,11 +1010,12 @@
 		E18B7E6C2C05E6A700C94FFD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R4G74AF442;
+				DEVELOPMENT_TEAM = RLXHF6WVG6;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ijjeuminga/Resources/Info.plist;
@@ -875,11 +1044,12 @@
 		E18B7E6D2C05E6A700C94FFD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R4G74AF442;
+				DEVELOPMENT_TEAM = RLXHF6WVG6;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ijjeuminga/Resources/Info.plist;
@@ -928,6 +1098,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C782F7672C6A34F50053E3DB /* Build configuration list for PBXNativeTarget "IjjeumingaWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C782F7682C6A34F50053E3DB /* Debug */,
+				C782F7692C6A34F50053E3DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E18B7E522C05E6A500C94FFD /* Build configuration list for PBXProject "Ijjeuminga" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
