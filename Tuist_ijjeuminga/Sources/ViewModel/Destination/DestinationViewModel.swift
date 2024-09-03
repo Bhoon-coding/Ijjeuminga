@@ -39,12 +39,11 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
     private var routeId: String
     public let busColor: UIColor
+    public var currentPosColor: UIColor?
     
     init(routeId: String, busColor: UIColor) {
         self.routeId = routeId
         self.busColor = busColor
-        
-        super.init()
     }
     
     override func attachView() {
@@ -77,7 +76,7 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
             .subscribe(onNext: { [weak self] in
                 switch $0 {
                 case .searchResult(station: let destination, _),
-                        .stationResult(station: let destination, _, _):
+                        .stationResult(station: let destination, _, _, _):
                     guard let stationId = destination.station,
                           let stationList = self?.stationList,
                           let index = self?.currentPosIndex,
@@ -123,14 +122,15 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
             return DestinationTableData.stationResult(
                 station: itemList,
                 isLast: index == list.count - 1,
-                nearestIndex: nearIndex
+                nearestIndex: nearIndex,
+                busColor: busColor
             )
         }
         
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.output.tableData.onNext(newList)
             self.output.currentPosIndex.onNext(self.currentPosIndex)
-//        }
+        }
         
     }
     
@@ -170,6 +170,11 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
 enum DestinationTableData {
     
     case searchResult(station: Rest.BusRouteInfo.ItemList, nextStation: String)
-    case stationResult(station: Rest.BusRouteInfo.ItemList, isLast: Bool, nearestIndex: Int)
+    case stationResult(
+        station: Rest.BusRouteInfo.ItemList,
+        isLast: Bool,
+        nearestIndex: Int,
+        busColor: UIColor
+    )
     
 }
