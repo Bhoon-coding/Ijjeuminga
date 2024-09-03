@@ -22,7 +22,7 @@ class DestinationSearchedTableViewCell: BaseTableViewCell<DestinationTableData> 
         
         let directionIcon = UIImageView()
         directionIcon.translatesAutoresizingMaskIntoConstraints = false
-        directionIcon.image = .directionIcon
+        directionIcon.image = Assets.Directions.red.image
         contentView.addSubview(directionIcon)
         self.directionIcon = directionIcon
         

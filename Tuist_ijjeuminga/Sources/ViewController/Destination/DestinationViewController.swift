@@ -163,7 +163,7 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
         
         let currentStationImageView = UIImageView()
         currentStationImageView.translatesAutoresizingMaskIntoConstraints = false
-        currentStationImageView.image = .targetIcon
+        currentStationImageView.image = Assets.target.image
         currentStationStackView.addArrangedSubview(currentStationImageView)
         self.currentStationImageView = currentStationImageView
         
