@@ -4,7 +4,6 @@
 //
 //  Created by BH on 9/4/24.
 //
-
 import Common
 import SwiftUI
 import WidgetKit
@@ -96,11 +95,11 @@ struct WidgetExtensionLiveActivity: Widget {
     }
 }
 
-//extension WidgetExtensionAttributes {
-//    fileprivate static var preview: WidgetExtensionAttributes {
-//        WidgetExtensionAttributes(name: "World")
-//    }
-//}
+extension WidgetExtensionAttributes {
+    fileprivate static var preview: WidgetExtensionAttributes {
+        WidgetExtensionAttributes(currentBusStopInfo: "이번 정류장")
+    }
+}
 //
 //extension WidgetExtensionAttributes.ContentState {
 //    fileprivate static var smiley: WidgetExtensionAttributes.ContentState {
@@ -112,9 +111,16 @@ struct WidgetExtensionLiveActivity: Widget {
 //     }
 //}
 
-//#Preview("Notification", as: .content, using: WidgetExtensionAttributes.preview) {
-//   WidgetExtensionLiveActivity()
-//} contentStates: {
-//    WidgetExtensionAttributes.ContentState.smiley
-//    WidgetExtensionAttributes.ContentState.starEyes
-//}
+#Preview(as: .content,
+         using: WidgetExtensionAttributes.preview,
+         widget: {
+    WidgetExtensionLiveActivity()
+},
+         contentStates: {
+    WidgetExtensionAttributes.ContentState(
+        busNumber: 6002,
+        currentBusStop: "동탄호수공원",
+        stopLeft: 2,
+        totalStop: 10
+    )
+})

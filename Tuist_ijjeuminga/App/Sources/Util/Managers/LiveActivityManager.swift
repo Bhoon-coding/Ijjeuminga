@@ -16,6 +16,7 @@ class LiveActivityManager {
     
     func startLiveActivity() {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
+            // TODO: [] 권한 재요청 팝업 필요
             print("ActivitiesEnabled is false")
             return
         }
