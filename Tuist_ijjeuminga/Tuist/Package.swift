@@ -26,7 +26,7 @@ let package = Package(
     platforms: [.iOS(.v16)],
     products: [.library(name: appName, targets: [appName])],
     dependencies: [
-        .package(url: "https://github.com/ReactiveX/RxSwift.git", .upToNextMajor(from: "6.7.0")),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", .upToNextMajor(from: "6.0.0")),
         .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.0.0")),
         .package(url: "https://github.com/CoreOffice/CoreXLSX", .upToNextMajor(from: "0.14.0")),
         .package(url: "https://github.com/Juanpe/SkeletonView", .upToNextMajor(from: "1.31.0")),

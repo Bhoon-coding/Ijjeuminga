@@ -7,7 +7,7 @@
 
 import UIKit
 import RxSwift
-import RxCocoa
+//import RxCocoa
 
 class BaseTableViewCell<T>: UITableViewCell {
     var disposeBag = DisposeBag()
