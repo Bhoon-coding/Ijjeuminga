@@ -24,7 +24,7 @@ class LiveActivityManager {
         let attribute = WidgetExtensionAttributes(currentBusStopInfo: "이번 정류장")
         let content = ActivityContent(
             state: WidgetExtensionAttributes.ContentState(
-                busNumber: 9501,
+                busNumber: "9501",
                 currentBusStop: "마천지구버스차고지",
                 stopLeft: 3,
                 totalStop: 10
@@ -53,7 +53,7 @@ class LiveActivityManager {
         Task {
             let newContent = ActivityContent(
                 state: WidgetExtensionAttributes.ContentState(
-                    busNumber: 6002,
+                    busNumber: "6002",
                     currentBusStop: "동탄호수공원",
                     stopLeft: 1,
                     totalStop: 10

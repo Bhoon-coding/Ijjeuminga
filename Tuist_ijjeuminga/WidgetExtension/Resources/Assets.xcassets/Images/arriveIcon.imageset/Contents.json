@@ -1,9 +1,8 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "1024x1024"
+      "filename" : "Group 12.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

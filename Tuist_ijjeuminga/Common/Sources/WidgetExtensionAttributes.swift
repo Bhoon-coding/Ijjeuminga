@@ -10,12 +10,12 @@ import ActivityKit
 public struct WidgetExtensionAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
         // Dynamic stateful properties about your activity go here!
-        public var busNumber: Int
+        public var busNumber: String
         public var currentBusStop: String
         public var stopLeft: Int
         public var totalStop: Int
         
-        public init(busNumber: Int, currentBusStop: String, stopLeft: Int, totalStop: Int) {
+        public init(busNumber: String, currentBusStop: String, stopLeft: Int, totalStop: Int) {
             self.busNumber = busNumber
             self.currentBusStop = currentBusStop
             self.stopLeft = stopLeft

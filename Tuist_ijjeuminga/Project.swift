@@ -99,7 +99,7 @@ let project = Project(
                 ],
             ]),
             sources: "WidgetExtension/Sources/**",
-//            resources: "WidgetExtension/Resources/**",
+            resources: "WidgetExtension/Resources/**",
             dependencies: [
                 .target(name: "Common")
             ],
@@ -112,8 +112,8 @@ let project = Project(
             productName: "Common",
             bundleId: bundleId + ".Common",
             deploymentTargets: deploymentTarget,
-            sources: "Common/Sources/**",
-            resources: "Common/Resources/**"
+            sources: "Common/Sources/**"
+//            resources: "Common/Resources/**"
         ),
         .target(
             name: "IjjeumingaTests",
