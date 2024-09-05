@@ -189,16 +189,20 @@ extension BusListViewController: UITableViewDataSource {
 }
 
 extension BusListViewController: UITableViewDelegate {
+    // 충돌 테스트
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let busInfo = self.searchedBusList[indexPath.row]
+        // 충돌 테스트
         let routeId = busInfo.routeId
         
         self.viewModel.input.selectBus.onNext(
             (routeId, KoreaBusType(rawValue: busInfo.type)?.color ?? .blueBus)
         )
-        
+        // 충돌 테스트
         switch tableView {
+            // 충돌 테스트
         case self.searchListTableView:
+            // 충돌 테스트
             CoreDataManager.shared.saveBusInfo(busNumber: busInfo.busNumber, routeId: busInfo.routeId, type: Int32(busInfo.type), lastDate: self.getCurrentDateString()) { result in
                 if result {
                 }
