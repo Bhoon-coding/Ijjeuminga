@@ -25,10 +25,11 @@ class LiveActivityManager {
         let content = ActivityContent(
             state: WidgetExtensionAttributes.ContentState(
                 busNumber: "9501",
-                currentBusStop: "마천지구버스차고지",
+                currentBusStop: "마전지구버스차고지",
                 stopLeft: 3,
                 totalStop: 10
             ),
+            // TODO: [] 액티비티 시작시 언제까지 뜨게할지 논의 필요
             staleDate: Date().addingTimeInterval(60 * 5)
         )
         
@@ -37,18 +38,28 @@ class LiveActivityManager {
                 attributes: attribute,
                 content: content
             )
-            print("activity: \(String(describing: activity))")
         } catch {
             print("activity error: \(error.localizedDescription)")
         }
     }
     
     func stopLiveActivity() {
+        let content = ActivityContent(
+            state: WidgetExtensionAttributes.RealTimeState(
+                busNumber: "",
+                currentBusStop: "",
+                stopLeft: 0,
+                totalStop: 0
+            ),
+            staleDate: .now
+        )
+        
         Task {
-            self.activity?.end(_:dismissalPolicy:)
+            await activity?.end(content, dismissalPolicy: .immediate)
         }
     }
     
+    // TODO: [] api 호출 후 업데이트 되는 내용 여기에 반영
     func updateLiveActivity() {
         Task {
             let newContent = ActivityContent(

@@ -7,7 +7,10 @@
 
 import ActivityKit
 
+// TODO: - 변수명 변경 (WidgetExtension → RealTimeStatus)
 public struct WidgetExtensionAttributes: ActivityAttributes {
+    public typealias RealTimeState = ContentState
+    
     public struct ContentState: Codable, Hashable {
         // Dynamic stateful properties about your activity go here!
         public var busNumber: String

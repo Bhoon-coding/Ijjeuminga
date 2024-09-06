@@ -149,8 +149,7 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
     }
     
     @objc func deactivateLiveActivity() {
-//        LiveActivityManager.shared.stopLiveActivity()
-        LiveActivityManager.shared.updateLiveActivity()
+        LiveActivityManager.shared.stopLiveActivity()
     }
     
     override func bindDataInDisposeBag() {
