@@ -53,6 +53,9 @@ struct CoreDataManager {
             }
         } else {
             self.updateBusInfo(routId: routeId)
+            self.contextSave { success in
+                onSuccess(success)
+            }
         }
     }
     
