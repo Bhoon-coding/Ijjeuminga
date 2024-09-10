@@ -32,24 +32,33 @@ struct ActivityView: View {
             }
             
             // MARK: - 중간 (이번 정류장 | 정류장 이름 | 목적지 ~ 남음)
-            HStack {
-                Text("이번 정류장")
-                    .font(.regular(14))
-                
-                Spacer()
-                
-                Text(state.currentBusStop)
-                    .font(.bold(20)) // 디자인 요구사항: 24px
+            
+            if remaingBusStopCount == 0 {
+                Text("목적지에 도착했습니다")
+                    .font(.bold(20))
                     .foregroundStyle(.green)
-                    .lineLimit(2)
-                
-                Spacer()
-                
-                Text("\(state.remainingBusStopCount) 정거장 남음")
-                    .font(.regular(14))
+            } else {
+                HStack {
+                    Text("이번 정류장")
+                        .font(.regular(14))
                     
+                    Spacer()
+                    
+                    Text(state.currentBusStop)
+                        .font(.bold(20)) // 디자인 요구사항: 24px
+                        .foregroundStyle(.green)
+                    
+                    Spacer()
+                    
+                    Text("\(state.remainingBusStopCount) 정거장 남음")
+                        .font(.regular(14))
+                        
+                }
+                .foregroundStyle(CommonAsset.subtitleText.swiftUIColor)
+                .frame(maxHeight: 56)
+                .lineLimit(2)
             }
-            .foregroundStyle(CommonAsset.subtitleText.swiftUIColor)
+            
             
             // MARK: - ProgressBar
             ZStack {
@@ -132,7 +141,7 @@ extension WidgetExtensionAttributes {
 }, contentStates: {
     WidgetExtensionAttributes.RealTimeState(
         busNumber: "6002",
-        currentBusStop: "동탄호수공원", 
+        currentBusStop: "동탄호수공원광교",
         remainingBusStopCount: 0
     )
 })
