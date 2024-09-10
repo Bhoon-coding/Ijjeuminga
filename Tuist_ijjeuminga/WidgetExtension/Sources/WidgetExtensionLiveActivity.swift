@@ -22,11 +22,9 @@ struct ActivityView: View {
         VStack(spacing: 24) {
             // 상단 (로고 | 버스번호)
             HStack {
-                Image(CommonAsset.splash.name)
+                Image(asset: CommonAsset.logoRotate)
                     .resizable()
-                    .frame(width: 10, height: 40)
-                    .rotationEffect(Angle(degrees: -90))
-                    .padding(.leading, 16)
+                    .frame(width: 40, height: 10)
                 Spacer()
                 Text(state.busNumber)
                     .foregroundStyle((setColor(with: attribute.busType)))
@@ -51,7 +49,7 @@ struct ActivityView: View {
                     .font(.regular(14))
                     
             }
-            .foregroundStyle(WidgetExtensionAsset.Colors.subtitleText.swiftUIColor)
+            .foregroundStyle(CommonAsset.subtitleText.swiftUIColor)
             
             // MARK: - ProgressBar
             ZStack {
@@ -61,14 +59,14 @@ struct ActivityView: View {
                 }
                 
                 GeometryReader { geometry in
-                    Image(WidgetExtensionAsset.Images.greenIcon.name)
+                    Image(asset: CommonAsset.Positions.greenIcon)
                         .resizable()
                         .frame(width: 32, height: 32)
                         .position(
                             x: (geometry.size.width - 8) * CGFloat(percentageValue / 100.0),
                             y: geometry.size.height / 2
                         )
-                    Image(WidgetExtensionAsset.Images.arriveIcon.name)
+                    Image(asset: CommonAsset.Positions.arriveIcon)
                         .resizable()
                         .frame(width: 32, height: 32)
                         .position(
@@ -93,27 +91,27 @@ struct WidgetExtensionLiveActivity: Widget {
             // MARK: - Widget
             ActivityView(context: context)
             
-            // MARK: - DynamicIsland
+            // MARK: - DynamicIsland (보류)
         } dynamicIsland: { context in
             DynamicIsland {
                 // Expanded UI goes here.  Compose the expanded UI through
                 // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("Leading")
+//                    Text("Leading")
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("Trailing")
+//                    Text("Trailing")
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("Bottom ")
+//                    Text("Bottom ")
                     // more content
                 }
             } compactLeading: {
-                Text("L")
+//                Text("L")
             } compactTrailing: {
-                Text("T ")
+//                Text("T ")
             } minimal: {
-                Text("Test minimal")
+//                Text("Test minimal")
             }
             .widgetURL(URL(string: "http://www.apple.com"))
             .keylineTint(Color.red)
