@@ -28,14 +28,14 @@ final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, I
         let directionIcon = UIImageView()
         directionIcon.translatesAutoresizingMaskIntoConstraints = false
         directionIcon.isSkeletonable = true
-        directionIcon.image = Assets.Directions.red.image
+        directionIcon.image = CommonAsset.Directions.red.image
         contentView.addSubview(directionIcon)
         self.directionImageView = directionIcon
         
         let currentPositionIcon = UIImageView()
         currentPositionIcon.translatesAutoresizingMaskIntoConstraints = false
         currentPositionIcon.isSkeletonable = true
-        currentPositionIcon.image = Assets.Positions.greenIcon.image
+        currentPositionIcon.image = CommonAsset.Positions.greenIcon.image
         currentPositionIcon.layer.zPosition = 1
         contentView.addSubview(currentPositionIcon)
         self.currentPositionImageView = currentPositionIcon

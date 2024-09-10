@@ -5,6 +5,7 @@
 //  Created by hayeon on 6/4/24.
 //
 
+import Common
 import UIKit
 
 import RxCocoa
@@ -44,7 +45,7 @@ final class TestViewController: BaseViewController {
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.textAlignment = .center
         subtitleLabel.font = .systemFont(ofSize: 15, weight: .medium)
-        subtitleLabel.textColor = UIColor(resource: .greenBus)
+        subtitleLabel.textColor = .greenBus
         subtitleLabel.text = "2024.06.04"
         view.addSubview(subtitleLabel)
         self.subtitleLabel = subtitleLabel

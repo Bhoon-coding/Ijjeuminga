@@ -5,6 +5,7 @@
 //  Created by BH on 2024/07/04.
 //
 
+import Common
 import UIKit.UITableViewCell
 
 import SkeletonView
@@ -22,7 +23,7 @@ class DestinationSearchedTableViewCell: BaseTableViewCell<DestinationTableData> 
         
         let directionIcon = UIImageView()
         directionIcon.translatesAutoresizingMaskIntoConstraints = false
-        directionIcon.image = Assets.Directions.red.image
+        directionIcon.image = CommonAsset.Directions.red.image
         contentView.addSubview(directionIcon)
         self.directionIcon = directionIcon
         
