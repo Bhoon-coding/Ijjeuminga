@@ -82,6 +82,7 @@ extension Rest {
             let dataTm: String? // 제공시간
             let busNum: String? // 차량번호
             let lastStnId: String? // 마지막으로 지나간 정류장 ID
+            /// (3 : 여유, 4 : 보통, 5 : 혼잡, 6 : 매우혼잡)
             let congetion: String? // 차량내부 혼잡도
             let stopFlag: String? //정류소 도착 여부(0:운행중, 1:도착)
             let stId: String? //정류소 고유 ID

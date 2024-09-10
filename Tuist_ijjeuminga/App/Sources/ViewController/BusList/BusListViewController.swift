@@ -17,8 +17,6 @@ import RxCocoa
 class BusListViewController: ViewModelInjectionBaseViewController<BusListViewModel, BusListViewModelOutput> {
 
     private weak var titleLabel: UILabel!
-    private weak var liveActivityButton: UIButton!
-    private weak var liveDeactivateButton: UIButton!
     private weak var searchTextField: UITextField!
     private weak var searchTitleLabel: UILabel!
     private weak var dividingView: UIView!
@@ -40,24 +38,6 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
         titleLabel.text = "버스 검색."
         self.view.addSubview(titleLabel)
         self.titleLabel = titleLabel
-        
-        let liveActivityButton = UIButton()
-        liveActivityButton.translatesAutoresizingMaskIntoConstraints = false
-        liveActivityButton.setTitle("Live 활성화", for: .normal)
-        liveActivityButton.backgroundColor = .blueBus
-        liveActivityButton.tintColor = .white
-        liveActivityButton.addTarget(self, action: #selector(activateLiveActivity), for: .touchUpInside)
-        self.view.addSubview(liveActivityButton)
-        self.liveActivityButton = liveActivityButton
-        
-        let liveDeactivateButton = UIButton()
-        liveDeactivateButton.translatesAutoresizingMaskIntoConstraints = false
-        liveDeactivateButton.setTitle("Live 비활성화", for: .normal)
-        liveDeactivateButton.backgroundColor = .redBus
-        liveDeactivateButton.tintColor = .white
-        liveDeactivateButton.addTarget(self, action: #selector(deactivateLiveActivity), for: .touchUpInside)
-        self.view.addSubview(liveDeactivateButton)
-        self.liveDeactivateButton = liveDeactivateButton
         
         let searchTextField = UITextField()
         searchTextField.delegate = self
@@ -113,12 +93,6 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
             self.titleLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 80),
             self.titleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 24),
             
-            self.liveActivityButton.topAnchor.constraint(equalTo: self.titleLabel.topAnchor),
-            self.liveActivityButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            
-            self.liveDeactivateButton.topAnchor.constraint(equalTo: self.titleLabel.topAnchor),
-            self.liveDeactivateButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -24),
-            
             self.searchTextField.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 16),
             self.searchTextField.heightAnchor.constraint(equalToConstant: 40),
             self.searchTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
@@ -142,14 +116,6 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
             self.searchListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0),
             self.searchListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 16)
         ])
-    }
-    
-    @objc func activateLiveActivity() {
-        LiveActivityManager.shared.startLiveActivity()
-    }
-    
-    @objc func deactivateLiveActivity() {
-        LiveActivityManager.shared.stopLiveActivity()
     }
     
     override func bindDataInDisposeBag() {
@@ -230,9 +196,7 @@ extension BusListViewController: UITableViewDelegate {
         let busInfo = self.searchedBusList[indexPath.row]
         let routeId = busInfo.routeId
         
-        self.viewModel.input.selectBus.onNext(
-            (routeId, KoreaBusType(rawValue: busInfo.type)?.color ?? .blueBus)
-        )
+        self.viewModel.input.selectBus.onNext((routeId, busInfo.type))
         
         switch tableView {
         case self.searchListTableView:

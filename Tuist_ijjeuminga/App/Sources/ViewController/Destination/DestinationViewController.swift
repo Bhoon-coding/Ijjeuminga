@@ -5,6 +5,7 @@
 //  Created by BH on 2024/06/06.
 //
 
+import Common
 import UIKit
 
 import RxSwift
@@ -123,7 +124,7 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
         
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = viewModel.busColor
+        titleLabel.textColor = KoreaBusType(rawValue: viewModel.busType)?.colors.color
         titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         self.titleLabel = titleLabel
         navigationItem.titleView = titleLabel

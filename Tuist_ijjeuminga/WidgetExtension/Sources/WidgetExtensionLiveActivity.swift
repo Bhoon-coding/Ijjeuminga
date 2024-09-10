@@ -15,38 +15,39 @@ struct ActivityView: View {
         let attribute = context.attributes
         let state = context.state
         
-        let totalStop = 100.0
-        let currentValue = 35.0
+        let totalStop = attribute.totalStop
+        let remaingBusStopCount = state.remainingBusStopCount
+        let percentageValue = 100 - (Double(remaingBusStopCount) / Double(totalStop) * 100)
         
         VStack(spacing: 24) {
             // 상단 (로고 | 버스번호)
             HStack {
-                Image(WidgetExtensionAsset.Images.splash.name)
+                Image(CommonAsset.splash.name)
                     .resizable()
                     .frame(width: 10, height: 40)
                     .rotationEffect(Angle(degrees: -90))
                     .padding(.leading, 16)
                 Spacer()
                 Text(state.busNumber)
-                    .foregroundStyle(.red)
+                    .foregroundStyle((setColor(with: attribute.busType)))
                     .fontWeight(.bold)
             }
             
             // MARK: - 중간 (이번 정류장 | 정류장 이름 | 목적지 ~ 남음)
             HStack {
-                Text(attribute.currentBusStopInfo)
+                Text("이번 정류장")
                     .font(.regular(14))
                 
                 Spacer()
                 
                 Text(state.currentBusStop)
-                    .font(.bold(24))
+                    .font(.bold(20)) // 디자인 요구사항: 24px
                     .foregroundStyle(.green)
                     .lineLimit(2)
                 
                 Spacer()
                 
-                Text("\(state.stopLeft) 정거장 남음")
+                Text("\(state.remainingBusStopCount) 정거장 남음")
                     .font(.regular(14))
                     
             }
@@ -54,15 +55,17 @@ struct ActivityView: View {
             
             // MARK: - ProgressBar
             ZStack {
-                ProgressView(value: currentValue, total: totalStop)
-                    .tint(.green)
+                withAnimation {
+                    ProgressView(value: percentageValue, total: 100.0)
+                        .tint(.green)
+                }
                 
                 GeometryReader { geometry in
                     Image(WidgetExtensionAsset.Images.greenIcon.name)
                         .resizable()
                         .frame(width: 32, height: 32)
                         .position(
-                            x: geometry.size.width * CGFloat(currentValue / totalStop),
+                            x: (geometry.size.width - 8) * CGFloat(percentageValue / 100.0),
                             y: geometry.size.height / 2
                         )
                     Image(WidgetExtensionAsset.Images.arriveIcon.name)
@@ -76,11 +79,11 @@ struct ActivityView: View {
             }
             
         }
-        .foregroundStyle(.black)
         .padding()
-        .activityBackgroundTint(.init(red: 239, green: 240, blue: 243))
-        .activitySystemActionForegroundColor(Color.black)
-
+    }
+    
+    func setColor(with busType: KoreaBusType.RawValue) -> Color {
+        return KoreaBusType(rawValue: busType)?.colors.swiftUIColor ?? .blueBus
     }
 }
 
@@ -120,30 +123,18 @@ struct WidgetExtensionLiveActivity: Widget {
 
 extension WidgetExtensionAttributes {
     fileprivate static var preview: WidgetExtensionAttributes {
-        WidgetExtensionAttributes(currentBusStopInfo: "이번 정류장")
+        WidgetExtensionAttributes(totalStop: 7, busType: KoreaBusType(rawValue: 1)?.rawValue ?? 2)
     }
 }
-//
-//extension WidgetExtensionAttributes.ContentState {
-//    fileprivate static var smiley: WidgetExtensionAttributes.ContentState {
-//        WidgetExtensionAttributes.ContentState(emoji: "😀")
-//     }
-//     
-//     fileprivate static var starEyes: WidgetExtensionAttributes.ContentState {
-//         WidgetExtensionAttributes.ContentState(emoji: "🤩")
-//     }
-//}
 
 #Preview(as: .content,
          using: WidgetExtensionAttributes.preview,
          widget: {
     WidgetExtensionLiveActivity()
-},
-         contentStates: {
-    WidgetExtensionAttributes.ContentState(
+}, contentStates: {
+    WidgetExtensionAttributes.RealTimeState(
         busNumber: "6002",
-        currentBusStop: "동탄호수공원",
-        stopLeft: 2,
-        totalStop: 10
+        currentBusStop: "동탄호수공원", 
+        remainingBusStopCount: 0
     )
 })

@@ -5,11 +5,13 @@
 //  Created by hayeon on 6/16/24.
 //
 
-import UIKit
-import RxSwift
-import RxCocoa
-import CoreLocation
 import AVFoundation
+import Common
+import CoreLocation
+import UIKit
+
+import RxCocoa
+import RxSwift
 
 class RealTimeBusLocationViewModelInput: BaseViewModelInput {
     let updateBusLocation = PublishSubject<Void>()
@@ -63,21 +65,23 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         }
         return nil
     }
+    private var totalStop: Int = -1
+    private var isStartActivity: Bool = false
     
     private let speechSynthesizer = AVSpeechSynthesizer()
     private let busRouteId: String
     private let startBusStopId: String
     private let destinationBusStopId: String
-    let busColor: UIColor
+    let busType: KoreaBusType.RawValue
     
     init(busRouteId: String,
          startBusStopId: String,
          destinationBusStopId: String,
-         busColor: UIColor) {
+         busType: KoreaBusType.RawValue) {
         self.busRouteId = busRouteId
         self.startBusStopId = startBusStopId
         self.destinationBusStopId = destinationBusStopId
-        self.busColor = busColor
+        self.busType = busType
         
         super.init()
     }
@@ -273,9 +277,34 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         }
         return dataList
     }
+
+    private func liveActivityNotice(busStopInfo: [BusStopInfo], remainingBusStopCount: Int) {
+        let busNum = self.currentBusRouteNumber
+        let busStopId = currentBusPositionInfo?.lastStnId
+        let currentBusStopName = busStopList.first { $0.station == busStopId }?.stationNm ?? ""
+        let totalStop: Int = self.totalStop == -1 ? remainingBusStopCount : -1
+        
+        if isStartActivity { // 업데이트
+            LiveActivityManager.shared.updateLiveActivity(
+                busNum: busNum,
+                currentBusStopName: currentBusStopName,
+                remainingBusStopCount: remainingBusStopCount
+            )
+        } else { // liveActivity 첫 실행
+            LiveActivityManager.shared.startLiveActivity(
+                busType: self.busType,
+                busNum: busNum,
+                currentBusStopName: currentBusStopName,
+                remainingBusStopCount: remainingBusStopCount,
+                totalStop: totalStop
+            )
+            self.isStartActivity = true
+        }
+    }
     
-    private func notice(previousInfo: RealTimeBusInfo?,
-                        currentInfo: RealTimeBusInfo) {
+    private func notice(previousInfo: RealTimeBusInfo?, currentInfo: RealTimeBusInfo) {
+        liveActivityNotice(busStopInfo: self.busStopList,
+                           remainingBusStopCount: self.remainingBusStopCount ?? 0)
         guard currentInfo.lastStnId != (previousInfo?.lastStnId ?? ""),
               let count = self.remainingBusStopCount,
               count >= 0 && count <= 3,
@@ -288,6 +317,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             output.stopTimer.onNext(())
             vibrate()
             speak(text: "목적지에 도착했습니다")
+            // TODO: [] 목적지 도착시 LiveActivity 안내 UI 변경
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.showFinishAlert()
             }
@@ -334,6 +364,8 @@ extension RealTimeBusLocationViewModel {
         let closePopup = CustomAlertController()
             .setTitleMessage("안내를 종료합니다.")
             .addaction("확인", .default) { [weak self] _ in
+                LiveActivityManager.shared.stopLiveActivity()
+                self?.isStartActivity = false
                 self?.output.close.onNext(())
             }
             .setPreferredAction(action: .default)

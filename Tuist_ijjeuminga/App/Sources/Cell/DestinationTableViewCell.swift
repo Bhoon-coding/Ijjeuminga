@@ -5,6 +5,7 @@
 //  Created by BH on 2024/06/08.
 //
 
+import Common
 import UIKit.UITableViewCell
 
 import SkeletonView
@@ -18,9 +19,6 @@ final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, I
     private weak var directionTopLine: UIView!
     private weak var directionBottomLine: UIView!
     private weak var currentPositionImageView: UIImageView!
-    private var busColor: UIColor = .gray
-//    private var positionIcon: UIImage = Assets.Positions.redIcon.image
-//    private var directionIcon: UIImage = Assets.Positions.greenIcon.image
     
     override func initView() {
         super.initView()
@@ -109,8 +107,8 @@ final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, I
         switch data {
         case .searchResult:
             break
-        case .stationResult(let station, let isLast, let nearestIndex, let busColor):
-            setColor(with: busColor)
+        case .stationResult(let station, let isLast, let nearestIndex, let busType):
+            setColor(with: busType)
             directionTopLine.isHidden = index == 0
             directionBottomLine.isHidden = isLast
             busStationLabel.text = station.stationNm
@@ -119,42 +117,14 @@ final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, I
         }
     }
     
-    private func setColor(with busColor: UIColor) {
-        directionTopLine.backgroundColor = busColor
-        directionBottomLine.backgroundColor = busColor
-        directionImageView.image = setDirectionIcon(with: busColor)
-        currentPositionImageView.image = setPositionIcon(with: busColor)
-    }
-    
-    private func setDirectionIcon(with busColor: UIColor) -> UIImage {
-        if busColor == .redBus {
-            return Assets.Directions.red.image
-        } else if busColor == .greenBus {
-            return Assets.Directions.green.image
-        } else if busColor == .blueBus {
-            return Assets.Directions.blue.image
-        } else if busColor == .yellowBus {
-            return Assets.Directions.yellow.image
-        } else {
-            return Assets.Directions.darkBlue.image
-        }
-    }
-    
-    private func setPositionIcon(with busColor: UIColor) -> UIImage {
-        if busColor == .redBus {
-            return Assets.Positions.greenIcon.image
-        } else if busColor == .greenBus {
-            return Assets.Positions.redIcon.image
-        } else if busColor == .blueBus {
-            return Assets.Positions.yellowIcon.image
-        } else if busColor == .yellowBus {
-            return Assets.Positions.blueIcon.image
-        } else {
-            return Assets.Positions.darkBlueIcon.image
-        }
+    private func setColor(with busType: KoreaBusType.RawValue) {
+        directionTopLine.backgroundColor = KoreaBusType(rawValue: busType)?.colors.color
+        directionBottomLine.backgroundColor = KoreaBusType(rawValue: busType)?.colors.color
+        directionImageView.image = KoreaBusType(rawValue: busType)?.directionImage.image
+        currentPositionImageView.image = KoreaBusType(rawValue: busType)?.positionImage.image
     }
 }
 
-//#Preview {
-//    DestinationTableViewCell()
-//}
+#Preview {
+    DestinationTableViewCell()
+}

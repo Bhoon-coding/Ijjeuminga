@@ -5,13 +5,15 @@
 //  Created by 조성빈 on 6/16/24.
 //
 
+import Common
 import Foundation
 import UIKit
+
 import RxSwift
 
 class BusListViewModelInput: BaseViewModelInput {
     let searchedText = PublishSubject<String>()
-    let selectBus = PublishSubject<(String, UIColor)>()
+    let selectBus = PublishSubject<(String, KoreaBusType.RawValue)>()
 }
 
 class BusListViewModelOutput: BaseViewModelOutput {
@@ -32,8 +34,8 @@ class BusListViewModel: BaseViewModel<BusListViewModelOutput> {
         self.getSearchedBusList()
         
         input.selectBus
-            .subscribe { [weak self] (routeId, busColor) in
-                self?.openBusStopList(routeId: routeId, color: busColor)
+            .subscribe { [weak self] (routeId, busType) in
+                self?.openBusStopList(routeId: routeId, busType: busType)
             }
             .disposed(by: viewDisposeBag)
     }
@@ -61,8 +63,8 @@ class BusListViewModel: BaseViewModel<BusListViewModelOutput> {
             }.disposed(by: viewDisposeBag)
     }
     
-    private func openBusStopList(routeId: String, color: UIColor) {
-        let viewModel = DestinationViewModel(routeId: routeId, busColor: color)
+    private func openBusStopList(routeId: String, busType: KoreaBusType.RawValue) {
+        let viewModel = DestinationViewModel(routeId: routeId, busType: busType)
         let controller = DestinationViewController(viewModel: viewModel)
         viewModel.output.close
             .bind(to: output.close)

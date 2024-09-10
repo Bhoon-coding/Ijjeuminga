@@ -5,7 +5,9 @@
 //  Created by hayeon on 6/16/24.
 //
 
+import Common
 import UIKit
+
 import RxSwift
 //import RxCocoa
 
@@ -29,7 +31,7 @@ final class RealTimeBusLocationViewController:
         
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = viewModel.busColor
+        titleLabel.textColor = KoreaBusType(rawValue: viewModel.busType)?.colors.color
         titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         self.titleLabel = titleLabel
         navigationItem.titleView = titleLabel

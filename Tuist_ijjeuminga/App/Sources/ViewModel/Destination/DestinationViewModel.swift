@@ -5,6 +5,7 @@
 //  Created by BH on 2024/06/10.
 //
 
+import Common
 import Foundation
 import UIKit
 import RxSwift
@@ -38,12 +39,12 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     }
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
     private var routeId: String
-    public let busColor: UIColor
+    public let busType: KoreaBusType.RawValue
     public var currentPosColor: UIColor?
     
-    init(routeId: String, busColor: UIColor) {
+    init(routeId: String, busType: KoreaBusType.RawValue) {
         self.routeId = routeId
-        self.busColor = busColor
+        self.busType = busType
     }
     
     override func attachView() {
@@ -123,7 +124,7 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
                 station: itemList,
                 isLast: index == list.count - 1,
                 nearestIndex: nearIndex,
-                busColor: busColor
+                busType: busType
             )
         }
         
@@ -158,7 +159,7 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
         let viewModel = RealTimeBusLocationViewModel(busRouteId: routeId,
                                                      startBusStopId: startId,
                                                      destinationBusStopId: destinationId, 
-                                                     busColor: busColor)
+                                                     busType: busType)
         let controller = RealTimeBusLocationViewController(viewModel: viewModel)
         viewModel.output.close
             .bind(to: output.close)
@@ -174,7 +175,7 @@ enum DestinationTableData {
         station: Rest.BusRouteInfo.ItemList,
         isLast: Bool,
         nearestIndex: Int,
-        busColor: UIColor
+        busType: KoreaBusType.RawValue
     )
     
 }
