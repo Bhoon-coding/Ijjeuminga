@@ -112,8 +112,8 @@ let project = Project(
             productName: "Common",
             bundleId: bundleId + ".Common",
             deploymentTargets: deploymentTarget,
-            sources: "Common/Sources/**"
-//            resources: "Common/Resources/**"
+            sources: "Common/Sources/**",
+            resources: "Common/Resources/**"
         ),
         .target(
             name: "IjjeumingaTests",

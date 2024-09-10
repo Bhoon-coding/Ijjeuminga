@@ -6,6 +6,7 @@
 //
 
 import ActivityKit
+import SwiftUI
 
 // TODO: - 변수명 변경 (WidgetExtension → RealTimeStatus)
 public struct WidgetExtensionAttributes: ActivityAttributes {
@@ -15,21 +16,21 @@ public struct WidgetExtensionAttributes: ActivityAttributes {
         // Dynamic stateful properties about your activity go here!
         public var busNumber: String
         public var currentBusStop: String
-        public var stopLeft: Int
-        public var totalStop: Int
+        public var remainingBusStopCount: Int
         
-        public init(busNumber: String, currentBusStop: String, stopLeft: Int, totalStop: Int) {
+        public init(busNumber: String, currentBusStop: String, remainingBusStopCount: Int) {
             self.busNumber = busNumber
             self.currentBusStop = currentBusStop
-            self.stopLeft = stopLeft
-            self.totalStop = totalStop
+            self.remainingBusStopCount = remainingBusStopCount
         }
     }
 
     // Fixed non-changing properties about your activity go here!
-    public var currentBusStopInfo: String
+    public var totalStop: Int
+    public var busType: KoreaBusType.RawValue
     
-    public init(currentBusStopInfo: String) {
-        self.currentBusStopInfo = currentBusStopInfo
+    public init(totalStop: Int, busType: KoreaBusType.RawValue) {
+        self.totalStop = totalStop
+        self.busType = busType
     }
 }

@@ -6,7 +6,7 @@
 //
 
 import UIKit.UIFont
-
+// TODO: [] Common으로 옮기기
 extension UIFont {
     static func bold(_ size: CGFloat) -> UIFont {
         return IjjeumingaFontFamily.AppleSDGothicNeoB00.regular.font(size: size)
