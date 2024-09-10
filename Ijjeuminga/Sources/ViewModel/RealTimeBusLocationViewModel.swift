@@ -226,7 +226,10 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         
         dataList[2] = .init(name: busStopList[currentIndex].stationNm ?? "", type: .current)
         
-        if currentIndex + 1 < destinationIndex {
+        if currentIndex + 2 < destinationIndex {
+            dataList[0] = .init(name: busStopList[currentIndex + 2].stationNm ?? "", type: .twoStopsNext)
+            dataList[1] = .init(name: busStopList[currentIndex + 1].stationNm ?? "", type: .next)
+        } else if currentIndex + 1 < destinationIndex {
             dataList[0] = .init(name: busStopList[destinationIndex].stationNm ?? "", type: .destination)
             dataList[1] = .init(name: busStopList[currentIndex + 1].stationNm ?? "", type: .next)
         } else {
@@ -257,7 +260,10 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         
         dataList[2] = .init(name: busStopList[currentIndex].stationNm ?? "", type: .current)
         
-        if currentIndex - 1 > destinationIndex {
+        if currentIndex - destinationIndex > 2 {
+            dataList[0] = .init(name: busStopList[currentIndex - 2].stationNm ?? "", type: .twoStopsNext)
+            dataList[1] = .init(name: busStopList[currentIndex - 1].stationNm ?? "", type: .next)
+        } else if currentIndex - destinationIndex > 1 {
             dataList[0] = .init(name: busStopList[destinationIndex].stationNm ?? "", type: .destination)
             dataList[1] = .init(name: busStopList[currentIndex - 1].stationNm ?? "", type: .next)
         } else {
