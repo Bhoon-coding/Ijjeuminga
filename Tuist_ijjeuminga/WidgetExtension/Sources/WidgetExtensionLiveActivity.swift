@@ -42,11 +42,10 @@ struct ActivityView: View {
                     Text("이번 정류장")
                         .font(.regular(14))
                     
-                    Spacer()
-                    
                     Text(state.currentBusStop)
                         .font(.bold(20)) // 디자인 요구사항: 24px
                         .foregroundStyle(.green)
+                        .lineLimit(2)
                     
                     Spacer()
                     
@@ -55,10 +54,8 @@ struct ActivityView: View {
                         
                 }
                 .foregroundStyle(CommonAsset.subtitleText.swiftUIColor)
-                .frame(maxHeight: 56)
-                .lineLimit(2)
+                .frame(minHeight: 56)
             }
-            
             
             // MARK: - ProgressBar
             ZStack {
@@ -84,9 +81,9 @@ struct ActivityView: View {
                         )
                 }
             }
-            
         }
-        .padding()
+        .frame(maxHeight: .infinity)
+        .padding(16)
     }
     
     func setColor(with busType: KoreaBusType.RawValue) -> Color {
@@ -141,7 +138,7 @@ extension WidgetExtensionAttributes {
 }, contentStates: {
     WidgetExtensionAttributes.RealTimeState(
         busNumber: "6002",
-        currentBusStop: "동탄호수공원광교",
-        remainingBusStopCount: 0
+        currentBusStop: "동탄호수공원 긴글자 테스트테스트ㄴㅇㄹㄴㅇㄹㅇㄴ",
+        remainingBusStopCount: 2
     )
 })
