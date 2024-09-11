@@ -22,11 +22,9 @@ struct ActivityView: View {
         VStack(spacing: 24) {
             // 상단 (로고 | 버스번호)
             HStack {
-                Image(CommonAsset.splash.name)
+                Image(asset: CommonAsset.logoRotate)
                     .resizable()
-                    .frame(width: 10, height: 40)
-                    .rotationEffect(Angle(degrees: -90))
-                    .padding(.leading, 16)
+                    .frame(width: 40, height: 10)
                 Spacer()
                 Text(state.busNumber)
                     .foregroundStyle((setColor(with: attribute.busType)))
@@ -34,24 +32,30 @@ struct ActivityView: View {
             }
             
             // MARK: - 중간 (이번 정류장 | 정류장 이름 | 목적지 ~ 남음)
-            HStack {
-                Text("이번 정류장")
-                    .font(.regular(14))
-                
-                Spacer()
-                
-                Text(state.currentBusStop)
-                    .font(.bold(20)) // 디자인 요구사항: 24px
+            
+            if remaingBusStopCount == 0 {
+                Text("목적지에 도착했습니다")
+                    .font(.bold(20))
                     .foregroundStyle(.green)
-                    .lineLimit(2)
-                
-                Spacer()
-                
-                Text("\(state.remainingBusStopCount) 정거장 남음")
-                    .font(.regular(14))
+            } else {
+                HStack {
+                    Text("이번 정류장")
+                        .font(.regular(14))
                     
+                    Text(state.currentBusStop)
+                        .font(.bold(20)) // 디자인 요구사항: 24px
+                        .foregroundStyle(.green)
+                        .lineLimit(2)
+                    
+                    Spacer()
+                    
+                    Text("\(state.remainingBusStopCount) 정거장 남음")
+                        .font(.regular(14))
+                        
+                }
+                .foregroundStyle(CommonAsset.subtitleText.swiftUIColor)
+                .frame(minHeight: 56)
             }
-            .foregroundStyle(WidgetExtensionAsset.Colors.subtitleText.swiftUIColor)
             
             // MARK: - ProgressBar
             ZStack {
@@ -61,14 +65,14 @@ struct ActivityView: View {
                 }
                 
                 GeometryReader { geometry in
-                    Image(WidgetExtensionAsset.Images.greenIcon.name)
+                    Image(asset: CommonAsset.Positions.greenIcon)
                         .resizable()
                         .frame(width: 32, height: 32)
                         .position(
                             x: (geometry.size.width - 8) * CGFloat(percentageValue / 100.0),
                             y: geometry.size.height / 2
                         )
-                    Image(WidgetExtensionAsset.Images.arriveIcon.name)
+                    Image(asset: CommonAsset.Positions.arriveIcon)
                         .resizable()
                         .frame(width: 32, height: 32)
                         .position(
@@ -77,9 +81,9 @@ struct ActivityView: View {
                         )
                 }
             }
-            
         }
-        .padding()
+        .frame(maxHeight: .infinity)
+        .padding(16)
     }
     
     func setColor(with busType: KoreaBusType.RawValue) -> Color {
@@ -93,27 +97,27 @@ struct WidgetExtensionLiveActivity: Widget {
             // MARK: - Widget
             ActivityView(context: context)
             
-            // MARK: - DynamicIsland
+            // MARK: - DynamicIsland (보류)
         } dynamicIsland: { context in
             DynamicIsland {
                 // Expanded UI goes here.  Compose the expanded UI through
                 // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("Leading")
+//                    Text("Leading")
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("Trailing")
+//                    Text("Trailing")
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("Bottom ")
+//                    Text("Bottom ")
                     // more content
                 }
             } compactLeading: {
-                Text("L")
+//                Text("L")
             } compactTrailing: {
-                Text("T ")
+//                Text("T ")
             } minimal: {
-                Text("Test minimal")
+//                Text("Test minimal")
             }
             .widgetURL(URL(string: "http://www.apple.com"))
             .keylineTint(Color.red)
@@ -134,7 +138,7 @@ extension WidgetExtensionAttributes {
 }, contentStates: {
     WidgetExtensionAttributes.RealTimeState(
         busNumber: "6002",
-        currentBusStop: "동탄호수공원", 
-        remainingBusStopCount: 0
+        currentBusStop: "동탄호수공원 긴글자 테스트테스트ㄴㅇㄹㄴㅇㄹㅇㄴ",
+        remainingBusStopCount: 2
     )
 })
