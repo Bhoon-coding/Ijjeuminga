@@ -55,16 +55,16 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             }
         }
     }
-    private var remainingBusStopCount: Int? {
+    private var remainingBusStopCount: Int {
         let busStopId = currentBusPositionInfo?.lastStnId ?? ""
         
         if let index1 = busStopList.firstIndex(where: { $0.station == busStopId }),
-           let index2 = busStopList.firstIndex(where: { $0.station == destinationBusStopId }),
-           abs(index1 - index2) <= 3 {
+           let index2 = busStopList.firstIndex(where: { $0.station == destinationBusStopId }) {
             return abs(index1 - index2)
         }
-        return nil
+        return 0
     }
+    
     private var totalStop: Int = -1
     private var isStartActivity: Bool = false
     
@@ -304,20 +304,19 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     
     private func notice(previousInfo: RealTimeBusInfo?, currentInfo: RealTimeBusInfo) {
         liveActivityNotice(busStopInfo: self.busStopList,
-                           remainingBusStopCount: self.remainingBusStopCount ?? 0)
+                           remainingBusStopCount: self.remainingBusStopCount)
+        
         guard currentInfo.lastStnId != (previousInfo?.lastStnId ?? ""),
-              let count = self.remainingBusStopCount,
-              count >= 0 && count <= 3,
+              self.remainingBusStopCount >= 0 && self.remainingBusStopCount <= 3,
               currentInfo.stopFlag == "1" else {
             output.startTimer.onNext(15)
             return
         }
         
-        if count == 0 {
+        if self.remainingBusStopCount == 0 {
             output.stopTimer.onNext(())
             vibrate()
             speak(text: "목적지에 도착했습니다")
-            // TODO: [] 목적지 도착시 LiveActivity 안내 UI 변경
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.showFinishAlert()
             }
@@ -325,7 +324,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         }
         
         var countText = ""
-        switch count {
+        switch self.remainingBusStopCount {
         case 1:
             countText = "한"
         case 2:
