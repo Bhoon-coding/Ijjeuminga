@@ -8,8 +8,9 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Common
 
-final class BusStopStatusTableViewCell: BaseTableViewCell<(RealTimeBusLocationData, Int)> {
+final class BusStopStatusTableViewCell: BaseTableViewCell<(KoreaBusType, RealTimeBusLocationData, Int)> {
     
     static let id = "BusStopStatusTableViewCell"
     
@@ -27,7 +28,9 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<(RealTimeBusLocationDa
         
         let circleBarView = CircleStatusBarView()
         circleBarView.translatesAutoresizingMaskIntoConstraints = false
-        circleBarView.configure(statusType: .current, positionType: .middle)
+        circleBarView.configure(busType: .seoulGanseonBus,
+                                statusType: .current,
+                                positionType: .middle)
         self.circleBarView = circleBarView
         
         let titleLabel = UILabel()
@@ -95,22 +98,32 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<(RealTimeBusLocationDa
         ])
     }
 
-    override func configureCell(data: (RealTimeBusLocationData, Int)?) {
+    override func configureCell(data: (KoreaBusType, RealTimeBusLocationData, Int)?) {
         super.configureCell(data: data)
         
-        guard let (data, index) = data,
+        guard let (busType, data, index) = data,
               let position = BusStopPositionType(rawValue: index) else {
             return
         }
 
-        circleBarView.configure(statusType: data.type, positionType: position)
+        circleBarView.configure(busType: busType,
+                                statusType: data.type, 
+                                positionType: position)
         circleBarBottomSpacer.isHidden = position != .middle
         textBottomSpacer.isHidden = position != .topMiddle
         nameLabel.text = data.name
-        nameLabel.textColor = data.type.color
         nameLabel.font = data.isEmpty ? BusStopPositionType.topMiddle.font : position.font
         titleLabel.text = position.title
         titleLabel.isHidden = position.title.isEmpty || data.isEmpty
         titleLabel.font = position.titleFont
+        
+        switch data.type {
+        case .current:
+            nameLabel.textColor = busType.colors.color
+        case .destination:
+            nameLabel.textColor = busType.currentPosColor.color
+        case .next, .previous, .twoStopsAgo, .twoStopsNext:
+            nameLabel.textColor = data.type.color
+        }
     }
 }

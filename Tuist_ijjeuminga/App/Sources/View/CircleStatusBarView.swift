@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Common
 
 class CircleStatusBarView: BaseView {
     
@@ -23,13 +24,7 @@ class CircleStatusBarView: BaseView {
         static let circleWidth: CGFloat = 24
     }
     
-    private var statusType: BusStopStatusType = .destination {
-        didSet {
-            barView.backgroundColor = statusType.color
-            circleView.backgroundColor = statusType.color
-        }
-    }
-    
+    private var statusType: BusStopStatusType = .destination
     private var positionType: BusStopPositionType = .topMiddle {
         didSet {
             switch positionType {
@@ -85,8 +80,22 @@ class CircleStatusBarView: BaseView {
         self.barWidthConstraint = barView.widthAnchor.constraint(equalToConstant: 100).withActive
     }
     
-    func configure(statusType: BusStopStatusType, positionType: BusStopPositionType) {
+    func configure(busType: KoreaBusType,
+                   statusType: BusStopStatusType,
+                   positionType: BusStopPositionType) {
         self.statusType = statusType
         self.positionType = positionType
+        
+        switch statusType {
+        case .current:
+            barView.backgroundColor = busType.colors.color
+            circleView.backgroundColor = busType.colors.color
+        case .destination:
+            barView.backgroundColor = busType.currentPosColor.color
+            circleView.backgroundColor = busType.currentPosColor.color
+        case .next, .previous, .twoStopsAgo, .twoStopsNext:
+            barView.backgroundColor = statusType.color
+            circleView.backgroundColor = statusType.color
+        }
     }
 }

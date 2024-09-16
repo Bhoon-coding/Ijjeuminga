@@ -178,7 +178,8 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
 
         // Populate the snapshot.
         let dataList = createDataList()
-        let section: RealTimeBusLocationSectionData = .bus(data: dataList)
+        let section: RealTimeBusLocationSectionData = .bus(busType: KoreaBusType(rawValue: busType) ?? .seoulGanseonBus,
+                                                           data: dataList)
         snapshot.appendSections([section])
         snapshot.appendItems(dataList, toSection: section)
     
@@ -188,13 +189,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     
     private func createDataList() -> [RealTimeBusLocationData] {
         let busStopId = currentBusPositionInfo?.lastStnId ?? ""
-        var dataList: [RealTimeBusLocationData] = [
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous)
-        ]
+        var dataList: [RealTimeBusLocationData] = createDefaultList()
 
         guard let index1 = busStopList.firstIndex(where: { $0.station == busStopId }),
               let index2 = busStopList.firstIndex(where: { $0.station == destinationBusStopId }) else {
@@ -220,17 +215,14 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     private func createForwardDataList(currentIndex: Int,
                                        destinationIndex: Int,
                                        busStopList: [BusStopInfo]) -> [RealTimeBusLocationData] {
-        var dataList: [RealTimeBusLocationData] = [
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous)
-        ]
+        var dataList: [RealTimeBusLocationData] = createDefaultList()
         
         dataList[2] = .init(name: busStopList[currentIndex].stationNm ?? "", type: .current)
         
-        if currentIndex + 1 < destinationIndex {
+        if currentIndex + 2 < destinationIndex {
+            dataList[0] = .init(name: busStopList[currentIndex + 2].stationNm ?? "", type: .twoStopsNext)
+            dataList[1] = .init(name: busStopList[currentIndex + 1].stationNm ?? "", type: .next)
+        } else if currentIndex + 1 < destinationIndex {
             dataList[0] = .init(name: busStopList[destinationIndex].stationNm ?? "", type: .destination)
             dataList[1] = .init(name: busStopList[currentIndex + 1].stationNm ?? "", type: .next)
         } else {
@@ -251,17 +243,14 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     private func createBackwardDataList(currentIndex: Int,
                                         destinationIndex: Int,
                                         busStopList: [BusStopInfo]) -> [RealTimeBusLocationData] {
-        var dataList: [RealTimeBusLocationData] = [
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
-            .init(name: "정류장에 대한 정보가 없습니다", type: .previous)
-        ]
+        var dataList: [RealTimeBusLocationData] = createDefaultList()
         
         dataList[2] = .init(name: busStopList[currentIndex].stationNm ?? "", type: .current)
         
-        if currentIndex - 1 > destinationIndex {
+        if currentIndex - 2 > destinationIndex {
+            dataList[0] = .init(name: busStopList[currentIndex - 2].stationNm ?? "", type: .twoStopsNext)
+            dataList[1] = .init(name: busStopList[currentIndex - 1].stationNm ?? "", type: .next)
+        } else if currentIndex - 1 > destinationIndex {
             dataList[0] = .init(name: busStopList[destinationIndex].stationNm ?? "", type: .destination)
             dataList[1] = .init(name: busStopList[currentIndex - 1].stationNm ?? "", type: .next)
         } else {
@@ -276,6 +265,16 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             dataList[4] = .init(name: busStopList[currentIndex + 2].stationNm ?? "", type: .twoStopsAgo)
         }
         return dataList
+    }
+    
+    private func createDefaultList() -> [RealTimeBusLocationData] {
+        return [
+            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
+            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
+            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
+            .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
+            .init(name: "정류장에 대한 정보가 없습니다", type: .previous)
+        ]
     }
 
     private func liveActivityNotice(busStopInfo: [BusStopInfo], remainingBusStopCount: Int) {

@@ -33,6 +33,7 @@ class TimeCountView: BaseReactiveView {
     weak var indicator: UIActivityIndicatorView!
     
     private var timerDisposeBag = DisposeBag()
+    private var allowUpdateTime = true
 
     override func initView() {
         super.initView()
@@ -86,12 +87,16 @@ class TimeCountView: BaseReactiveView {
         
         input.startTimer
             .subscribe(onNext: { [weak self] count in
+                guard self?.allowUpdateTime ?? false else {
+                    return
+                }
                 self?.startTimer(count)
             })
             .disposed(by: disposeBag)
         
         input.stopTimer
             .subscribe(onNext: { [weak self] _ in
+                self?.allowUpdateTime = false
                 self?.stopTimer(end: true)
             })
             .disposed(by: disposeBag)
@@ -126,7 +131,7 @@ class TimeCountView: BaseReactiveView {
         self.updateStopTimerUI(end: end)
         
         if !end {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1.5) { [weak self] in
                 self?.output.didTap.onNext(())
             }
         }
