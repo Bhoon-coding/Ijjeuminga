@@ -8,13 +8,14 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Common
 
 enum RealTimeBusLocationSectionData: Hashable {
-    case bus(data: [RealTimeBusLocationData])
+    case bus(busType: KoreaBusType, data: [RealTimeBusLocationData])
     
     var items: [RealTimeBusLocationData] {
         switch self {
-        case .bus(let data):
+        case .bus(_, let data):
             return data
         }
     }
@@ -63,14 +64,18 @@ class RealTimeBusLocationDataSource: BaseTableDiffableDataSoceurce<RealTimeBusLo
                              _ indexPath: IndexPath,
                              _ itemIdentifier: RealTimeBusLocationData) 
     -> UITableViewCell? {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: BusStopStatusTableViewCell.id,
+        guard let section = dataSource.sectionIdentifier(for: 0),
+              let cell = tableView.dequeueReusableCell(withIdentifier: BusStopStatusTableViewCell.id,
                                                        for: indexPath) as? BusStopStatusTableViewCell else {
             return nil
         }
         
-        cell.configureCell(data: (itemIdentifier, indexPath.row))
-        cell.selectionStyle = .none
-        return cell
+        switch section {
+        case .bus(busType: let busType, _):
+            cell.configureCell(data: (busType, itemIdentifier, indexPath.row))
+            cell.selectionStyle = .none
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

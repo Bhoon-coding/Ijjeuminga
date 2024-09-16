@@ -8,6 +8,7 @@
 import UIKit
 
 enum BusStopStatusType: Int {
+    case twoStopsNext = -1
     case destination = 0
     case next = 1
     case current = 2
@@ -16,6 +17,8 @@ enum BusStopStatusType: Int {
     
     var color: UIColor {
         switch self {
+        case .twoStopsNext:
+            return .noticeText
         case .destination:
             return .greenBus
         case .next:

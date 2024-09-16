@@ -49,6 +49,21 @@ public enum KoreaBusType: Int {
         }
     }
     
+    public var currentPosColor: CommonColors {
+        switch self {
+        case .seoulGanseonBus:
+            return CommonAsset.yellowBus
+        case .jiseonBus, .maeulBus:
+            return CommonAsset.redBus
+        case .seoulSunhwanBus:
+            return CommonAsset.blueBus
+        case .seoulGwangyeokBus:
+            return CommonAsset.greenBus
+        case .gonghangBus:
+            return CommonAsset.yellowBus
+        }
+    }
+    
     public var directionImage: CommonImages {
         switch self {
         case .seoulGanseonBus:
