@@ -151,6 +151,10 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
                 self?.recentSearchListTableView.reloadData()
             }.disposed(by: viewDisposeBag)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 }
 
 extension BusListViewController: UITableViewDataSource {
@@ -190,19 +194,24 @@ extension BusListViewController: UITableViewDataSource {
 
 extension BusListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let busInfo = self.searchedBusList[indexPath.row]
-        let routeId = busInfo.routeId
-        
-        self.viewModel.input.selectBus.onNext((routeId, KoreaBusType(rawValue: busInfo.type)?.color ?? .blueBus ))
-        
         switch tableView {
         case self.searchListTableView:
+            let busInfo = self.searchedBusList[indexPath.row]
+            let routeId = busInfo.routeId
             CoreDataManager.shared.saveBusInfo(busNumber: busInfo.busNumber, routeId: busInfo.routeId, type: Int32(busInfo.type), lastDate: self.getCurrentDateString()) { result in
                 if result {
+                    self.viewModel.input.selectBus.onNext((routeId, KoreaBusType(rawValue: busInfo.type)?.color ?? UIColor()))
                 }
             }
         case self.recentSearchListTableView:
             print("다음 페이지로 넘어가기")
+            let busInfo = self.recentSearchBusList[indexPath.row]
+            let routeId = busInfo.routeId ?? ""
+            CoreDataManager.shared.saveBusInfo(busNumber: busInfo.busNumer ?? "", routeId: busInfo.routeId ?? "", type: Int32(busInfo.type), lastDate: self.getCurrentDateString()) { result in
+                if result {
+                    self.viewModel.input.selectBus.onNext((routeId, KoreaBusType(rawValue: Int(busInfo.type))?.color ?? UIColor()))
+                }
+            }
         default:
             break
         }
