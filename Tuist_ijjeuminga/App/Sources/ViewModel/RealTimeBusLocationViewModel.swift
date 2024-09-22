@@ -126,11 +126,11 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 self?.showErrorAlert(data.isEmpty, text: "출발지에서 목적지까지 구간 내에 운행 중인 버스가 없습니다.")
                 return !data.isEmpty
             }
-            .flatMap { data -> Observable<String> in
-                return LocationDataManager.shared.compareLocation(to: data)
-                    .map { $0.vehId ?? "" }
-            }
-            .flatMap { [weak self] vehId -> Observable<Rest.RealTimeBus.RealTimeBusResponse> in
+            .flatMap { [weak self] data -> Observable<Rest.RealTimeBus.RealTimeBusResponse> in
+                guard let vehId = self?.selectBus(from: data) else {
+                    self?.showErrorAlert(true, text: "출발지에서 목적지까지 구간 내에 운행 중인 버스가 없습니다.")
+                    return .empty()
+                }
                 self?.currentBusVehID = vehId
                 return RealTimeBusAPIService().getRealTimeBus(with: vehId)
                     .asObservable()
@@ -275,6 +275,30 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             .init(name: "정류장에 대한 정보가 없습니다", type: .previous),
             .init(name: "정류장에 대한 정보가 없습니다", type: .previous)
         ]
+    }
+    
+    private func selectBus(from busList: [BusPositionInfo]) -> String? {
+        guard let startBusStopIndex = busStopList.firstIndex(where: { $0.station == startBusStopId }) else {
+            return nil
+        }
+        
+        var diff: Int = 1000
+        var selectedBusId: String?
+        
+        for bus in busList {
+            guard let busStopId = bus.lastStnId,
+                  let busStopIndex = busStopList.firstIndex(where: { $0.station == busStopId }) else {
+                continue
+            }
+            
+            let newDiff: Int = busStopIndex - startBusStopIndex
+            if newDiff < diff {
+                diff = newDiff
+                selectedBusId = bus.vehId
+            }
+        }
+        
+        return selectedBusId
     }
 
     private func liveActivityNotice(busStopInfo: [BusStopInfo], remainingBusStopCount: Int) {
