@@ -19,7 +19,7 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     private weak var destinationTitle: UILabel!
     private weak var busStationSearchBar: UISearchBar!
     private weak var currentStationStackView: UIStackView!
-    private weak var currentStationImageView: UIImageView!
+    private weak var currentStationImageView: UIImageView! // TODO: [] iconImageView로 이름 변경
     private weak var currentStationLabel: UILabel!
     private weak var busStationTableView: UITableView!
     
@@ -140,7 +140,7 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
         destinationTitle.translatesAutoresizingMaskIntoConstraints = false
         destinationTitle.isSkeletonable = true
         destinationTitle.text = "목적지 선택"
-        destinationTitle.font = .systemFont(ofSize: 24, weight: .bold)
+        destinationTitle.font = .bold(24)
         backgroundView.addSubview(destinationTitle)
         self.destinationTitle = destinationTitle
         
