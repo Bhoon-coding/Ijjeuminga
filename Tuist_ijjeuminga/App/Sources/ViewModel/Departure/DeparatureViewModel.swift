@@ -20,9 +20,11 @@ final class DeparatureViewModel: BaseViewModel<DepartureViewModelOutput> {
     
     let input = DeparatureViewModelInput()
     
-    public let busType: KoreaBusType.RawValue
+    private let routeId: String
+    let busType: KoreaBusType.RawValue
     
-    init(busType: KoreaBusType.RawValue) {
+    init(routeId: String, busType: KoreaBusType.RawValue) {
+        self.routeId = routeId
         self.busType = busType
     }
     
