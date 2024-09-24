@@ -17,11 +17,8 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DeparatureV
     private weak var backgroundView: UIView!
     private weak var departureTitle: UILabel!
     private weak var departureSubtitle: UILabel!
-    private weak var containerView: UIView!
-    private weak var iconImageView: UIImageView!
-    private weak var currentStationLabel: UILabel!
-    private weak var divider: UIView!
-    private weak var stopsStackView: UIStackView!
+    private weak var firstSelectView: BusStationSelectView!
+    private weak var secondSelectView: BusStationSelectView!
     private weak var confirmButton: UIButton!
 
     override func initView() {
@@ -58,40 +55,21 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DeparatureV
         backgroundView.addSubview(departureSubtitle)
         self.departureSubtitle = departureSubtitle
      
-        let containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        // TODO: [] 선택됨에 따라 색상 border 색상 변경
-        containerView.layer.cornerRadius = 16
-        backgroundView.addSubview(containerView)
-        self.containerView = containerView
+        let firstSelectView = BusStationSelectView()
+        firstSelectView.translatesAutoresizingMaskIntoConstraints = false
+        firstSelectView.layer.cornerRadius = 16
+        firstSelectView.layer.borderColor = UIColor.primaryToryBlue.cgColor
+        firstSelectView.layer.borderWidth = 2
+        backgroundView.addSubview(firstSelectView)
+        self.firstSelectView = firstSelectView
         
-        let iconImageView = UIImageView()
-        iconImageView.translatesAutoresizingMaskIntoConstraints = false
-//        iconImageView.contentMode = .scaleAspectFit
-        iconImageView.image = CommonAsset.Directions.red.image // TODO: [] 색상변경 필요
-        containerView.addSubview(iconImageView)
-        self.iconImageView = iconImageView
-        
-        let currentStationLabel = UILabel()
-        currentStationLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentStationLabel.text = "마전지구버스차고지" // TODO: [] 현재 정류장 표기
-        currentStationLabel.textColor = .busStopText
-        currentStationLabel.font = .bold(16)
-        containerView.addSubview(currentStationLabel)
-        self.currentStationLabel = currentStationLabel
-        
-        let divider = UIView()
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        divider.backgroundColor = .grayF4F4F4
-        containerView.addSubview(divider)
-        self.divider = divider
-        
-        let stopsStackView = UIStackView()
-        stopsStackView.translatesAutoresizingMaskIntoConstraints = false
-        // TODO: [] arrangeSubView 필요 (다음 방면 정류장 3개 표시 필요)
-        containerView.backgroundColor = .clear
-        containerView.addSubview(stopsStackView)
-        self.stopsStackView = stopsStackView
+        let secondSelectView = BusStationSelectView()
+        secondSelectView.translatesAutoresizingMaskIntoConstraints = false
+        secondSelectView.layer.cornerRadius = 16
+        secondSelectView.layer.borderColor = UIColor.containerBackground.cgColor
+        secondSelectView.layer.borderWidth = 2
+        backgroundView.addSubview(secondSelectView)
+        self.secondSelectView = secondSelectView
         
         let confirmButton = UIButton()
         confirmButton.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +77,7 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DeparatureV
         confirmButton.backgroundColor = .primaryToryBlue
         confirmButton.setTitle("선택완료", for: .normal)
         confirmButton.titleLabel?.font = .bold(16)
-        containerView.addSubview(confirmButton)
+        backgroundView.addSubview(confirmButton)
         self.confirmButton = confirmButton
     }
     
@@ -115,28 +93,15 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DeparatureV
             departureSubtitle.topAnchor.constraint(equalTo: departureTitle.bottomAnchor, constant: 8),
             departureSubtitle.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
             
-            containerView.topAnchor.constraint(equalTo: departureSubtitle.bottomAnchor, constant: 32),
-            containerView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 160),
+            firstSelectView.topAnchor.constraint(equalTo: departureSubtitle.bottomAnchor, constant: 32),
+            firstSelectView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
+            firstSelectView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
+            firstSelectView.heightAnchor.constraint(equalToConstant: 160),
             
-            iconImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
-            iconImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            iconImageView.widthAnchor.constraint(equalToConstant: 16),
-            iconImageView.heightAnchor.constraint(equalToConstant: 16),
-            
-            currentStationLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
-            currentStationLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 16),
-            
-            divider.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 16),
-            divider.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            divider.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            divider.heightAnchor.constraint(equalToConstant: 1),
-            
-            stopsStackView.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 24),
-            stopsStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            stopsStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -24),
-            stopsStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 40),
+            secondSelectView.topAnchor.constraint(equalTo: firstSelectView.bottomAnchor, constant: 24),
+            secondSelectView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
+            secondSelectView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
+            secondSelectView.heightAnchor.constraint(equalToConstant: 160),
             
             confirmButton.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -8),
             confirmButton.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -8),
