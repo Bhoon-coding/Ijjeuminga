@@ -13,10 +13,10 @@ class DeparatureViewModelInput: BaseViewModelInput {
 }
 
 class DepartureViewModelOutput: BaseViewModelOutput {
-    
+    let close = PublishSubject<Void>()
 }
 
-final class DeparatureViewModel: BaseViewModel<DepartureViewModelOutput> {
+final class DepartureViewModel: BaseViewModel<DepartureViewModelOutput> {
     
     let input = DeparatureViewModelInput()
     
@@ -30,5 +30,14 @@ final class DeparatureViewModel: BaseViewModel<DepartureViewModelOutput> {
     
     override func attachView() {
         
+    }
+    
+    private func openBusStopList(routeId: String, busType: KoreaBusType.RawValue) {
+        let viewModel = DestinationViewModel(routeId: routeId, busType: busType)
+        let controller = DestinationViewController(viewModel: viewModel)
+        viewModel.output.close
+            .bind(to: output.close)
+            .disposed(by: disposeBag)
+        output.pushVC.onNext((controller, true))
     }
 }

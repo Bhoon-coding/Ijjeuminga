@@ -11,7 +11,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class DeparatureViewController: ViewModelInjectionBaseViewController<DeparatureViewModel, DepartureViewModelOutput> {
+class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureViewModel, DepartureViewModelOutput> {
     
     private weak var titleLabel: UILabel!
     private weak var backgroundView: UIView!
@@ -114,5 +114,5 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DeparatureV
 
 
 #Preview {
-    DeparatureViewController(viewModel: DeparatureViewModel(routeId: "100100139", busType: 1))
+    DeparatureViewController(viewModel: DepartureViewModel(routeId: "100100139", busType: 1))
 }
