@@ -20,6 +20,14 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureVi
     private weak var firstSelectView: BusStationSelectView!
     private weak var secondSelectView: BusStationSelectView!
     private weak var confirmButton: UIButton!
+    
+    override func bind() {
+        super.bind()
+
+        self.viewModel.output.busNumber
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: viewDisposeBag)
+    }
 
     override func initView() {
         super.initView()
@@ -30,7 +38,7 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureVi
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = KoreaBusType(rawValue: viewModel.busType)?.colors.color
-        titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+        titleLabel.font = .bold(16)
         self.titleLabel = titleLabel
         navigationItem.titleView = titleLabel
         
