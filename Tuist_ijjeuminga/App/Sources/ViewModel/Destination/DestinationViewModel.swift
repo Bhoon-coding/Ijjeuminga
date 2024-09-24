@@ -39,7 +39,6 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
     private var routeId: String
     public let busType: KoreaBusType.RawValue
-    public var currentPosColor: UIColor?
     
     init(routeId: String, busType: KoreaBusType.RawValue) {
         self.routeId = routeId
@@ -109,7 +108,7 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     
     private func getCurrentPosition(stationList: [Rest.BusRouteInfo.ItemList]) {
         LocationDataManager.shared.compareLocation(to: stationList)
-            .subscribe { [weak self] nearestIndex in
+            .subscribe { [weak self] (nearestIndex, _) in
                 guard let self = self else { return }
                 self.currentPosIndex = nearestIndex
                 createDataList(with: stationList, at: nearestIndex)

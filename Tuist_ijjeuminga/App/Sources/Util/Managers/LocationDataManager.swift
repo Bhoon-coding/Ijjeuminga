@@ -59,7 +59,7 @@ extension LocationDataManager: CLLocationManagerDelegate {
         self.lastLocation = lastLocation
     }
     
-    func compareLocation(to stations: [Rest.BusRouteInfo.ItemList]) -> Observable<Int> {
+    func compareLocation(to stations: [Rest.BusRouteInfo.ItemList]) -> Observable<(Int, Int)> {
         // TODO: [] 현재 거리와 500m ~ 1km 차이나는 정류장을 현재정류장으로 보여지게 해야함
         guard let currentLocation = self.lastLocation else { return .empty() }
         var distances: [CLLocationDistance] = []
@@ -73,12 +73,15 @@ extension LocationDataManager: CLLocationManagerDelegate {
             distances.append(distance)
         }
         
-        if let minDistance = distances.min(), let nearestIndex = distances.firstIndex(of: minDistance) {
-            print("가장 가까운 정류장: \(stations[nearestIndex])")
-            locationManager.stopUpdatingLocation()
-            return .just(nearestIndex)
-        } else {
-            print("No distances calculated.")
+        if let minDistance = distances.min() {
+            let filtered = distances.filter { $0 != minDistance }
+            if let secondMinDistance = filtered.min(),
+               let nearestIndex = distances.firstIndex(of: minDistance),
+               let secondNearIndex = distances.firstIndex(of: secondMinDistance) {
+                
+                locationManager.stopUpdatingLocation()
+                return .just((nearestIndex, secondNearIndex))
+            }
         }
         return .empty()
     }

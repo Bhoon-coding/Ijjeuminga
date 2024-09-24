@@ -27,6 +27,15 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureVi
         self.viewModel.output.busNumber
             .bind(to: titleLabel.rx.text)
             .disposed(by: viewDisposeBag)
+        
+        self.viewModel.output.busList
+            .bind { [weak self] (busList, isNearest) in
+                isNearest
+                ? self?.firstSelectView.updateBusList(busList: busList)
+                : self?.secondSelectView.updateBusList(busList: busList)
+            }
+            .disposed(by: viewDisposeBag)
+        
     }
 
     override func initView() {
@@ -68,6 +77,8 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureVi
         firstSelectView.layer.cornerRadius = 16
         firstSelectView.layer.borderColor = UIColor.primaryToryBlue.cgColor
         firstSelectView.layer.borderWidth = 2
+        firstSelectView.tag = 1
+        firstSelectView.addTapAction(target: self, action: #selector(didTapView))
         backgroundView.addSubview(firstSelectView)
         self.firstSelectView = firstSelectView
         
@@ -76,6 +87,8 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureVi
         secondSelectView.layer.cornerRadius = 16
         secondSelectView.layer.borderColor = UIColor.containerBackground.cgColor
         secondSelectView.layer.borderWidth = 2
+        secondSelectView.tag = 2
+        secondSelectView.addTapAction(target: self, action: #selector(didTapView))
         backgroundView.addSubview(secondSelectView)
         self.secondSelectView = secondSelectView
         
@@ -118,6 +131,19 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureVi
         ])
     }
     
+    @objc
+    private func didTapView(_ sender: UITapGestureRecognizer) {
+        guard let view = sender.view else { return }
+        
+        // 첫번째 View
+        if view.tag == 1 {
+            firstSelectView.layer.borderColor = UIColor.primaryToryBlue.cgColor
+            secondSelectView.layer.borderColor = UIColor.containerBackground.cgColor
+        } else { // MARK: - SelectView 칸이 늘어나면 수정 필요
+            firstSelectView.layer.borderColor = UIColor.containerBackground.cgColor
+            secondSelectView.layer.borderColor = UIColor.primaryToryBlue.cgColor
+        }
+    }
 }
 
 

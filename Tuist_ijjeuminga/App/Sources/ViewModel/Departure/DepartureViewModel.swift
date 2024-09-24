@@ -5,7 +5,6 @@
 //  Created by BH on 9/23/24.
 //
 import Common
-//import UIKit
 import RxSwift
 
 class DeparatureViewModelInput: BaseViewModelInput {
@@ -14,6 +13,7 @@ class DeparatureViewModelInput: BaseViewModelInput {
 
 class DepartureViewModelOutput: BaseViewModelOutput {
     let busNumber = PublishSubject<String>()
+    let busList = PublishSubject<([Rest.BusRouteInfo.ItemList], Bool)>()
     let close = PublishSubject<Void>()
 }
 
@@ -21,6 +21,7 @@ final class DepartureViewModel: BaseViewModel<DepartureViewModelOutput> {
     
     let input = DeparatureViewModelInput()
     
+    private var currentPosIndex: Int = -1
     private var stationList: [Rest.BusRouteInfo.ItemList] = [] {
         didSet {
             if let busNumber = stationList.first?.busRouteAbrv {
@@ -38,6 +39,7 @@ final class DepartureViewModel: BaseViewModel<DepartureViewModelOutput> {
     
     override func attachView() {
         fetchStationByRoute(with: self.routeId)
+        LocationDataManager.shared.requestLocationAuth()
     }
     
     private func fetchStationByRoute(with routeId: String) {
@@ -59,11 +61,22 @@ final class DepartureViewModel: BaseViewModel<DepartureViewModelOutput> {
     
     private func getCurrentPosition(stationList: [Rest.BusRouteInfo.ItemList]) {
         LocationDataManager.shared.compareLocation(to: stationList)
-            .subscribe { [weak self] nearestIndex in
+            .subscribe(onNext: { [weak self] (nearestIndex, secondNearIndex) in
                 guard let self = self else { return }
-                // TODO: [] 가장 가까운 정류장 두 리스트 정보 가져오기
-            }
+                getBusList(index: nearestIndex, isNearest: true)
+                getBusList(index: secondNearIndex, isNearest: false)
+            }, onError: { error in
+                print("\(#function), Error: \(error.localizedDescription)")
+            })
+            
             .disposed(by: viewDisposeBag)
+    }
+    
+    private func getBusList(index: Int, isNearest: Bool) {
+        let endIndex = min(index + 4, stationList.count)
+        let range = index..<endIndex
+        let busList = stationList[range]
+        self.output.busList.onNext((Array(busList), isNearest))
     }
     
     private func openBusStopList(routeId: String, busType: KoreaBusType.RawValue) {

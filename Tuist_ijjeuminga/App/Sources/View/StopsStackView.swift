@@ -17,15 +17,13 @@ final class StopsStackView: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-//        initView()
-//        initConstraint()
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addStopItem(stationName: String, showDivider: Bool) {
+    func addStopItem(stationName: String, showDivider: Bool = true) {
         let stopView = UIView()
         stopView.translatesAutoresizingMaskIntoConstraints = false
         stopView.backgroundColor = .clear
@@ -40,7 +38,7 @@ final class StopsStackView: UIStackView {
         stationLabel.translatesAutoresizingMaskIntoConstraints = false
         stationLabel.text = stationName
         stationLabel.textColor = .busStopText
-        stationLabel.font = .bold(8)
+        stationLabel.font = .bold(10)
         stopView.addSubview(stationLabel)
         self.stationLabel = stationLabel
         
