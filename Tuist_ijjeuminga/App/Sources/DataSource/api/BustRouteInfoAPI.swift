@@ -45,14 +45,28 @@ extension Rest {
 
         // MARK: - ItemList
         struct ItemList: Codable {
-            let busRouteID, busRouteNm, busRouteAbrv, seq: String?
-            let section, station, arsID, stationNm: String?
-            let gpsX, gpsY, posX, posY: String?
-            let fullSectDist: String?
-            let direction: String?
-            let stationNo, routeType, beginTm, lastTm: String?
-            let trnstnid, sectSpd: String?
-            let transYn: String?
+            let busRouteId: String? // 노선ID
+            let busRouteNm: String? // 노선명(DB관리용)
+            let busRouteAbrv: String? // 노선명(안내용 - 마을버스 제외
+            let seq: String? // 순번
+            let section: String? // 구간ID
+            let station: String? // 정류소 고유ID
+            let stationNm: String? // 정류소 이름
+            let gpsX: String? // X좌표(WGS 84)
+            let gpsY: String? // Y좌표(WGS 84)
+            let direction: String? // 진행방향
+            let fullSectDist: String? // 정류소간 거리
+            let stationNo: String? // 정류소 번호
+            // 노선 유형 (1:공항, 2:마을, 3:간선, 4:지선, 5:순환, 6:광역, 7:인천, 8:경기, 9:폐지, 0:공용)
+            let routeType: String?
+            let beginTm: String? // 첫차 시간
+            let lastTm: String? // 막차 시간
+            let trnstnid: String? // 회차지 정류소ID
+            let posX: String? // X좌표(GRS80)
+            let posY: String? // Y좌표(GRS80)
+            let sectSpd: String? // 구간속도
+            let arsID: String? // 정류소 고유번호
+            let transYn: String? // 회차지 여부 (Y: 회차, N:회차지아님)
         }
 
         // MARK: - MsgHeader
