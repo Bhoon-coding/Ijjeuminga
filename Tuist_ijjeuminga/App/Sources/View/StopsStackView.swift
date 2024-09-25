@@ -23,13 +23,17 @@ final class StopsStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addStopItem(stationName: String, showDivider: Bool = true) {
+    func addStopItem(
+        stationName: String,
+        busType: KoreaBusType.RawValue,
+        showDivider: Bool = true
+    ) {
         let stopView = UIView()
         stopView.translatesAutoresizingMaskIntoConstraints = false
         
         let iconImageView = UIImageView()
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
-        iconImageView.image = CommonAsset.Directions.red.image // TODO: [] 색상변경
+        iconImageView.image = KoreaBusType(rawValue: busType)?.directionImage.image
         stopView.addSubview(iconImageView)
         self.iconImageView = iconImageView
         

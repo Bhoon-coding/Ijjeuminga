@@ -38,10 +38,10 @@ class DepartureViewController: ViewModelInjectionBaseViewController<DepartureVie
             .bind { [weak self] (busList, isNearest) in
                 
                 if isNearest {
-                    self?.firstSelectView.updateBusList(busList: busList)
+                    self?.firstSelectView.updateBusList(busList: busList, busType: self?.viewModel.busType ?? 0)
                     self?.tempFirstBusList = busList
                 } else {
-                    self?.secondSelectView.updateBusList(busList: busList)
+                    self?.secondSelectView.updateBusList(busList: busList, busType: self?.viewModel.busType ?? 0)
                     self?.tempSecondBusList = busList
                 }
             }

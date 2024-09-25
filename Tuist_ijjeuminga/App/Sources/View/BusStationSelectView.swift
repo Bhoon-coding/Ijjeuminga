@@ -82,16 +82,18 @@ class BusStationSelectView: BaseView {
         ])
     }
     
-    func updateBusList(busList: [Rest.BusRouteInfo.ItemList]) {
+    func updateBusList(busList: [Rest.BusRouteInfo.ItemList], busType: KoreaBusType.RawValue) {
         stopsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         if let stationName = busList.first?.stationNm {
             currentStationLabel.text = stationName
+            iconImageView.image = KoreaBusType(rawValue: busType)?.directionImage.image
         }
         
         for index in 1..<busList.count {
             let needDivider = index != (busList.count - 1)
             self.stopsStackView.addStopItem(stationName: busList[index].stationNm ?? "",
+                                            busType: busType,
                                             showDivider: needDivider)
         }
     }
