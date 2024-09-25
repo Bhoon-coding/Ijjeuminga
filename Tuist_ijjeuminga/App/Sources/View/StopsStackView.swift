@@ -26,7 +26,6 @@ final class StopsStackView: UIStackView {
     func addStopItem(stationName: String, showDivider: Bool = true) {
         let stopView = UIView()
         stopView.translatesAutoresizingMaskIntoConstraints = false
-        stopView.backgroundColor = .clear
         
         let iconImageView = UIImageView()
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,12 +55,13 @@ final class StopsStackView: UIStackView {
         if showDivider {
             let divider = UIView()
             divider.translatesAutoresizingMaskIntoConstraints = false
-            divider.backgroundColor = .grayF4F4F4
+            divider.backgroundColor = .black
+            divider.layer.opacity = 0.1
             stopView.addSubview(divider)
             
             NSLayoutConstraint.activate([
                 divider.centerXAnchor.constraint(equalTo: iconImageView.centerXAnchor),
-                divider.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 2),
+                divider.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 6),
                 divider.widthAnchor.constraint(equalToConstant: 1),
                 divider.heightAnchor.constraint(equalToConstant: 12)
             ])

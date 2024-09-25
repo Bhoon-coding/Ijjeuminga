@@ -65,7 +65,7 @@ class BusListViewModel: BaseViewModel<BusListViewModelOutput> {
     
     private func routeDepartureVC(routeId: String, busType: KoreaBusType.RawValue) {
         let viewModel = DepartureViewModel(routeId: routeId, busType: busType)
-        let controller = DeparatureViewController(viewModel: viewModel)
+        let controller = DepartureViewController(viewModel: viewModel)
         
         viewModel.output.close
             .bind(to: output.close)

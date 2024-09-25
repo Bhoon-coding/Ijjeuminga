@@ -1,5 +1,5 @@
 //
-//  DeparatureViewModel.swift
+//  DepartureViewModel.swift
 //  Common
 //
 //  Created by BH on 9/23/24.
@@ -7,8 +7,8 @@
 import Common
 import RxSwift
 
-class DeparatureViewModelInput: BaseViewModelInput {
-    
+class DepartureViewModelInput: BaseViewModelInput {
+    let didTapConfirm = PublishSubject<String>()
 }
 
 class DepartureViewModelOutput: BaseViewModelOutput {
@@ -19,7 +19,7 @@ class DepartureViewModelOutput: BaseViewModelOutput {
 
 final class DepartureViewModel: BaseViewModel<DepartureViewModelOutput> {
     
-    let input = DeparatureViewModelInput()
+    let input = DepartureViewModelInput()
     
     private var currentPosIndex: Int = -1
     private var stationList: [Rest.BusRouteInfo.ItemList] = [] {
@@ -40,6 +40,12 @@ final class DepartureViewModel: BaseViewModel<DepartureViewModelOutput> {
     override func attachView() {
         fetchStationByRoute(with: self.routeId)
         LocationDataManager.shared.requestLocationAuth()
+        
+        input.didTapConfirm
+            .subscribe(onNext: { [weak self] seq in
+                self?.routeToDestination(with: seq)
+            })
+            .disposed(by: viewDisposeBag)
     }
     
     private func fetchStationByRoute(with routeId: String) {
@@ -79,12 +85,16 @@ final class DepartureViewModel: BaseViewModel<DepartureViewModelOutput> {
         self.output.busList.onNext((Array(busList), isNearest))
     }
     
-    private func openBusStopList(routeId: String, busType: KoreaBusType.RawValue) {
-        let viewModel = DestinationViewModel(routeId: routeId, busType: busType)
+    private func routeToDestination(with seq: String) {
+        let viewModel = DestinationViewModel(busType: self.busType,
+                                             routeId: self.routeId,
+                                             seq: seq)
         let controller = DestinationViewController(viewModel: viewModel)
+        
         viewModel.output.close
             .bind(to: output.close)
             .disposed(by: disposeBag)
+        
         output.pushVC.onNext((controller, true))
     }
 }

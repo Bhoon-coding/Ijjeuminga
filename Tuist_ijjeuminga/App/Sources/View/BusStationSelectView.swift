@@ -33,7 +33,7 @@ class BusStationSelectView: BaseView {
         
         let currentStationLabel = UILabel()
         currentStationLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentStationLabel.text = "불러오는 중.." // TODO: [] 현재 정류장 표기
+        currentStationLabel.text = "불러오는 중.."
         currentStationLabel.textColor = .busStopText
         currentStationLabel.font = .bold(16)
         self.addSubview(currentStationLabel)
@@ -47,7 +47,6 @@ class BusStationSelectView: BaseView {
         
         let stopsStackView = StopsStackView()
         stopsStackView.translatesAutoresizingMaskIntoConstraints = false
-        // TODO: [] arrangeSubView 필요 (다음 방면 정류장 3개 표시 필요)
         stopsStackView.axis = .vertical
         stopsStackView.distribution = .equalSpacing
         stopsStackView.alignment = .leading
@@ -84,12 +83,13 @@ class BusStationSelectView: BaseView {
     }
     
     func updateBusList(busList: [Rest.BusRouteInfo.ItemList]) {
+        
         if let stationName = busList.first?.stationNm {
             currentStationLabel.text = stationName
         }
         
         for index in 1..<busList.count {
-            var needDivider = index != (busList.count - 1)
+            let needDivider = index != (busList.count - 1)
             self.stopsStackView.addStopItem(stationName: busList[index].stationNm ?? "",
                                             showDivider: needDivider)
         }

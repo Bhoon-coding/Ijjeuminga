@@ -1,5 +1,5 @@
 //
-//  DeparatureViewController.swift
+//  DepartureViewController.swift
 //  Common
 //
 //  Created by BH on 9/23/24.
@@ -11,8 +11,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureViewModel, DepartureViewModelOutput> {
-    
+class DepartureViewController: ViewModelInjectionBaseViewController<DepartureViewModel, DepartureViewModelOutput> {
+    // UI
     private weak var titleLabel: UILabel!
     private weak var backgroundView: UIView!
     private weak var departureTitle: UILabel!
@@ -20,6 +20,12 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureVi
     private weak var firstSelectView: BusStationSelectView!
     private weak var secondSelectView: BusStationSelectView!
     private weak var confirmButton: UIButton!
+    
+    private var tempFirstBusList: [Rest.BusRouteInfo.ItemList] = []
+    private var tempSecondBusList: [Rest.BusRouteInfo.ItemList] = []
+    private var selectedTag: Int = 1
+    
+    // MARK: - bind
     
     override func bind() {
         super.bind()
@@ -30,13 +36,19 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureVi
         
         self.viewModel.output.busList
             .bind { [weak self] (busList, isNearest) in
-                isNearest
-                ? self?.firstSelectView.updateBusList(busList: busList)
-                : self?.secondSelectView.updateBusList(busList: busList)
+                
+                if isNearest {
+                    self?.firstSelectView.updateBusList(busList: busList)
+                    self?.tempFirstBusList = busList
+                } else {
+                    self?.secondSelectView.updateBusList(busList: busList)
+                    self?.tempSecondBusList = busList
+                }
             }
             .disposed(by: viewDisposeBag)
-        
     }
+    
+    // MARK: - UI
 
     override func initView() {
         super.initView()
@@ -98,6 +110,7 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureVi
         confirmButton.backgroundColor = .primaryToryBlue
         confirmButton.setTitle("선택완료", for: .normal)
         confirmButton.titleLabel?.font = .bold(16)
+        confirmButton.addTarget(self, action: #selector(didTapConfirm), for: .touchUpInside)
         backgroundView.addSubview(confirmButton)
         self.confirmButton = confirmButton
     }
@@ -131,22 +144,34 @@ class DeparatureViewController: ViewModelInjectionBaseViewController<DepartureVi
         ])
     }
     
+    // MARK: - @objc
+    
     @objc
     private func didTapView(_ sender: UITapGestureRecognizer) {
         guard let view = sender.view else { return }
+        self.selectedTag = view.tag
         
-        // 첫번째 View
         if view.tag == 1 {
             firstSelectView.layer.borderColor = UIColor.primaryToryBlue.cgColor
             secondSelectView.layer.borderColor = UIColor.containerBackground.cgColor
-        } else { // MARK: - SelectView 칸이 늘어나면 수정 필요
+        } else {
             firstSelectView.layer.borderColor = UIColor.containerBackground.cgColor
             secondSelectView.layer.borderColor = UIColor.primaryToryBlue.cgColor
         }
     }
+    
+    @objc
+    private func didTapConfirm() {
+        let selectedBusList = self.selectedTag == 1 ? tempFirstBusList : tempSecondBusList
+        
+        if let seq = selectedBusList.first?.seq {
+            viewModel.input.didTapConfirm.onNext(seq)
+        }
+    }
+    
 }
 
 
 #Preview {
-    DeparatureViewController(viewModel: DepartureViewModel(routeId: "100100139", busType: 1))
+    DepartureViewController(viewModel: DepartureViewModel(routeId: "100100139", busType: 1))
 }
