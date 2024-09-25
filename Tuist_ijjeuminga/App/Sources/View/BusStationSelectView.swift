@@ -83,6 +83,7 @@ class BusStationSelectView: BaseView {
     }
     
     func updateBusList(busList: [Rest.BusRouteInfo.ItemList]) {
+        stopsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         if let stationName = busList.first?.stationNm {
             currentStationLabel.text = stationName
