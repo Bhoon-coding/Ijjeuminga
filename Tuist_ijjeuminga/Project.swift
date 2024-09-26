@@ -56,7 +56,7 @@ private let infoPlist: [String: Plist.Value] = [
         "UIInterfaceOrientationPortrait"
     ],
     "CFBundleIdentifier": "$(PRODUCT_BUNDLE_IDENTIFIER)",
-    "CFBundleDisplayName": "${PRODUCT_NAME}", // Config에 분기처리
+    "CFBundleDisplayName": "이쯤인가", // Config에 분기처리
     "NSSupportsLiveActivities": true,
 ]
 
