@@ -14,6 +14,8 @@ extension UIColor {
     public static let greenBus = CommonAsset.greenBus.color
     public static let blueBus = CommonAsset.blueBus.color
     public static let containerBackground = CommonAsset.containerBackground.color
+    public static let grayCACACA = CommonAsset.grayCACACA.color
+    public static let grayF2F2F2 = CommonAsset.grayF2F2F2.color
     public static let grayF4F4F4 = CommonAsset.grayF4F4F4.color
     public static let noticeText = CommonAsset.noticeText.color
     public static let disabledText = CommonAsset.disabledText.color
