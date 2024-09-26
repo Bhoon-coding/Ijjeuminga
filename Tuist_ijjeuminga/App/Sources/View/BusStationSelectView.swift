@@ -35,7 +35,7 @@ class BusStationSelectView: BaseView {
         currentStationLabel.translatesAutoresizingMaskIntoConstraints = false
         currentStationLabel.text = "불러오는 중.."
         currentStationLabel.textColor = .busStopText
-        currentStationLabel.font = .bold(16)
+        currentStationLabel.font = .bold(18)
         self.addSubview(currentStationLabel)
         self.currentStationLabel = currentStationLabel
         
@@ -64,8 +64,8 @@ class BusStationSelectView: BaseView {
             
             iconImageView.centerYAnchor.constraint(equalTo: stopView.centerYAnchor),
             iconImageView.leadingAnchor.constraint(equalTo: stopView.leadingAnchor, constant: 16),
-            iconImageView.widthAnchor.constraint(equalToConstant: 16),
-            iconImageView.heightAnchor.constraint(equalToConstant: 16),
+            iconImageView.widthAnchor.constraint(equalToConstant: 18),
+            iconImageView.heightAnchor.constraint(equalToConstant: 18),
             
             currentStationLabel.centerYAnchor.constraint(equalTo: stopView.centerYAnchor),
             currentStationLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 16),

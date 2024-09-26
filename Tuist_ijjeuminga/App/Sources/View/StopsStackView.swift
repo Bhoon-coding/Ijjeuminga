@@ -41,15 +41,15 @@ final class StopsStackView: UIStackView {
         stationLabel.translatesAutoresizingMaskIntoConstraints = false
         stationLabel.text = stationName
         stationLabel.textColor = .busStopText
-        stationLabel.font = .bold(10)
+        stationLabel.font = .bold(12)
         stopView.addSubview(stationLabel)
         self.stationLabel = stationLabel
         
         NSLayoutConstraint.activate([
             iconImageView.leadingAnchor.constraint(equalTo: stopView.leadingAnchor, constant: 8),
             iconImageView.centerYAnchor.constraint(equalTo: stopView.centerYAnchor),
-            iconImageView.widthAnchor.constraint(equalToConstant: 8),
-            iconImageView.heightAnchor.constraint(equalToConstant: 8),
+            iconImageView.widthAnchor.constraint(equalToConstant: 12),
+            iconImageView.heightAnchor.constraint(equalToConstant: 12),
             
             stationLabel.trailingAnchor.constraint(equalTo: stopView.trailingAnchor),
             stationLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 8),
@@ -67,7 +67,7 @@ final class StopsStackView: UIStackView {
                 divider.centerXAnchor.constraint(equalTo: iconImageView.centerXAnchor),
                 divider.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 6),
                 divider.widthAnchor.constraint(equalToConstant: 1),
-                divider.heightAnchor.constraint(equalToConstant: 12)
+                divider.heightAnchor.constraint(equalToConstant: 8)
             ])
         }
         
