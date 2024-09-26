@@ -6,7 +6,6 @@
 //
 
 import Common
-import Foundation
 import UIKit
 import RxSwift
 
@@ -28,6 +27,7 @@ class DestinationViewModelOutput: BaseViewModelOutput {
 class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     
     let input = DestinationViewModelInput()
+    let busType: KoreaBusType.RawValue
 
     private var currentPosIndex: Int = -1
     private var stationList: [Rest.BusRouteInfo.ItemList] = [] {
@@ -38,13 +38,14 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
         }
     }
     private var filteredStationList: [Rest.BusRouteInfo.ItemList] = []
-    private var routeId: String
-    public let busType: KoreaBusType.RawValue
-    public var currentPosColor: UIColor?
+    private let routeId: String
+    private let seq: String
     
-    init(routeId: String, busType: KoreaBusType.RawValue) {
-        self.routeId = routeId
+    
+    init(busType: KoreaBusType.RawValue, routeId: String, seq: String) {
         self.busType = busType
+        self.routeId = routeId
+        self.seq = seq
     }
     
     override func attachView() {
@@ -109,13 +110,10 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     }
     
     private func getCurrentPosition(stationList: [Rest.BusRouteInfo.ItemList]) {
-        LocationDataManager.shared.compareLocation(to: stationList)
-            .subscribe { [weak self] nearestIndex in
-                guard let self = self else { return }
-                self.currentPosIndex = nearestIndex
-                createDataList(with: stationList, at: nearestIndex)
-            }
-            .disposed(by: viewDisposeBag)
+        if let nearestIndex = stationList.firstIndex(where: { $0.seq == self.seq }) {
+            self.currentPosIndex = nearestIndex
+            createDataList(with: stationList, at: nearestIndex)
+        }
     }
     
     func createDataList(with list: [Rest.BusRouteInfo.ItemList], at nearIndex: Int) {

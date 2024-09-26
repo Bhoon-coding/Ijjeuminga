@@ -48,4 +48,10 @@ extension UIView {
             ])
         }
     }
+    
+    func addTapAction(target: Any, action: Selector) {
+        let tapGesture = UITapGestureRecognizer(target: target, action: action)
+        self.addGestureRecognizer(tapGesture)
+        self.isUserInteractionEnabled = true
+    }
 }

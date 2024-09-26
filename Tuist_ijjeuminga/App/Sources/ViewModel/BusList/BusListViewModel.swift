@@ -35,7 +35,7 @@ class BusListViewModel: BaseViewModel<BusListViewModelOutput> {
         
         input.selectBus
             .subscribe { [weak self] (routeId, busType) in
-                self?.openBusStopList(routeId: routeId, busType: busType)
+                self?.routeDepartureVC(routeId: routeId, busType: busType)
             }
             .disposed(by: viewDisposeBag)
     }
@@ -63,9 +63,10 @@ class BusListViewModel: BaseViewModel<BusListViewModelOutput> {
             }.disposed(by: viewDisposeBag)
     }
     
-    private func openBusStopList(routeId: String, busType: KoreaBusType.RawValue) {
-        let viewModel = DestinationViewModel(routeId: routeId, busType: busType)
-        let controller = DestinationViewController(viewModel: viewModel)
+    private func routeDepartureVC(routeId: String, busType: KoreaBusType.RawValue) {
+        let viewModel = DepartureViewModel(routeId: routeId, busType: busType)
+        let controller = DepartureViewController(viewModel: viewModel)
+        
         viewModel.output.close
             .bind(to: output.close)
             .disposed(by: disposeBag)

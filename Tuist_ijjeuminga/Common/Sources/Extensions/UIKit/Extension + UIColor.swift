@@ -20,4 +20,5 @@ extension UIColor {
     public static let noticeText = CommonAsset.noticeText.color
     public static let disabledText = CommonAsset.disabledText.color
     public static let busStopText = CommonAsset.busStopText.color
+    public static let primaryToryBlue = CommonAsset.primaryToryBlue.color
 }
