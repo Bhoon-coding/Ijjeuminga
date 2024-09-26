@@ -12,14 +12,14 @@ import RxSwift
 import RxCocoa
 
 class BusListViewController: ViewModelInjectionBaseViewController<BusListViewModel, BusListViewModelOutput> {
-
+    
     private weak var titleLabel: UILabel!
     private weak var searchTextField: UITextField!
     private weak var searchTitleLabel: UILabel!
     private weak var dividingView: UIView!
     private weak var recentSearchListTableView: UITableView!
     private weak var searchListTableView: UITableView!
-        
+    
     private var container: NSPersistentContainer?
     
     private var recentSearchBusList = [RecentBusInfo]()
@@ -81,6 +81,10 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
         searchListTableView.isHidden = true
         self.view.addSubview(searchListTableView)
         self.searchListTableView = searchListTableView
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                 action: #selector(dismissKeyboard))
+        searchListTableView.addGestureRecognizer(tap)
     }
     
     override func initConstraint() {
@@ -155,6 +159,10 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 extension BusListViewController: UITableViewDataSource {
@@ -214,6 +222,7 @@ extension BusListViewController: UITableViewDelegate {
             }
         default:
             break
+            
         }
     }
 }

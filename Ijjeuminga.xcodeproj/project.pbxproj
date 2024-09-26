@@ -43,7 +43,8 @@
 		C782F6752C4D31010053E3DB /* RecentBusInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6732C4D31010053E3DB /* RecentBusInfo+CoreDataProperties.swift */; };
 		C782F6772C4D371B0053E3DB /* Extension + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6762C4D371B0053E3DB /* Extension + UIViewController.swift */; };
 		C782F67A2C4FD3740053E3DB /* OpenXlsx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782F6792C4FD3740053E3DB /* OpenXlsx.swift */; };
-		C782F7732CA058140053E3DB /* Ijjeuminga.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C782F7712CA058140053E3DB /* Ijjeuminga.xcdatamodeld */; };
+		C782F76A2C84ADBD0053E3DB /* Ijjeuminga.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E1E9C2C42C539DCB0099752D /* Ijjeuminga.xcdatamodeld */; };
+		C782F76B2C84ADBD0053E3DB /* Ijjeuminga.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E1E9C2C42C539DCB0099752D /* Ijjeuminga.xcdatamodeld */; };
 		E1067C232C539F25005FE587 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1067C222C539F25005FE587 /* Constant.swift */; };
 		E11861C22C135F1700C423D3 /* DestinationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C12C135F1700C423D3 /* DestinationTableViewCell.swift */; };
 		E11861C42C141E5600C423D3 /* Extension + UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11861C32C141E5600C423D3 /* Extension + UITextField.swift */; };
@@ -615,7 +616,7 @@
 				9FD491642C0F04DF00445C45 /* BaseTableViewCell.swift in Sources */,
 				9FD491772C114AD800445C45 /* BaseViewModel.swift in Sources */,
 				C782F6772C4D371B0053E3DB /* Extension + UIViewController.swift in Sources */,
-				C782F7732CA058140053E3DB /* Ijjeuminga.xcdatamodeld in Sources */,
+				C782F76A2C84ADBD0053E3DB /* Ijjeuminga.xcdatamodeld in Sources */,
 				C782F6742C4D31010053E3DB /* RecentBusInfo+CoreDataClass.swift in Sources */,
 				C782F6752C4D31010053E3DB /* RecentBusInfo+CoreDataProperties.swift in Sources */,
 				C782F5F72C1E761B0053E3DB /* BusListViewModel.swift in Sources */,
@@ -641,6 +642,15 @@
 				E1EEB6A72C115262009F7273 /* DestinationViewController.swift in Sources */,
 				9FD491662C0F05F000445C45 /* BaseCollectionViewCell.swift in Sources */,
 				E1201B032C326AFF005DDE24 /* LocationDataManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1F0FC462C437444002B75EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C782F76B2C84ADBD0053E3DB /* Ijjeuminga.xcdatamodeld in Sources */,
+				E1F0FC4D2C437444002B75EC /* IjjeumingaTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
