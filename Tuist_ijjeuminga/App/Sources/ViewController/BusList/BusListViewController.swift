@@ -4,25 +4,20 @@
 //
 //  Created by 조성빈 on 6/16/24.
 //
-import ActivityKit
-import AVFoundation
-import CoreData
 import UIKit
-
+import CoreData
 import RxSwift
 import RxCocoa
 
-
-
 class BusListViewController: ViewModelInjectionBaseViewController<BusListViewModel, BusListViewModelOutput> {
-
+    
     private weak var titleLabel: UILabel!
     private weak var searchTextField: UITextField!
     private weak var searchTitleLabel: UILabel!
     private weak var dividingView: UIView!
     private weak var recentSearchListTableView: UITableView!
     private weak var searchListTableView: UITableView!
-        
+    
     private var container: NSPersistentContainer?
     
     private var recentSearchBusList = [RecentBusInfo]()
@@ -45,7 +40,7 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
         searchTextField.keyboardType = .numberPad
         searchTextField.addLeftPadding()
         searchTextField.layer.cornerRadius = 20
-        searchTextField.backgroundColor = .containerBackground
+        searchTextField.backgroundColor = .grayF2F2F2
         searchTextField.placeholder = "버스 번호를 입력해주세요."
         searchTextField.textColor = .black
         searchTextField.font = .bold(15)
@@ -55,7 +50,7 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
         let searchTitleLabel = UILabel()
         searchTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         searchTitleLabel.font = .bold(13)
-        searchTitleLabel.textColor = .searchText
+        searchTitleLabel.textColor = .grayCACACA
         searchTitleLabel.text = "최근 검색 목록"
         self.view.addSubview(searchTitleLabel)
         self.searchTitleLabel = searchTitleLabel
@@ -154,6 +149,14 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
                 self?.recentSearchListTableView.reloadData()
             }.disposed(by: viewDisposeBag)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 extension BusListViewController: UITableViewDataSource {
@@ -193,21 +196,27 @@ extension BusListViewController: UITableViewDataSource {
 
 extension BusListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let busInfo = self.searchedBusList[indexPath.row]
-        let routeId = busInfo.routeId
-        
-        self.viewModel.input.selectBus.onNext((routeId, busInfo.type))
-        
         switch tableView {
         case self.searchListTableView:
+            let busInfo = self.searchedBusList[indexPath.row]
+            let routeId = busInfo.routeId
             CoreDataManager.shared.saveBusInfo(busNumber: busInfo.busNumber, routeId: busInfo.routeId, type: Int32(busInfo.type), lastDate: self.getCurrentDateString()) { result in
                 if result {
+                    self.viewModel.input.selectBus.onNext((routeId, busInfo.type))
                 }
             }
         case self.recentSearchListTableView:
             print("다음 페이지로 넘어가기")
+            let busInfo = self.recentSearchBusList[indexPath.row]
+            let routeId = busInfo.routeId ?? ""
+            CoreDataManager.shared.saveBusInfo(busNumber: busInfo.busNumer ?? "", routeId: busInfo.routeId ?? "", type: Int32(busInfo.type), lastDate: self.getCurrentDateString()) { result in
+                if result {
+                    self.viewModel.input.selectBus.onNext((routeId, Int(busInfo.type)))
+                }
+            }
         default:
             break
+            
         }
     }
 }
