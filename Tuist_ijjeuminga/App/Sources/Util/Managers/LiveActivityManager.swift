@@ -60,7 +60,7 @@ class LiveActivityManager {
         )
         
         Task {
-            await activity?.end(content, dismissalPolicy: .after(Date().addingTimeInterval(60 * 5)))
+            await activity?.end(content, dismissalPolicy: .immediate)
         }
     }
     
