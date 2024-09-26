@@ -83,6 +83,29 @@ extension LocationDataManager: CLLocationManagerDelegate {
         return .empty()
     }
     
+    func compareLocation(to busList: [Rest.BusPosition.ItemList]) -> Observable<Rest.BusPosition.ItemList> {
+        guard let currentLocation = self.lastLocation else { return .empty() }
+        var distances: [CLLocationDistance] = []
+        for bus in busList {
+            guard let gpsX = bus.posX, let gpsY = bus.posY else {
+                Log.info("busList 데이터가 없음")
+                return .empty()
+            }
+            let busLocation = CLLocation(latitude: Double(gpsY)!, longitude: Double(gpsX)!)
+            let distance = currentLocation.distance(from: busLocation)
+            distances.append(distance)
+        }
+        
+        if let minDistance = distances.min(), let nearestIndex = distances.firstIndex(of: minDistance) {
+            Log.info("가장 가까운 버스: \(busList[nearestIndex])")
+            locationManager.stopUpdatingLocation()
+            return .just(busList[nearestIndex])
+        } else {
+            Log.info("No distances calculated.")
+        }
+        return .empty()
+    }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("did Failed With Error: \(error.localizedDescription)")
     }

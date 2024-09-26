@@ -5,7 +5,9 @@
 //  Created by BH on 2024/06/08.
 //
 
-import UIKit
+import UIKit.UITableViewCell
+
+import SkeletonView
 
 final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, Int)> {
     
@@ -20,14 +22,18 @@ final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, I
     override func initView() {
         super.initView()
         
+        self.isSkeletonable = true
+        
         let directionIcon = UIImageView()
         directionIcon.translatesAutoresizingMaskIntoConstraints = false
+        directionIcon.isSkeletonable = true
         directionIcon.image = .directionIcon
         contentView.addSubview(directionIcon)
         self.directionIcon = directionIcon
         
         let currentPositionIcon = UIImageView()
         currentPositionIcon.translatesAutoresizingMaskIntoConstraints = false
+        currentPositionIcon.isSkeletonable = true
         currentPositionIcon.image = .currentPositionIcon
         currentPositionIcon.layer.zPosition = 1
         contentView.addSubview(currentPositionIcon)
@@ -35,18 +41,21 @@ final class DestinationTableViewCell: BaseTableViewCell<(DestinationTableData, I
         
         let directionTopLine = UIView()
         directionTopLine.translatesAutoresizingMaskIntoConstraints = false
+        directionTopLine.isSkeletonable = true
         directionTopLine.backgroundColor = .redBus
         contentView.addSubview(directionTopLine)
         self.directionTopLine = directionTopLine
         
         let directionBottomLine = UIView()
         directionBottomLine.translatesAutoresizingMaskIntoConstraints = false
+        directionBottomLine.isSkeletonable = true
         directionBottomLine.backgroundColor = .redBus
         contentView.addSubview(directionBottomLine)
         self.directionBottomLine = directionBottomLine
         
         let busStationLabel = UILabel()
         busStationLabel.translatesAutoresizingMaskIntoConstraints = false
+        busStationLabel.isSkeletonable = true
         busStationLabel.text = "강남역"
         busStationLabel.textColor = .busStopText
         busStationLabel.font = .boldSystemFont(ofSize: 16)
