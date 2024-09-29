@@ -46,6 +46,19 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             }
         }
     }
+    private var currentBusStopId: String? {
+        guard let info = self.currentBusPositionInfo else {
+            return nil
+        }
+        
+        if info.stopFlag == "0",
+           let index = self.busStopList.firstIndex(where: { $0.station == info.lastStnId }),
+           index + 1 < busStopList.count {
+            return busStopList[index + 1].station
+        }
+        
+        return info.lastStnId
+    }
     private var currentBusVehID: String = ""
     private var currentBusPositionInfo: RealTimeBusInfo?
     private var busStopList: [BusStopInfo] = [] {
@@ -67,7 +80,8 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     
     private var totalStop: Int = -1
     private var isStartActivity: Bool = false
-    
+    private var needToLoad: Bool = true
+    private var loadDisposeBag = DisposeBag()
     private let speechSynthesizer = AVSpeechSynthesizer()
     private let busRouteId: String
     private let startBusStopId: String
@@ -84,13 +98,6 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         self.busType = busType
         
         super.init()
-    }
-    
-    override func attachView() {
-        super.attachView()
-        
-        createSnapShot()
-        loadData(with: busRouteId)
         
         input.updateBusLocation
             .subscribe { [weak self] _ in
@@ -99,7 +106,20 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 }
                 self?.loadBusPosition(vehId: vehId)
             }
-            .disposed(by: viewDisposeBag)
+            .disposed(by: disposeBag)
+    }
+    
+    override func attachView() {
+        super.attachView()
+        
+        createSnapShot()
+        if needToLoad {
+            loadData(with: busRouteId)
+        }
+    }
+    
+    deinit {
+        finish()
     }
 
     private func loadData(with routeId: String) {
@@ -117,8 +137,8 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 self?.busStopList = list
                 return BusPositionAPIService()
                     .getBusPosition(busRouteId: routeId,
-                                    startOrd: list.first(where: { $0.station == self?.startBusStopId })?.seq ?? "1",
-                                    endOrd: list.first(where: { $0.station == self?.destinationBusStopId })?.seq ?? "10")
+                                    startOrd: list.first?.seq ?? "1",
+                                    endOrd: list.last?.seq ?? "10")
                     .map { $0.msgBody.itemList ?? [] }
                     .asObservable()
             }
@@ -141,21 +161,25 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 }
                 
                 let previous = self?.currentBusPositionInfo
+                self?.needToLoad = false
                 self?.currentBusPositionInfo = busInfo
                 self?.createSnapShot()
                 self?.output.startTimer.onNext(15)
-                self?.notice(previousInfo: previous, currentInfo: busInfo)
+                self?.notice(previousInfo: previous, currentInfo: busInfo, isStart: true)
                 self?.output.showIndicator.onNext(false)
                 self?.output.enableButton.onNext(true)
-            }, onError: { error in
+            }, onError: { [weak self] error in
+                self?.needToLoad = true
                 Log.error(error.localizedDescription)
             }, onDisposed: { [weak self] in
                 self?.output.showIndicator.onNext(false)
             })
-            .disposed(by: viewDisposeBag)
+            .disposed(by: loadDisposeBag)
     }
     
     private func loadBusPosition(vehId: String) {
+        loadDisposeBag = DisposeBag()
+        
         RealTimeBusAPIService().getRealTimeBus(with: vehId)
             .subscribe { [weak self] data in
                 guard let busInfo = data.msgBody.itemList?.first else {
@@ -169,7 +193,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 Log.error(error.localizedDescription)
                 self?.output.startTimer.onNext(15)
             }
-            .disposed(by: viewDisposeBag)
+            .disposed(by: loadDisposeBag)
     }
         
     private func createSnapShot() {
@@ -188,7 +212,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
     }
     
     private func createDataList() -> [RealTimeBusLocationData] {
-        let busStopId = currentBusPositionInfo?.lastStnId ?? ""
+        let busStopId = self.currentBusStopId ?? ""
         var dataList: [RealTimeBusLocationData] = createDefaultList()
 
         guard let index1 = busStopList.firstIndex(where: { $0.station == busStopId }),
@@ -291,7 +315,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 continue
             }
             
-            let newDiff: Int = busStopIndex - startBusStopIndex
+            let newDiff: Int = abs(busStopIndex - startBusStopIndex)
             if newDiff < diff {
                 diff = newDiff
                 selectedBusId = bus.vehId
@@ -303,8 +327,9 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
 
     private func liveActivityNotice(busStopInfo: [BusStopInfo], remainingBusStopCount: Int, isNewDestination: Bool) {
         let busNum = self.currentBusRouteNumber
-        let busStopId = currentBusPositionInfo?.lastStnId
+        let busStopId = self.currentBusStopId
         let currentBusStopName = busStopList.first { $0.station == busStopId }?.stationNm ?? ""
+        print("정류장[\(currentBusStopName)]\(currentBusPositionInfo?.stopFlag == "0" ? "으로 운행중" : "에 도착")")
         let totalStop: Int = self.totalStop == -1 ? remainingBusStopCount : -1
         
         if isNewDestination {
@@ -326,16 +351,24 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         }
     }
     
-    private func notice(previousInfo: RealTimeBusInfo?, currentInfo: RealTimeBusInfo) {
-        let isNewDestination = currentInfo.lastStnId != previousInfo?.lastStnId
+    private func notice(previousInfo: RealTimeBusInfo?, currentInfo: RealTimeBusInfo, isStart: Bool = false) {
+        
+        let isNewBusStopFlag1 = currentInfo.lastStnId != previousInfo?.lastStnId
+        let isNewBusStopFlag2 = currentInfo.lastStnId == previousInfo?.lastStnId
+                                    && currentInfo.stopFlag != previousInfo?.lastStnId
+                                    && currentInfo.stopFlag == "0"
+        let isNewDestination = isNewBusStopFlag1 || isNewBusStopFlag2
         liveActivityNotice(busStopInfo: self.busStopList,
                            remainingBusStopCount: self.remainingBusStopCount,
                            isNewDestination: isNewDestination
         )
         
+        if isStart {
+            speak(text: "안내를 시작합니다")
+        }
+        
         guard isNewDestination,
-              self.remainingBusStopCount >= 0 && self.remainingBusStopCount <= 3,
-              currentInfo.stopFlag == "1" else {
+              self.remainingBusStopCount >= 0 && self.remainingBusStopCount <= 3 else {
             output.startTimer.onNext(15)
             return
         }
@@ -344,6 +377,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             output.stopTimer.onNext(())
             vibrate()
             speak(text: "목적지에 도착했습니다")
+            finish()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.showFinishAlert()
             }
@@ -382,6 +416,11 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         let speechUtterance = AVSpeechUtterance(string: text)
         self.speechSynthesizer.speak(speechUtterance)
     }
+    
+    private func finish() {
+        LiveActivityManager.shared.stopLiveActivity()
+        self.isStartActivity = false
+    }
 }
 
 // MARK: alert
@@ -390,8 +429,6 @@ extension RealTimeBusLocationViewModel {
         let closePopup = CustomAlertController()
             .setTitleMessage("안내를 종료합니다.")
             .addaction("확인", .default) { [weak self] _ in
-                LiveActivityManager.shared.stopLiveActivity()
-                self?.isStartActivity = false
                 self?.output.close.onNext(())
             }
             .setPreferredAction(action: .default)

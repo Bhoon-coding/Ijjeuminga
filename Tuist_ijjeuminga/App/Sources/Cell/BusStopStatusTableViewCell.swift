@@ -16,12 +16,16 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<(KoreaBusType, RealTim
     
     private weak var circleBarView: CircleStatusBarView!
     private weak var circleBarBottomSpacer: UIView!
+    private weak var circleStackView: UIStackView!
     private weak var titleLabel: UILabel!
     private weak var nameLabel: UILabel!
+    private weak var textTopSpacer: UIView!
     private weak var textBottomSpacer: UIView!
     private weak var textStackView: UIStackView!
     private weak var spacer: UIView!
     private weak var totalStackView: UIStackView!
+    
+    private weak var topConstraint: NSLayoutConstraint!
     
     override func initView() {
         super.initView()
@@ -40,20 +44,24 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<(KoreaBusType, RealTim
         
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.numberOfLines = 1
-        nameLabel.minimumScaleFactor = 0.5
+        nameLabel.numberOfLines = 2
+        nameLabel.lineBreakMode = .byCharWrapping
+        nameLabel.minimumScaleFactor = 0.8
         nameLabel.adjustsFontSizeToFitWidth = true
         self.nameLabel = nameLabel
+        
+        let textTopSpacer = UIView()
+        textTopSpacer.translatesAutoresizingMaskIntoConstraints = false
+        self.textTopSpacer = textTopSpacer
         
         let textBottomSpacer = UIView()
         textBottomSpacer.translatesAutoresizingMaskIntoConstraints = false
         self.textBottomSpacer = textBottomSpacer
         
-        let textStackView = UIStackView(arrangedSubviews: [titleLabel, nameLabel])
+        let textStackView = UIStackView(arrangedSubviews: [textTopSpacer, titleLabel, nameLabel])
         textStackView.translatesAutoresizingMaskIntoConstraints = false
         textStackView.axis = .vertical
-        textStackView.spacing = 10
-        textStackView.distribution = .equalSpacing
+        textStackView.spacing = 7
         self.textStackView = textStackView
         
         let textContainerStackView = UIStackView(arrangedSubviews: [textStackView, textBottomSpacer])
@@ -68,6 +76,7 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<(KoreaBusType, RealTim
         circleStackView.translatesAutoresizingMaskIntoConstraints = false
         circleStackView.axis = .vertical
         circleStackView.distribution = .equalSpacing
+        self.circleStackView = circleStackView
         
         let spacer = UIView()
         spacer.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +97,7 @@ final class BusStopStatusTableViewCell: BaseTableViewCell<(KoreaBusType, RealTim
     override func initConstraint() {
         super.initConstraint()
         
-        totalStackView.setConstraintsToMatch(contentView, top: 32, bottom: 32)
+        totalStackView.setConstraintsToMatch(contentView)
         
         NSLayoutConstraint.activate([
             textStackView.topAnchor.constraint(equalTo: totalStackView.topAnchor),

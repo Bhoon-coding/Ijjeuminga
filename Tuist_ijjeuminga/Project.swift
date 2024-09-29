@@ -39,6 +39,8 @@ private let infoPlist: [String: Plist.Value] = [
     "UIBackgroundModes": [
         "audio",
         "location",
+        "fetch",
+        "background-processing"
     ],
     "Fonts provided by application": [
         "Item0": "AppleSDGothicNeo-Bold.otf",

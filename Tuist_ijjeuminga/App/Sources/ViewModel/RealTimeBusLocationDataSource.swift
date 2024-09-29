@@ -60,6 +60,12 @@ struct RealTimeBusLocationData: Hashable {
 class RealTimeBusLocationDataSource: BaseTableDiffableDataSoceurce<RealTimeBusLocationSectionData, RealTimeBusLocationData>, 
                                         UITableViewDelegate {
     
+    override func bind(_ tableView: UITableView) {
+        super.bind(tableView)
+        
+        tableView.delegate = self
+    }
+    
     override func cellForRow(_ tableView: UITableView,
                              _ indexPath: IndexPath,
                              _ itemIdentifier: RealTimeBusLocationData) 
@@ -79,7 +85,22 @@ class RealTimeBusLocationDataSource: BaseTableDiffableDataSoceurce<RealTimeBusLo
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        guard let position = BusStopPositionType(rawValue: indexPath.row) else {
+            return 0
+        }
+        
+        switch position {
+        case .top:
+            return 60
+        case .topMiddle:
+            return 110
+        case .middle:
+            return 110
+        case .bottomMiddle:
+            return 110
+        case .bottom:
+            return 110
+        }
     }
     
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {

@@ -120,10 +120,6 @@ final class RealTimeBusLocationViewController:
     
     private func initEvent() {
         viewModel.dataSource.bind(tableView)
-        
-        // MARK: - rx 수정필요
-//        tableView.rx.setDelegate(viewModel.dataSource)
-//            .disposed(by: disposeBag)
 
         closeButton.rx.tap
             .observe(on: MainScheduler.instance)

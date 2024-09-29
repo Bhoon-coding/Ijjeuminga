@@ -74,9 +74,7 @@ class CircleStatusBarView: BaseView {
         ])
         
         self.circleLeadingConstraint = circleView.leadingAnchor.constraint(equalTo: barView.trailingAnchor, constant: -1).withActive
-        
         self.barHeightConstraint = barView.heightAnchor.constraint(equalToConstant: 1).withActive
-        
         self.barWidthConstraint = barView.widthAnchor.constraint(equalToConstant: 100).withActive
     }
     
