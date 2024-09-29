@@ -19,12 +19,20 @@ class LocationDataManager: NSObject {
     
     private let locationManager = CLLocationManager()
     private var lastLocation: CLLocation?
+    let showAlert = PublishSubject<Void>()
     
     let disposeBag = DisposeBag()
     
     func requestLocationAuth() {
-        guard locationManager.authorizationStatus == .notDetermined else { return }
         locationManager.requestAlwaysAuthorization()
+    }
+    
+    func checkLoactionAuth() {
+        let status = locationManager.authorizationStatus
+        guard status == .authorizedWhenInUse || status == .authorizedAlways || status == .notDetermined else {
+            self.showAlert.onNext(())
+            return
+        }
     }
     
     private func handleUpdatingLocation(_ manager: CLLocationManager) {
@@ -42,12 +50,14 @@ extension LocationDataManager: CLLocationManagerDelegate {
         case .authorizedAlways:
             handleUpdatingLocation(manager)
         case .notDetermined:
-            manager.requestAlwaysAuthorization()
+//            manager.requestAlwaysAuthorization()
+            break
         case .restricted:
             // TODO: [] location을 지원하지 않는 기기인 경우 분기처리
             break
         case .denied:
-            // TODO: [] 권한 동의 요청 팝업 (시스템 설정 이동)
+            self.showAlert.onNext(())
+            print("권한팝업 필요")
             break
         default:
             break

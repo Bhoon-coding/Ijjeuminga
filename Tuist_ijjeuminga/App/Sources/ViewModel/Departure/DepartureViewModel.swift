@@ -40,6 +40,7 @@ final class DepartureViewModel: BaseViewModel<DepartureViewModelOutput> {
     override func attachView() {
         fetchStationByRoute(with: self.routeId)
         LocationDataManager.shared.requestLocationAuth()
+        LocationDataManager.shared.checkLoactionAuth()
         
         input.didTapConfirm
             .subscribe(onNext: { [weak self] seq in

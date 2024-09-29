@@ -26,6 +26,12 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
     override func initView() {
         super.initView()
         
+        LocationDataManager.shared.showAlert
+            .subscribe { _ in
+                self.showAuthPopup()
+            }
+            .disposed(by: disposeBag)
+        
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .bold(24)
@@ -148,6 +154,26 @@ class BusListViewController: ViewModelInjectionBaseViewController<BusListViewMod
                 self?.recentSearchBusList = recentSearchBusList
                 self?.recentSearchListTableView.reloadData()
             }.disposed(by: viewDisposeBag)
+    }
+    
+    func showAuthPopup() {
+        let popup = CustomAlertController()
+            .setTitleMessage("권한 필요")
+            .setContentMessage("서비스를 이용하기 위해 권한을 동의해주세요.")
+            .addaction("취소", .cancel)
+            .addaction("확인", .default, { _ in
+                self.routeToSettings()
+            })
+            .build()
+        present(popup, animated: true)
+    }
+    
+    func routeToSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else {
+            print("설정 경로를 찾을 수 없습니다")
+            return
+        }
+        UIApplication.shared.open(url)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
