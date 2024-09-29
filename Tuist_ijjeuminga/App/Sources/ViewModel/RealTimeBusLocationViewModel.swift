@@ -46,6 +46,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             }
         }
     }
+    
     private var currentBusStopId: String? {
         guard let info = self.currentBusPositionInfo else {
             return nil
@@ -160,12 +161,13 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                     return
                 }
                 
-                let previous = self?.currentBusPositionInfo
+                let previous = self?.currentBusStopId
                 self?.needToLoad = false
                 self?.currentBusPositionInfo = busInfo
+                let current = self?.currentBusStopId
                 self?.createSnapShot()
                 self?.output.startTimer.onNext(15)
-                self?.notice(previousInfo: previous, currentInfo: busInfo, isStart: true)
+                self?.notice(previous: previous, current: current, isStart: true)
                 self?.output.showIndicator.onNext(false)
                 self?.output.enableButton.onNext(true)
             }, onError: { [weak self] error in
@@ -185,10 +187,11 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 guard let busInfo = data.msgBody.itemList?.first else {
                     return
                 }
-                let previous = self?.currentBusPositionInfo
+                let previous = self?.currentBusStopId
                 self?.currentBusPositionInfo = busInfo
+                let current = self?.currentBusStopId
                 self?.createSnapShot()
-                self?.notice(previousInfo: previous, currentInfo: busInfo)
+                self?.notice(previous: previous, current: current)
             } onFailure: { [weak self] error in
                 Log.error(error.localizedDescription)
                 self?.output.startTimer.onNext(15)
@@ -351,29 +354,15 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         }
     }
     
-    private func notice(previousInfo: RealTimeBusInfo?, currentInfo: RealTimeBusInfo, isStart: Bool = false) {
-        
-        let isNewBusStopFlag1 = currentInfo.lastStnId != previousInfo?.lastStnId
-        let isNewBusStopFlag2 = currentInfo.lastStnId == previousInfo?.lastStnId
-                                    && currentInfo.stopFlag != previousInfo?.stopFlag
-                                    && currentInfo.stopFlag == "0"
-        let isNewDestination = isNewBusStopFlag1 || isNewBusStopFlag2
+    private func notice(previous: String?, current: String?, isStart: Bool = false) {
         liveActivityNotice(busStopInfo: self.busStopList,
                            remainingBusStopCount: self.remainingBusStopCount,
-                           isNewDestination: isNewDestination
+                           isNewDestination: isStart
         )
         
-        if isStart {
-            speak(text: "안내를 시작합니다")
-        }
-        
-        guard isNewDestination,
-              self.remainingBusStopCount >= 0 && self.remainingBusStopCount <= 3 else {
-            output.startTimer.onNext(15)
-            return
-        }
-        
-        if self.remainingBusStopCount == 0 {
+        if (self.currentBusStopId == self.destinationBusStopId 
+            && self.currentBusPositionInfo?.stopFlag == "1")
+            || self.remainingBusStopCount == 0 {
             output.stopTimer.onNext(())
             vibrate()
             speak(text: "목적지에 도착했습니다")
@@ -381,6 +370,17 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.showFinishAlert()
             }
+            return
+        }
+
+        if isStart {
+            speak(text: "안내를 시작합니다")
+        }
+        
+        guard !isStart,
+              previous != current,
+              self.remainingBusStopCount >= 0 && self.remainingBusStopCount <= 3 else {
+            output.startTimer.onNext(15)
             return
         }
         
