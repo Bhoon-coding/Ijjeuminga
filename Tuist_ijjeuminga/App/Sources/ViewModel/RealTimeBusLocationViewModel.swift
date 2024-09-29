@@ -355,7 +355,7 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         
         let isNewBusStopFlag1 = currentInfo.lastStnId != previousInfo?.lastStnId
         let isNewBusStopFlag2 = currentInfo.lastStnId == previousInfo?.lastStnId
-                                    && currentInfo.stopFlag != previousInfo?.lastStnId
+                                    && currentInfo.stopFlag != previousInfo?.stopFlag
                                     && currentInfo.stopFlag == "0"
         let isNewDestination = isNewBusStopFlag1 || isNewBusStopFlag2
         liveActivityNotice(busStopInfo: self.busStopList,
