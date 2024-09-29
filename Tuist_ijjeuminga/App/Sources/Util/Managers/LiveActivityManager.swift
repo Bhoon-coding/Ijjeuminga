@@ -39,10 +39,11 @@ class LiveActivityManager {
         )
         
         do {
-            self.activity = try Activity<WidgetExtensionAttributes>.request(
-                attributes: attribute,
-                content: content
-            )
+                self.activity = try Activity<WidgetExtensionAttributes>.request(
+                    attributes: attribute,
+                    content: content
+                )
+            
         } catch {
         // TODO: [] 에러팝업 처리
             print("activity error: \(error.localizedDescription)")

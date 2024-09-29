@@ -301,19 +301,15 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
         return selectedBusId
     }
 
-    private func liveActivityNotice(busStopInfo: [BusStopInfo], remainingBusStopCount: Int) {
+    private func liveActivityNotice(busStopInfo: [BusStopInfo], remainingBusStopCount: Int, isNewDestination: Bool) {
         let busNum = self.currentBusRouteNumber
         let busStopId = currentBusPositionInfo?.lastStnId
         let currentBusStopName = busStopList.first { $0.station == busStopId }?.stationNm ?? ""
         let totalStop: Int = self.totalStop == -1 ? remainingBusStopCount : -1
         
-        if isStartActivity { // 업데이트
-            LiveActivityManager.shared.updateLiveActivity(
-                busNum: busNum,
-                currentBusStopName: currentBusStopName,
-                remainingBusStopCount: remainingBusStopCount
-            )
-        } else { // liveActivity 첫 실행
+        if isNewDestination {
+            LiveActivityManager.shared.stopLiveActivity()
+            
             LiveActivityManager.shared.startLiveActivity(
                 busType: self.busType,
                 busNum: busNum,
@@ -321,15 +317,23 @@ class RealTimeBusLocationViewModel: BaseViewModel<RealTimeBusLocationViewModelOu
                 remainingBusStopCount: remainingBusStopCount,
                 totalStop: totalStop
             )
-            self.isStartActivity = true
+        } else {
+            LiveActivityManager.shared.updateLiveActivity(
+                busNum: busNum,
+                currentBusStopName: currentBusStopName,
+                remainingBusStopCount: remainingBusStopCount
+            )
         }
     }
     
     private func notice(previousInfo: RealTimeBusInfo?, currentInfo: RealTimeBusInfo) {
+        let isNewDestination = currentInfo.lastStnId != previousInfo?.lastStnId
         liveActivityNotice(busStopInfo: self.busStopList,
-                           remainingBusStopCount: self.remainingBusStopCount)
+                           remainingBusStopCount: self.remainingBusStopCount,
+                           isNewDestination: isNewDestination
+        )
         
-        guard currentInfo.lastStnId != (previousInfo?.lastStnId ?? ""),
+        guard isNewDestination,
               self.remainingBusStopCount >= 0 && self.remainingBusStopCount <= 3,
               currentInfo.stopFlag == "1" else {
             output.startTimer.onNext(15)
