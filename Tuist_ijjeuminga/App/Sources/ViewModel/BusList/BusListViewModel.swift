@@ -33,6 +33,9 @@ class BusListViewModel: BaseViewModel<BusListViewModelOutput> {
         self.getRecentSearchBusList()
         self.getSearchedBusList()
         
+        LocationDataManager.shared.requestLocationAuth()
+        LocationDataManager.shared.checkLoactionAuth()
+        
         input.selectBus
             .subscribe { [weak self] (routeId, busType) in
                 self?.routeDepartureVC(routeId: routeId, busType: busType)
