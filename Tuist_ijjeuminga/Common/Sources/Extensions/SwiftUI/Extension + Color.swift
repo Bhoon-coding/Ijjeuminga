@@ -15,4 +15,6 @@ extension Color {
     public static let blueBus = CommonAsset.blueBus.swiftUIColor
     public static let indigoBus = CommonAsset.indigoBus.swiftUIColor
     public static let primaryToryBlue = CommonAsset.primaryToryBlue.swiftUIColor
+    public static let titleText = CommonAsset.titleText.swiftUIColor
+    public static let subtitleText = CommonAsset.subtitleText.swiftUIColor
 }

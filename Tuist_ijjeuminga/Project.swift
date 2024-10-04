@@ -96,6 +96,7 @@ let project = Project(
             deploymentTargets: deploymentTarget,
             infoPlist: .extendingDefault(with: [
                 "CFBundleDisplayName": "$(PRODUCT_NAME)",
+                "UIUserInterfaceStyle": "Light",
                 "NSExtension": [
                     "NSExtensionPointIdentifier": "com.apple.widgetkit-extension"
                 ],

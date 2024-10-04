@@ -9,6 +9,7 @@ import SwiftUI
 import WidgetKit
 
 struct ActivityView: View {
+    
     let context: ActivityViewContext<WidgetExtensionAttributes>
     
     var body: some View {
@@ -27,8 +28,8 @@ struct ActivityView: View {
                     .frame(width: 40, height: 10)
                 Spacer()
                 Text(state.busNumber)
-                    .foregroundStyle((setColor(with: attribute.busType)))
-                    .fontWeight(.bold)
+                    .foregroundStyle(setColor(with: attribute.busType))
+                    .font(.bold(16))
             }
             
             // MARK: - 중간 (이번 정류장 | 정류장 이름 | 목적지 ~ 남음)
@@ -53,7 +54,7 @@ struct ActivityView: View {
                         .font(.regular(14))
                         
                 }
-                .foregroundStyle(CommonAsset.subtitleText.swiftUIColor)
+                .foregroundStyle(Color.subtitleText)
                 .frame(minHeight: 56)
             }
             
@@ -65,28 +66,32 @@ struct ActivityView: View {
                 }
                 
                 GeometryReader { geometry in
+                    let _ = print("percentageValue: \(percentageValue)")
                     Image(asset: CommonAsset.Positions.greenIcon)
                         .resizable()
                         .frame(width: 32, height: 32)
                         .position(
-                            x: (geometry.size.width - 8) * CGFloat(percentageValue / 100.0),
+                            x: (geometry.size.width) * CGFloat(percentageValue / 100.0),
                             y: geometry.size.height / 2
                         )
                     Image(asset: CommonAsset.Positions.arriveIcon)
                         .resizable()
                         .frame(width: 32, height: 32)
                         .position(
-                            x: geometry.size.width - 8,
+                            x: geometry.size.width,
                             y: geometry.size.height / 2
                         )
                 }
+                .padding(.horizontal, 8)
             }
         }
         .frame(maxHeight: .infinity)
-        .padding(16)
+        .padding()
+        .background(.white)
     }
     
     func setColor(with busType: KoreaBusType.RawValue) -> Color {
+        print("test: \(KoreaBusType(rawValue: busType)?.colors.swiftUIColor ?? .blueBus)")
         return KoreaBusType(rawValue: busType)?.colors.swiftUIColor ?? .blueBus
     }
 }
@@ -139,6 +144,6 @@ extension WidgetExtensionAttributes {
     WidgetExtensionAttributes.RealTimeState(
         busNumber: "6002",
         currentBusStop: "동탄호수공원 긴글자 테스트테스트ㄴㅇㄹㄴㅇㄹㅇㄴ",
-        remainingBusStopCount: 2
+        remainingBusStopCount: 5
     )
 })
