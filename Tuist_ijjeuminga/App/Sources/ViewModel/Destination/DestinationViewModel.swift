@@ -77,7 +77,7 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
         input.showRealTimeBusLocation
             .subscribe(onNext: { [weak self] in
                 switch $0 {
-                case .searchResult(station: let destination, _),
+                case .searchResult(station: let destination, _, _),
                         .stationResult(station: let destination, _, _, _):
                     guard let stationId = destination.station,
                           let stationList = self?.stationList,
@@ -93,14 +93,17 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
     }
     
     private func fetchStationByRoute(with routeId: String) {
+        self.output.showIndicator.onNext(true)
         BusRouteInfoAPIService()
             .getStaionByRoute(with: routeId)
             .subscribe { [weak self] res in
                 guard let stationList = res.msgBody.itemList else { return }
                 self?.stationList = stationList
                 self?.getCurrentPosition(stationList: stationList)
+                self?.output.showIndicator.onNext(false)
             } onFailure: { [weak self] error in
                 self?.output.error.onNext((error, {
+                    self?.output.showIndicator.onNext(false)
                     self?.output.close.onNext(())
                 }))
                 print("error: \(error.localizedDescription)")
@@ -122,7 +125,7 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
                 station: itemList,
                 isLast: index == list.count - 1,
                 nearestIndex: nearIndex,
-                busType: busType
+                busType: self.busType
             )
         }
         
@@ -146,7 +149,8 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
             : "종점"
             return DestinationTableData.searchResult(
                 station: item,
-                nextStation: nextItem
+                nextStation: nextItem,
+                busType: self.busType
             )
         }
         
@@ -168,7 +172,11 @@ class DestinationViewModel: BaseViewModel<DestinationViewModelOutput> {
 
 enum DestinationTableData {
     
-    case searchResult(station: Rest.BusRouteInfo.ItemList, nextStation: String)
+    case searchResult(
+        station: Rest.BusRouteInfo.ItemList,
+        nextStation: String,
+        busType: KoreaBusType.RawValue
+    )
     case stationResult(
         station: Rest.BusRouteInfo.ItemList,
         isLast: Bool,

@@ -56,6 +56,7 @@ class DestinationSearchedTableViewCell: BaseTableViewCell<DestinationTableData> 
             busStationLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             busStationLabel.leadingAnchor.constraint(equalTo: directionIcon.trailingAnchor, constant: 32),
             
+            nextBusStationLabel.topAnchor.constraint(equalTo: busStationLabel.bottomAnchor, constant: 8),
             nextBusStationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             nextBusStationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ])
@@ -65,16 +66,16 @@ class DestinationSearchedTableViewCell: BaseTableViewCell<DestinationTableData> 
         
         guard let data = data else { return }
         switch data {
-        case .searchResult(let station, let nextStation):
+        case .searchResult(let station, let nextStation, let busType):
+            self.directionIcon.image = KoreaBusType(rawValue: busType)?.directionImage.image
             self.busStationLabel.text = station.stationNm
             self.nextBusStationLabel.text = nextStation
         case .stationResult:
             break
         }
     }
-
 }
 
-//#Preview {
-//    DestinationSearchedTableViewCell()
-//}
+#Preview {
+    DestinationSearchedTableViewCell()
+}

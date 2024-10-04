@@ -19,7 +19,7 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     private weak var destinationTitle: UILabel!
     private weak var busStationSearchBar: UISearchBar!
     private weak var currentStationStackView: UIStackView!
-    private weak var currentStationImageView: UIImageView! // TODO: [] iconImageView로 이름 변경
+    private weak var iconImageView: UIImageView!
     private weak var currentStationLabel: UILabel!
     private weak var busStationTableView: UITableView!
     
@@ -51,6 +51,13 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     
     override func bind() {
         super.bind()
+        
+        self.viewModel.output.showIndicator
+            .subscribe { [weak self] isLoading in
+                <#code#>
+            }
+            .disposed(by: viewDisposeBag)
+        
         self.viewModel.output.busNumber
             .bind(to: titleLabel.rx.text)
             .disposed(by: viewDisposeBag)
@@ -166,7 +173,7 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
         currentStationImageView.translatesAutoresizingMaskIntoConstraints = false
         currentStationImageView.image = CommonAsset.target.image
         currentStationStackView.addArrangedSubview(currentStationImageView)
-        self.currentStationImageView = currentStationImageView
+        self.iconImageView = currentStationImageView
         
         let currentStationLabel = UILabel()
         currentStationLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -181,7 +188,7 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
         busStationTableView.isSkeletonable = true
         busStationTableView.delegate = self
         busStationTableView.dataSource = self
-        busStationTableView.rowHeight = 54
+        busStationTableView.rowHeight = 72
         busStationTableView.estimatedRowHeight = 54 // skeleton은 이 높이를 기준으로 잡음
         busStationTableView.showsVerticalScrollIndicator = false
         busStationTableView.register(
@@ -213,8 +220,8 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
             currentStationStackView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
             currentStationStackView.heightAnchor.constraint(equalToConstant: 16),
             
-            currentStationImageView.widthAnchor.constraint(equalToConstant: 16),
-            currentStationImageView.heightAnchor.constraint(equalToConstant: 16),
+            iconImageView.widthAnchor.constraint(equalToConstant: 16),
+            iconImageView.heightAnchor.constraint(equalToConstant: 16),
             
             busStationTableView.topAnchor.constraint(equalTo: currentStationStackView.bottomAnchor, constant: 24),
             busStationTableView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
@@ -312,12 +319,8 @@ extension DestinationViewController: UITableViewDelegate {
 
 extension DestinationViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard !searchText.isEmpty else {
-            isSearched = false
-            return
-        }
+        isSearched = !searchText.isEmpty ? true : false
         viewModel.input.searchText.onNext(searchText)
-        isSearched = true
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -329,6 +332,9 @@ extension DestinationViewController: UISearchBarDelegate {
     }
 }
 
-//#Preview {
-//    DestinationViewController(viewModel: DestinationViewModel(routeId: "100100139", busColor: .greenBus))
-//}
+#Preview {
+    let viewModel = DestinationViewModel(busType: 2,
+                                         routeId: "100100139",
+                                         seq: "1")
+    return DestinationViewController(viewModel: viewModel)
+}
