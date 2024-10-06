@@ -52,11 +52,11 @@ class DestinationViewController: ViewModelInjectionBaseViewController<Destinatio
     override func bind() {
         super.bind()
         
-        self.viewModel.output.showIndicator
-            .subscribe { [weak self] isLoading in
-                <#code#>
-            }
-            .disposed(by: viewDisposeBag)
+//        self.viewModel.output.showIndicator
+//            .subscribe { [weak self] isLoading in
+//                <#code#>
+//            }
+//            .disposed(by: viewDisposeBag)
         
         self.viewModel.output.busNumber
             .bind(to: titleLabel.rx.text)

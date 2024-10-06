@@ -20,7 +20,7 @@ struct ActivityView: View {
         let remaingBusStopCount = state.remainingBusStopCount
         let percentageValue = 100 - (Double(remaingBusStopCount) / Double(totalStop) * 100)
         
-        VStack(spacing: 24) {
+        VStack(spacing: 16) {
             // 상단 (로고 | 버스번호)
             HStack {
                 Image(asset: CommonAsset.logoRotate)
@@ -41,21 +41,21 @@ struct ActivityView: View {
             } else {
                 HStack {
                     Text("이번 정류장")
-                        .font(.regular(14))
+                        .font(.bold(14))
                     
                     Text(state.currentBusStop)
-                        .font(.bold(20)) // 디자인 요구사항: 24px
+                        .font(.bold(20))
                         .foregroundStyle(.green)
                         .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
                     
                     Spacer()
                     
                     Text("\(state.remainingBusStopCount) 정거장 남음")
-                        .font(.regular(14))
+                        .font(.bold(12))
                         
                 }
                 .foregroundStyle(Color.subtitleText)
-                .frame(minHeight: 56)
             }
             
             // MARK: - ProgressBar
@@ -85,9 +85,9 @@ struct ActivityView: View {
                 .padding(.horizontal, 8)
             }
         }
-        .frame(maxHeight: .infinity)
         .padding()
-        .background(.white)
+        .frame(minHeight: 130)
+        .background(Color.background)
     }
     
     func setColor(with busType: KoreaBusType.RawValue) -> Color {
@@ -143,7 +143,8 @@ extension WidgetExtensionAttributes {
 }, contentStates: {
     WidgetExtensionAttributes.RealTimeState(
         busNumber: "6002",
-        currentBusStop: "동탄호수공원 긴글자 테스트테스트ㄴㅇㄹㄴㅇㄹㅇㄴ",
+//        currentBusStop: "동탄호수공원 긴글자 테스트테스트ㄴㅇㄹㄴㅇㄹㅇㄴ",
+        currentBusStop: "동탄호수공원",
         remainingBusStopCount: 5
     )
 })
