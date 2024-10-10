@@ -39,7 +39,7 @@
 
 ||조성빈|이병훈|이하연|
 |:---:|---|---|---|
-|구현 & 기여|%| - 목적지 선택 페이지 (100%) <br> - Tuist 도입 및 구조설계 (100%) <br> - 버스 실시간 현황판 (LiveActivity) (100%)  | % |
+|구현 & 기여|%| <br> - 출발지 / 목적지 선택 페이지 (100%) <br> - Tuist 도입 및 구조설계 (100%) <br> - 버스 실시간 현황판 (LiveActivity) (100%) | % |
 
 
 
@@ -77,13 +77,13 @@
 ### 이병훈
 - `Tuist` 도입 및 프로젝트 구조 설계, 협업간 `pbxproj 충돌 개선`
 - `LiveActivity`를 활용한 실시간 버스위치 현황판 구현
-- `목적지 선택 페이지`
+- `출발지 | 목적지 선택 페이지`
     - `CLLocation`을 활용한 현재위치와 가까운 정류장 표기
     - SkeletonView를 활용한 데이터 fetch하는동안 UX개선 
 
 <br>
 
-#### 이하연
+### 이하연
 
 
 <br>
@@ -97,9 +97,13 @@
 <br>
 
 ### 이병훈
-|목적지 선택|실시간 버스현황판(LiveActivity)|도착시|
-|:--:|:--:|:--:|
-|<img width="400" src="https://github.com/user-attachments/assets/f012d1ca-6201-4686-9414-9c52795bc49c"/>|<img width="330" src="https://github.com/user-attachments/assets/de286d08-22a7-45ca-acd7-57b018dabbae"/>|<img width="400" src="https://github.com/user-attachments/assets/5ae34c18-f138-410e-892b-33b83f72ec50"/>
+|출발지 선택|목적지 선택|
+|:--:|:--:|
+|<img width="200" src="https://github.com/user-attachments/assets/9f68b5b2-2339-426d-8da3-c74da84cf2ee"/>|<img width="200" src="https://github.com/user-attachments/assets/f012d1ca-6201-4686-9414-9c52795bc49c"/>|
+
+|실시간 버스현황판<br>(LiveActivity)|도착시|
+|:--:|:--:|
+|<img width="200" src="https://github.com/user-attachments/assets/de286d08-22a7-45ca-acd7-57b018dabbae"/>|<img width="200" src="https://github.com/user-attachments/assets/5ae34c18-f138-410e-892b-33b83f72ec50"/>|
 
 <br>
 
@@ -117,9 +121,7 @@
 `project.pbxproj`의 잦은 충돌
 
 - 팀원들의 작업 merge 과정에서 파일 변경(생성, 삭제)시 `project.pbxproj` 에서 충돌이 나는데 이를 해결하는데만 2~3시간이 소요되는 일이 잦았음
-<img width="500" alt="대환장파티1" src="https://github.com/user-attachments/assets/05ab120e-9513-4072-b972-f98f503205e1">
-
-<br>
+- <img width="500" alt="대환장파티1" src="https://github.com/user-attachments/assets/05ab120e-9513-4072-b972-f98f503205e1">
     
 #### 해결방안 
 - 이를 해결하고자 리서치했던 툴은 아래와 같으며, 채택한 이유도 작성
@@ -133,7 +135,6 @@
 
 #### 느낀점
 - 개인적으로 러닝커브가 높다는 생각이 들었고, 버전 업데이트가 많다보니 레퍼런스  이미 프로젝트 진행중인 상황에 Tuist를 적용하다보니 혹시 잘못 건들여 문제가 발생하는게 아닌가하는 걱정이 있었지만, 프로젝트를 CLI를 통해 .xcodeproj 파일은 `tuist generate`시 재생성되기 때문에 수정된 코드만 반영이 되는점이 매력적이었음. 또한 Project, Package, Config 등 각각의 파일들의 역할이 명시적으로 나와있고 역할에 따라 적용만 해주면되는 편리함이 있었음.
-
 
 ##### 문제 2
 현재위치와 가장 가까운 버스 정류장 표기
@@ -149,14 +150,32 @@
 3. distances의 요소중 최소값 (***min()***)을 가진 해당 index를 구하고
 4. 해당 index를 현재위치와 가장 가까운 정류장으로 표기
 
+
+##### 문제 3
+`CLLocation 및 정류장 표기 문제`
+
+- 기존에 기획된 페이지는 3개였음 (버스검색 | 목적지 선택 | 실시간 버스)
+    - 현재정류장 표기를 `CLLocation`의 현재 위치 기준 `가장 가까운 정류장`을 표기하도록 구현했으나,<br> 맞은편의 정류장이 표기되는 문제가 발생함
+    - 목적지선택 > 검색기능을 활용해서 방면을 선택하는 부분도 있었지만 사용자가 텍스트를 입력하고 방면을 선택해야한다는 번거로움이 있을거라 판단
+
+#### 해결방안 
+- 목적지 선택 페이지 이전에 출발지 선택 페이지에서 근처 정류장 2개를 보여줌.
+- 이후 사용자가 현위치 및 방면을 한 눈에 볼 수 있도록 UI를 제공하고 선택하여 목적지 방향에 맞출 수 있도록 함
+
+#### 느낀점
+
+- 처음엔 로직적으로 어떻게든 풀어내려고 고민을 했었다.
+하지만 정확성을 확신할 수 없었고, 이후 팀원들과 얘기를 해보면서 페이지를 하나 더 만들어 유저 입장에서도 더 간단하게 알아볼 수 있고, 개발리소스도 적게 들면서 문제를 해결해 나갔던점이 좋았다.
+
+
 <br>
 
-#### 이하연
-
+### 이하연
 
 
 
 ---
+
 
 
 노션ID와 구간 정보로 차량들의 위치 정보 조회
